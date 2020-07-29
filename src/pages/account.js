@@ -1,42 +1,38 @@
 import React from "react"
-import { Router } from "@reach/router"
-import { Link } from "gatsby"
+import { makeStyles } from "@material-ui/core/styles"
+import Fab from "@material-ui/core/Fab"
+import AddIcon from "@material-ui/icons/Add"
 
-import { login, logout, isAuthenticated, getProfile } from "../utils/auth"
+import Layout from "../components/layout"
+import { login, isAuthenticated } from "../utils/auth"
 
-const Home = ({ user }) => <p>Hello, {user.name ? user.name : "Unknown"}</p>
-const Settings = () => <p>Settings</p>
+const useStyles = makeStyles(theme => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+    bottom: 0,
+    position: "absolute",
+    right: 0,
+  },
+}))
 
 const AccountPage = () => {
+  const classes = useStyles()
+
   if (!isAuthenticated()) {
     login()
     return <p>Redirecting to login...</p>
   }
 
-  const user = getProfile()
-
   return (
-    <header>
-      <nav>
-        <Link to="/account">Home</Link>
-        <br />
-        <Link to="/account/settings">Settings</Link>
-        <br />
-        <a
-          href="#logout"
-          onClick={e => {
-            logout()
-            e.preventDefault()
-          }}
-        >
-          Log Out
-        </a>
-      </nav>
-      <Router>
-        <Home path="/account" user={user} />
-        <Settings path="/account/settings" />
-      </Router>
-    </header>
+    <Layout title="Account">
+      <div className={classes.root}>
+        <Fab color="primary" aria-label="add">
+          <AddIcon />
+        </Fab>
+      </div>
+    </Layout>
   )
 }
 
