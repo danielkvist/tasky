@@ -11,7 +11,7 @@ const plugins = [
   {
     resolve: "gatsby-plugin-google-fonts",
     options: {
-      fonts: [`roboto\:400,600,700`, `roboto slab\:400,600,700`],
+      fonts: [`roboto\:300,400,500,700`],
       display: "swap",
     },
   },
@@ -28,9 +28,15 @@ const plugins = [
     },
   },
   "gatsby-plugin-offline",
-  "gatsby-plugin-styled-components",
   "gatsby-plugin-sharp",
-  `gatsby-plugin-sitemap`,
+  "gatsby-plugin-sitemap",
+  {
+    resolve: "gatsby-plugin-material-ui",
+    options: {
+      injectFirst: true,
+    },
+  },
+  "gatsby-plugin-styled-components",
 ]
 
 module.exports = {
