@@ -2,8 +2,7 @@ import React from "react"
 
 import { isAuthenticated } from "../utils/auth"
 import SEO from "../components/seo"
-import AuthenticatedAppBar from "../components/authenticated-appbar"
-import UnauthenticatedAppBar from "../components/unauthenticated-appbar"
+import { AuthenticatedAppBar, UnauthenticatedAppBar } from "./appbars"
 
 const Layout = ({ title, children }) => {
   return (

@@ -12,7 +12,7 @@ import MenuIcon from "@material-ui/icons/Menu"
 import NotificationsNone from "@material-ui/icons/NotificationsNone"
 import SettingsIcon from "@material-ui/icons/Settings"
 
-import { logout } from "../utils/auth"
+import { logout } from "../../utils/auth"
 
 const useStyles = makeStyles(theme => ({
   root: {
