@@ -1,20 +1,25 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
+import { useAuthState } from "react-firebase-hooks/auth"
 import "normalize.css"
 
-import { silentAuth } from "./src/utils/auth"
+import Firebase, { FirebaseCtx, useFirebase } from "./src/firebase"
 
 const SessionCheck = ({ children }) => {
-  const [loading, setLoading] = useState(true)
+  const firebase = useFirebase()
+  const [, loading, error] = useAuthState(firebase.auth)
 
-  useEffect(() => {
-    silentAuth(() => {
-      setLoading(false)
-    })
-  })
+  // TODO: Error page
+  if (error) return <h1>Error!</h1>
 
-  return loading === false ? <>{children}</> : <></>
+  // return Index if user is not logger
+  // return App if user is logged
+  return !loading ? <>{children}</> : <></>
 }
 
 export const wrapRootElement = ({ element }) => {
-  return <SessionCheck>{element}</SessionCheck>
+  return (
+    <FirebaseCtx.Provider value={new Firebase()}>
+      <SessionCheck>{element}</SessionCheck>
+    </FirebaseCtx.Provider>
+  )
 }

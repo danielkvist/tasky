@@ -21,6 +21,7 @@
     "auth0-js": "^9.13.4",
     "babel-plugin-styled-components": "^1.10.7",
     "clsx": "^1.1.1",
+    "firebase": "^7.17.1",
     "gatsby": "^2.23.12",
     "gatsby-plugin-google-fonts": "^1.0.1",
     "gatsby-plugin-manifest": "^2.4.20",
@@ -33,6 +34,7 @@
     "normalize.css": "^8.0.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-firebase-hooks": "^2.2.0",
     "react-helmet": "^6.1.0",
     "styled-components": "^5.1.1"
   },

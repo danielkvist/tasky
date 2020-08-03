@@ -24,11 +24,12 @@ import NotificationsNone from "@material-ui/icons/NotificationsNone"
 import SettingsIcon from "@material-ui/icons/Settings"
 import InboxIcon from "@material-ui/icons/MoveToInbox"
 import StarBorderIcon from "@material-ui/icons/StarBorder"
+import ListIcon from "@material-ui/icons/List"
 import TodayIcon from "@material-ui/icons/Today"
 import WbSunnyIcon from "@material-ui/icons/WbSunny"
 import ViewWeekIcon from "@material-ui/icons/ViewWeek"
 
-import { logout } from "../../utils/auth"
+import { useFirebase } from "../../firebase"
 
 const drawerWidth = 240
 
@@ -97,6 +98,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const AuthenticatedAppBar = () => {
+  const firebase = useFirebase()
   const classes = useStyles()
   const theme = useTheme()
   const [open, setOpen] = useState(false)
@@ -136,7 +138,7 @@ const AuthenticatedAppBar = () => {
             </Typography>
 
             <div className={classes.buttonGroup}>
-              <Button color="inherit" onClick={() => logout()}>
+              <Button color="inherit" onClick={() => firebase.logout()}>
                 Log Out
               </Button>
 
@@ -145,7 +147,7 @@ const AuthenticatedAppBar = () => {
               </IconButton>
 
               <IconButton
-                aria-label="Display more actions"
+                aria-label="Account settings"
                 edge="end"
                 color="inherit"
                 onClick={() => navigate("/accounts/settings")}
@@ -193,6 +195,13 @@ const AuthenticatedAppBar = () => {
               <StarBorderIcon />
             </ListItemIcon>
             <ListItemText primary="Important" />
+          </ListItem>
+
+          <ListItem button>
+            <ListItemIcon>
+              <ListIcon />
+            </ListItemIcon>
+            <ListItemText primary="All tasks" />
           </ListItem>
 
           <ListItem button>

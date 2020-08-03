@@ -1,13 +1,22 @@
 import React from "react"
-import { ThemeProvider } from "styled-components"
+import { useAuthState } from "react-firebase-hooks/auth"
 import "normalize.css"
 
-import Theme from "./src/theme/theme"
-import GlobalStyle from "./src/theme/global-style"
+import Firebase, { FirebaseCtx, useFirebase } from "./src/firebase"
 
-export const wrapRootElement = ({ element }) => (
-  <ThemeProvider theme={Theme}>
-    <GlobalStyle />
-    {element}
-  </ThemeProvider>
-)
+const SessionCheck = ({ children }) => {
+  const firebase = useFirebase()
+  const [, loading, error] = useAuthState(firebase.auth)
+
+  // TODO: Error page
+  if (error) return <h1>Error!</h1>
+  return !loading ? <>{children}</> : <></>
+}
+
+export const wrapRootElement = ({ element }) => {
+  return (
+    <FirebaseCtx.Provider value={new Firebase()}>
+      <SessionCheck>{element}</SessionCheck>
+    </FirebaseCtx.Provider>
+  )
+}

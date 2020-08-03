@@ -12,22 +12,3 @@ exports.onCreatePage = async ({ page, actions }) => {
     createPage(page)
   }
 }
-
-// auth-js will break because it relies on
-// browser-specific APIs. As we don't need
-// it during the build, we use webpack's null
-// loader preventing out app from breaking.
-exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
-  if (stage === "build-html") {
-    actions.setWebpackConfig({
-      module: {
-        rules: [
-          {
-            test: /auth0-js/,
-            use: loaders.null(),
-          },
-        ],
-      },
-    })
-  }
-}

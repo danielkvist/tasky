@@ -1,13 +1,18 @@
 import React from "react"
+import { navigate } from "gatsby"
+import { useAuthState } from "react-firebase-hooks/auth"
 
-import { login, isAuthenticated } from "../utils/auth"
+import { useFirebase } from "../firebase"
 import Layout from "../components/layout"
 import { AddTaskButton } from "../components/buttons"
 
 const AccountPage = () => {
-  if (!isAuthenticated()) {
-    login()
-    return <p>Redirecting to login...</p>
+  const firebase = useFirebase()
+  // TODO: Handle error
+  const [user] = useAuthState(firebase.auth)
+
+  if (!user) {
+    navigate("/", { replace: true })
   }
 
   return (
