@@ -1,7 +1,8 @@
 import React from "react"
-import { navigate } from "gatsby"
 import { makeStyles } from "@material-ui/core/styles"
 import { AppBar, Toolbar, Typography, Button } from "@material-ui/core"
+
+import { useFirebase } from "../../firebase"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,6 +17,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const UnauthenticatedAppBar = () => {
+  const firebase = useFirebase()
   const classes = useStyles()
 
   return (
@@ -25,8 +27,8 @@ const UnauthenticatedAppBar = () => {
           <Typography variant="h6" className={classes.title}>
             Tasky
           </Typography>
-          <Button color="inherit" onClick={() => navigate("/account")}>
-            Login
+          <Button color="inherit" onClick={() => firebase.login()}>
+            Log In
           </Button>
         </Toolbar>
       </AppBar>

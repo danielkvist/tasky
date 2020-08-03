@@ -23,6 +23,7 @@
     "clsx": "^1.1.1",
     "firebase": "^7.17.1",
     "gatsby": "^2.23.12",
+    "gatsby-plugin-env-variables": "^2.0.0",
     "gatsby-plugin-google-fonts": "^1.0.1",
     "gatsby-plugin-manifest": "^2.4.20",
     "gatsby-plugin-material-ui": "^2.1.9",

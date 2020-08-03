@@ -2,14 +2,11 @@ import { createContext } from "react"
 import firebase from "firebase/app"
 import "firebase/auth"
 
-import config from "./config"
-
 const isBrowser = typeof window !== "undefined"
 
 class Firebase {
-  constructor() {
+  constructor(config) {
     if (!isBrowser) return null
-
     firebase.initializeApp(config)
     this.auth = firebase.auth()
   }
