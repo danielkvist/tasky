@@ -6,12 +6,12 @@ import Typography from "@material-ui/core/Typography"
 import Container from "@material-ui/core/Container"
 import Button from "@material-ui/core/Button"
 
-import Layout from "../components/layout"
+import { LogoutLayout } from "../components/layouts"
 import { useFirebase } from "../firebase"
 
 const IndexPage = () => {
-  // TODO: Handle error
   const firebase = useFirebase()
+  // TODO: Handle error
   const [user] = useAuthState(firebase.auth)
 
   if (user) {
@@ -19,7 +19,7 @@ const IndexPage = () => {
   }
 
   return (
-    <Layout title="Home">
+    <LogoutLayout title="Home">
       <CssBaseline />
       <Container
         style={{
@@ -40,7 +40,7 @@ const IndexPage = () => {
           Log In
         </Button>
       </Container>
-    </Layout>
+    </LogoutLayout>
   )
 }
 

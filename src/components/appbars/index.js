@@ -1,4 +1,4 @@
-import AuthenticatedAppBar from "./authenticated-appbar"
-import UnauthenticatedAppBar from "./unauthenticated-appbar"
+import LoginAppbar from "./login-appbar"
+import LogoutAppbar from "./logout-appbar"
 
-export { AuthenticatedAppBar, UnauthenticatedAppBar }
+export { LoginAppbar, LogoutAppbar }

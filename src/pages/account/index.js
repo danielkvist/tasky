@@ -2,10 +2,10 @@ import React from "react"
 import { navigate } from "gatsby"
 import { useAuthState } from "react-firebase-hooks/auth"
 
-import { useFirebase } from "../firebase"
-import Layout from "../components/layout"
-import TaskList from "../components/tasks-list"
-import { AddTaskButton } from "../components/buttons"
+import { useFirebase } from "../../firebase"
+import { LoginLayout } from "../../components/layouts"
+import TaskList from "../../components/tasks-list"
+import { AddTaskButton } from "../../components/buttons"
 
 const AccountPage = () => {
   const firebase = useFirebase()
@@ -18,10 +18,10 @@ const AccountPage = () => {
   }
 
   return (
-    <Layout title="Account">
+    <LoginLayout title="Account">
       <TaskList />
       <AddTaskButton cb={() => firebase.createTask()} />
-    </Layout>
+    </LoginLayout>
   )
 }
 

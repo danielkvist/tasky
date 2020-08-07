@@ -53,7 +53,7 @@ const TaskList = () => {
   }
 
   return (
-    <Container className={classes.container} maxWidth="md">
+    <div className={classes.container}>
       {!tasks.length ? (
         <Typography variant="h6" color="error">
           Empty list
@@ -65,7 +65,7 @@ const TaskList = () => {
           })}
         </List>
       )}
-    </Container>
+    </div>
   )
 }
 

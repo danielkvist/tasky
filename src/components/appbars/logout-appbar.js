@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const UnauthenticatedAppBar = () => {
+const LogoutAppbar = () => {
   const firebase = useFirebase()
   const classes = useStyles()
 
@@ -36,4 +36,4 @@ const UnauthenticatedAppBar = () => {
   )
 }
 
-export default UnauthenticatedAppBar
+export default LogoutAppbar
