@@ -4,7 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth"
 
 import { useFirebase } from "../firebase"
 import Layout from "../components/layout"
-import TaskList from "../components/tasks"
+import TaskList from "../components/tasks-list"
 import { AddTaskButton } from "../components/buttons"
 
 const AccountPage = () => {
