@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { makeStyles } from "@material-ui/core/styles"
-import { Container, Typography, List } from "@material-ui/core"
+import { Typography, List } from "@material-ui/core"
 import { useCollection } from "react-firebase-hooks/firestore"
 
 import { useFirebase } from "../firebase"

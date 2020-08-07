@@ -9,7 +9,6 @@ import {
   makeStyles,
   Toolbar,
   Typography,
-  useTheme,
 } from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu"
 import NotificationsNone from "@material-ui/icons/NotificationsNone"
@@ -54,7 +53,6 @@ const useStyles = makeStyles(theme => ({
 const LoginAppbar = () => {
   const firebase = useFirebase()
   const classes = useStyles()
-  const theme = useTheme()
   const [open, setOpen] = useState(false)
 
   const handleDrawerOpen = () => {
@@ -104,7 +102,7 @@ const LoginAppbar = () => {
                 aria-label="Account settings"
                 edge="end"
                 color="inherit"
-                onClick={() => navigate("/accounts/settings")}
+                onClick={() => navigate("/accounts/settings/")}
               >
                 <SettingsIcon />
               </IconButton>
