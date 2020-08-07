@@ -4,10 +4,12 @@ import { useAuthState } from "react-firebase-hooks/auth"
 
 import { useFirebase } from "../firebase"
 import Layout from "../components/layout"
+import TaskList from "../components/tasks"
 import { AddTaskButton } from "../components/buttons"
 
 const AccountPage = () => {
   const firebase = useFirebase()
+
   // TODO: Handle error
   const [user] = useAuthState(firebase.auth)
 
@@ -17,7 +19,8 @@ const AccountPage = () => {
 
   return (
     <Layout title="Account">
-      <AddTaskButton />
+      <TaskList />
+      <AddTaskButton cb={() => firebase.createTask()} />
     </Layout>
   )
 }
