@@ -5,22 +5,23 @@ import "firebase/firestore"
 import faker from "faker"
 
 import Task from "../models/tasks"
-
-const isBrowser = typeof window !== "undefined"
+import isBrowser from "./is-browser"
 
 class Firebase {
   constructor(config) {
-    if (!isBrowser) return null
+    if (!isBrowser()) return null
     firebase.initializeApp(config)
 
     this.auth = firebase.auth()
     this.db = firebase.firestore()
+    this.currentUser = ""
   }
 
   // AUTH
   login = async () => {
     const googleProvider = new firebase.auth.GoogleAuthProvider()
     this.auth.signInWithPopup(googleProvider).catch(e => console.error(e))
+    this.currentUser = this.auth.currentUser
   }
 
   logout = async () => {
@@ -33,7 +34,7 @@ class Firebase {
   createTask = task => {
     const document = this.db
       .collection("users")
-      .doc(this.auth.currentUser.uid)
+      .doc(this.currentUser)
       .collection("tasks")
       .doc()
 
@@ -54,12 +55,10 @@ class Firebase {
   deleteTask = async taskId => {
     const res = await this.db
       .collection("users")
-      .doc(this.auth.currentUser.uid)
+      .doc(this.currentUser)
       .collection("tasks")
       .doc(taskId)
       .delete()
-
-    console.log(res)
   }
 
   updateTask = task => {}
