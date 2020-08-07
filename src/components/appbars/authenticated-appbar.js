@@ -37,6 +37,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
   },
+  offset: theme.mixins.toolbar,
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["width", "margin"], {
@@ -159,6 +160,8 @@ const AuthenticatedAppBar = () => {
         </AppBar>
       </nav>
 
+      <div className={classes.offset}></div>
+
       <Drawer
         variant="permanent"
         className={clsx(classes.drawer, {
@@ -181,6 +184,7 @@ const AuthenticatedAppBar = () => {
             )}
           </IconButton>
         </div>
+
         <Divider />
         <List>
           <ListItem button>
