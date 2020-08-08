@@ -6,13 +6,14 @@ import Firebase, { FirebaseCtx, useFirebase } from "./src/firebase"
 
 const SessionCheck = ({ children }) => {
   const firebase = useFirebase()
-  const [, loading, error] = useAuthState(firebase.auth)
+  const [user, loading, error] = useAuthState(firebase.auth)
 
   // TODO: Error page
   if (error) return <h1>Error!</h1>
 
-  // return Index if user is not logger
-  // return App if user is logged
+  if (user) firebase.currentUser = user.uid
+
+  // TODO: display loading component
   return !loading ? <>{children}</> : <></>
 }
 
