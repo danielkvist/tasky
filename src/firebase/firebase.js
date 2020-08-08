@@ -43,9 +43,9 @@ class Firebase {
     document
       .set({
         ...Task,
+        title: faker.lorem.sentence(),
         ...task,
         id: documentUuid,
-        title: faker.lorem.sentence(),
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       })
       .then(ref => console.log(ref))
@@ -53,15 +53,19 @@ class Firebase {
   }
 
   deleteTask = async taskId => {
-    const res = await this.db
-      .collection("users")
-      .doc(this.currentUser)
-      .collection("tasks")
-      .doc(taskId)
-      .delete()
+    try {
+      const res = await this.db
+        .collection("users")
+        .doc(this.currentUser)
+        .collection("tasks")
+        .doc(taskId)
+        .delete()
+    } catch (e) {
+      console.log(e)
+    }
   }
 
-  updateTask = task => {}
+  // updateTask = task => {}
 }
 
 const FirebaseCtx = createContext(null)

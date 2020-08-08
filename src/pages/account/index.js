@@ -20,7 +20,11 @@ const AccountPage = () => {
   return (
     <LoginLayout title="Account">
       <TaskList />
-      <AddTaskButton cb={() => firebase.createTask()} />
+      <AddTaskButton
+        cb={({ title, description }) =>
+          firebase.createTask({ title, description })
+        }
+      />
     </LoginLayout>
   )
 }
