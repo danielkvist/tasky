@@ -1,14 +1,16 @@
 const Task = {
-  id: "",
-  title: "",
+  createdAt: null,
   description: "",
   done: false,
+  dueDate: null,
+  id: "",
   important: false,
+  lastModified: null,
+  project: "",
+  remind: false,
   repeat: false,
   repeatEach: "",
-  dueDate: null,
-  remind: false,
-  project: "",
+  title: "",
 }
 
 export default Task

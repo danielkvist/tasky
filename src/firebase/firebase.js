@@ -31,7 +31,7 @@ class Firebase {
   }
 
   // FIRESTORE
-  createTask = task => {
+  createTask = async task => {
     const document = this.db
       .collection("users")
       .doc(this.currentUser)
@@ -39,22 +39,25 @@ class Firebase {
       .doc()
 
     const documentUuid = document.id
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp()
 
-    document
-      .set({
+    try {
+      await document.set({
         ...Task,
         title: faker.lorem.sentence(),
         ...task,
         id: documentUuid,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        createdAt: timestamp,
+        lastModified: timestamp,
       })
-      .then(ref => console.log(ref))
-      .catch(e => console.error(e))
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   deleteTask = async taskId => {
     try {
-      const res = await this.db
+      await this.db
         .collection("users")
         .doc(this.currentUser)
         .collection("tasks")
@@ -65,7 +68,20 @@ class Firebase {
     }
   }
 
-  // updateTask = task => {}
+  updateTask = async task => {
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp()
+
+    try {
+      await this.db
+        .collection("users")
+        .doc(this.currentUser)
+        .collection("tasks")
+        .doc(task.id)
+        .update({ ...task, lastModified: timestamp })
+    } catch (e) {
+      console.log(e)
+    }
+  }
 }
 
 const FirebaseCtx = createContext(null)

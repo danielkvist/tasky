@@ -10,18 +10,30 @@ import DeleteIcon from "@material-ui/icons/Delete"
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked"
 import CheckCircleIcon from "@material-ui/icons/CheckCircle"
 
-import { useFirebase } from "../firebase"
-
-const TaskItem = ({ task }) => {
-  const firebase = useFirebase()
-
+const TaskItem = ({ task, handleDone, handleDelete }) => {
   return (
-    <ListItem key={task.id} button>
+    <ListItem key={task.id} button onClick={() => console.log(task)}>
       <ListItemIcon>
         {task.done ? (
-          <CheckCircleIcon color="primary" />
+          <IconButton
+            edge="start"
+            arial-label="Mark task as undone"
+            onClick={() => {
+              handleDone({ ...task, done: false })
+            }}
+          >
+            <CheckCircleIcon color="primary" />
+          </IconButton>
         ) : (
-          <RadioButtonUncheckedIcon color="primary" />
+          <IconButton
+            edge="start"
+            arial-label="Mark task as done"
+            onClick={() => {
+              handleDone({ ...task, done: true })
+            }}
+          >
+            <RadioButtonUncheckedIcon color="primary" />
+          </IconButton>
         )}
       </ListItemIcon>
 
@@ -32,7 +44,7 @@ const TaskItem = ({ task }) => {
           edge="end"
           aria-label="delete"
           onClick={() => {
-            firebase.deleteTask(task.id)
+            handleDelete(task.id)
           }}
         >
           <DeleteIcon />

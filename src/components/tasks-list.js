@@ -61,7 +61,14 @@ const TaskList = () => {
       ) : (
         <List>
           {tasks.map(item => {
-            return <TaskItem key={item.id} task={item} />
+            return (
+              <TaskItem
+                key={item.id}
+                task={item}
+                handleDone={task => firebase.updateTask(task)}
+                handleDelete={taskId => firebase.deleteTask(taskId)}
+              />
+            )
           })}
         </List>
       )}
