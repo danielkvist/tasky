@@ -19,6 +19,9 @@ import ListIcon from "@material-ui/icons/List"
 import TodayIcon from "@material-ui/icons/Today"
 import WbSunnyIcon from "@material-ui/icons/WbSunny"
 import ViewWeekIcon from "@material-ui/icons/ViewWeek"
+import AccountCircleIcon from "@material-ui/icons/AccountCircle"
+
+import { useFirebase } from "../firebase"
 
 const drawerWidth = 240
 
@@ -34,6 +37,7 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+    overflowX: "hidden",
   },
   drawerClose: {
     transition: theme.transitions.create("width", {
@@ -60,6 +64,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const ListsDrawer = ({ open, handleDrawerClose }) => {
+  const firebase = useFirebase()
   const classes = useStyles()
   const theme = useTheme()
 
@@ -130,6 +135,15 @@ const ListsDrawer = ({ open, handleDrawerClose }) => {
             <ViewWeekIcon />
           </ListItemIcon>
           <ListItemText primary="Week" />
+        </ListItem>
+      </List>
+
+      <List style={{ marginTop: "auto" }}>
+        <ListItem button onClick={() => firebase.logout()}>
+          <ListItemIcon>
+            <AccountCircleIcon />
+          </ListItemIcon>
+          <ListItemText primary="Log Out" />
         </ListItem>
       </List>
     </Drawer>

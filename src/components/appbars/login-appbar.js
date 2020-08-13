@@ -3,7 +3,6 @@ import { navigate } from "gatsby"
 import clsx from "clsx"
 import {
   AppBar,
-  Button,
   CssBaseline,
   IconButton,
   makeStyles,
@@ -14,7 +13,6 @@ import MenuIcon from "@material-ui/icons/Menu"
 import NotificationsNone from "@material-ui/icons/NotificationsNone"
 import SettingsIcon from "@material-ui/icons/Settings"
 
-import { useFirebase } from "../../firebase"
 import ListsDrawer from "../lists-drawer"
 
 const drawerWidth = 240
@@ -51,7 +49,6 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const LoginAppbar = () => {
-  const firebase = useFirebase()
   const classes = useStyles()
   const [open, setOpen] = useState(false)
 
@@ -90,10 +87,6 @@ const LoginAppbar = () => {
             </Typography>
 
             <div className={classes.buttonGroup}>
-              <Button color="inherit" onClick={() => firebase.logout()}>
-                Log Out
-              </Button>
-
               <IconButton aria-label="Notifications" edge="end" color="inherit">
                 <NotificationsNone />
               </IconButton>
