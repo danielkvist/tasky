@@ -102,7 +102,7 @@ const LoginAppbar = () => {
                 aria-label="Account settings"
                 edge="end"
                 color="inherit"
-                onClick={() => navigate("/accounts/settings/")}
+                onClick={() => navigate("/account/settings/")}
               >
                 <SettingsIcon />
               </IconButton>
