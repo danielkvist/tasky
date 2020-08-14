@@ -1,4 +1,5 @@
 import React from "react"
+import { RecoilRoot } from "recoil"
 import { ThemeProvider } from "@material-ui/core/styles"
 import { useAuthState } from "react-firebase-hooks/auth"
 import "normalize.css"
@@ -12,7 +13,6 @@ const SessionCheck = ({ children }) => {
 
   // TODO: Error page
   if (error) return <h1>Error!</h1>
-
   if (user) firebase.currentUser = user.uid
 
   // TODO: display loading component
@@ -31,9 +31,11 @@ export const wrapRootElement = ({ element }) => {
 
   return (
     <FirebaseCtx.Provider value={new Firebase(config)}>
-      <ThemeProvider theme={theme}>
-        <SessionCheck>{element}</SessionCheck>
-      </ThemeProvider>
+      <RecoilRoot>
+        <ThemeProvider theme={theme}>
+          <SessionCheck>{element}</SessionCheck>
+        </ThemeProvider>
+      </RecoilRoot>
     </FirebaseCtx.Provider>
   )
 }

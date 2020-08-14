@@ -1,4 +1,5 @@
 import React from "react"
+import { useRecoilState } from "recoil"
 import { navigate } from "gatsby"
 import clsx from "clsx"
 import {
@@ -24,6 +25,7 @@ import ViewWeekIcon from "@material-ui/icons/ViewWeek"
 import WbSunnyIcon from "@material-ui/icons/WbSunny"
 
 import { useFirebase } from "../firebase"
+import { tasksFilters, filterTasksBy } from "../filters/tasks"
 
 const drawerWidth = 240
 
@@ -70,6 +72,7 @@ const useStyles = makeStyles(theme => ({
 
 const ListsDrawer = ({ open, handleDrawerClose }) => {
   const firebase = useFirebase()
+  const [filter, setFilter] = useRecoilState(filterTasksBy)
   const classes = useStyles()
   const theme = useTheme()
 
@@ -100,44 +103,58 @@ const ListsDrawer = ({ open, handleDrawerClose }) => {
       <Divider />
 
       <List>
-        <ListItem button>
+        <ListItem button onClick={() => setFilter(tasksFilters.inbox)}>
           <ListItemIcon>
-            <InboxIcon />
+            <InboxIcon
+              color={filter === tasksFilters.inbox ? "primary" : "inherit"}
+            />
           </ListItemIcon>
           <ListItemText primary="Inbox" />
         </ListItem>
 
-        <ListItem button>
+        <ListItem button onClick={() => setFilter(tasksFilters.important)}>
           <ListItemIcon>
-            <StarBorderIcon />
+            <StarBorderIcon
+              color={filter === tasksFilters.important ? "primary" : "inherit"}
+            />
           </ListItemIcon>
           <ListItemText primary="Important" />
         </ListItem>
 
-        <ListItem button>
+        <ListItem button onClick={() => setFilter(tasksFilters.noCompleted)}>
           <ListItemIcon>
-            <ListIcon />
+            <ListIcon
+              color={
+                filter === tasksFilters.noCompleted ? "primary" : "inherit"
+              }
+            />
           </ListItemIcon>
           <ListItemText primary="All tasks" />
         </ListItem>
 
-        <ListItem button>
+        <ListItem button onClick={() => setFilter(tasksFilters.today)}>
           <ListItemIcon>
-            <TodayIcon />
+            <TodayIcon
+              color={filter === tasksFilters.today ? "primary" : "inherit"}
+            />
           </ListItemIcon>
           <ListItemText primary="Today" />
         </ListItem>
 
-        <ListItem button>
+        <ListItem button onClick={() => setFilter(tasksFilters.tomorrow)}>
           <ListItemIcon>
-            <WbSunnyIcon />
+            <WbSunnyIcon
+              color={filter === tasksFilters.tomorrow ? "primary" : "inherit"}
+            />
           </ListItemIcon>
           <ListItemText primary="Tomorrow" />
         </ListItem>
 
-        <ListItem button>
+        <ListItem button onClick={() => setFilter(tasksFilters.week)}>
           <ListItemIcon>
-            <ViewWeekIcon />
+            <ViewWeekIcon
+              color={filter === tasksFilters.week ? "primary" : "inherit"}
+            />
           </ListItemIcon>
           <ListItemText primary="Week" />
         </ListItem>

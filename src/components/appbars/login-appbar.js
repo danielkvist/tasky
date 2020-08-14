@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { navigate } from "gatsby"
 import clsx from "clsx"
 import {
   AppBar,
