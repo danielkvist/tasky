@@ -1,4 +1,5 @@
 import React from "react"
+import { navigate } from "gatsby"
 import clsx from "clsx"
 import {
   Divider,
@@ -11,15 +12,16 @@ import {
   makeStyles,
   useTheme,
 } from "@material-ui/core"
+import AccountCircleIcon from "@material-ui/icons/AccountCircle"
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft"
 import ChevronRightIcon from "@material-ui/icons/ChevronRight"
 import InboxIcon from "@material-ui/icons/MoveToInbox"
-import StarBorderIcon from "@material-ui/icons/StarBorder"
 import ListIcon from "@material-ui/icons/List"
+import SettingsIcon from "@material-ui/icons/Settings"
+import StarBorderIcon from "@material-ui/icons/StarBorder"
 import TodayIcon from "@material-ui/icons/Today"
-import WbSunnyIcon from "@material-ui/icons/WbSunny"
 import ViewWeekIcon from "@material-ui/icons/ViewWeek"
-import AccountCircleIcon from "@material-ui/icons/AccountCircle"
+import WbSunnyIcon from "@material-ui/icons/WbSunny"
 
 import { useFirebase } from "../firebase"
 
@@ -60,6 +62,9 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+  },
+  separator: {
+    marginTop: "auto",
   },
 }))
 
@@ -138,7 +143,18 @@ const ListsDrawer = ({ open, handleDrawerClose }) => {
         </ListItem>
       </List>
 
-      <List style={{ marginTop: "auto" }}>
+      <div className={classes.separator}></div>
+
+      <Divider />
+
+      <List>
+        <ListItem button onClick={() => navigate("/account/settings/")}>
+          <ListItemIcon>
+            <SettingsIcon />
+          </ListItemIcon>
+          <ListItemText primary="Settings" />
+        </ListItem>
+
         <ListItem button onClick={() => firebase.logout()}>
           <ListItemIcon>
             <AccountCircleIcon />

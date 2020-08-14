@@ -11,7 +11,6 @@ import {
 } from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu"
 import NotificationsNone from "@material-ui/icons/NotificationsNone"
-import SettingsIcon from "@material-ui/icons/Settings"
 
 import ListsDrawer from "../lists-drawer"
 
@@ -89,15 +88,6 @@ const LoginAppbar = () => {
             <div className={classes.buttonGroup}>
               <IconButton aria-label="Notifications" edge="end" color="inherit">
                 <NotificationsNone />
-              </IconButton>
-
-              <IconButton
-                aria-label="Account settings"
-                edge="end"
-                color="inherit"
-                onClick={() => navigate("/account/settings/")}
-              >
-                <SettingsIcon />
               </IconButton>
             </div>
           </Toolbar>
