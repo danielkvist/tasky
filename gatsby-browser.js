@@ -1,8 +1,10 @@
 import React from "react"
+import { ThemeProvider } from "@material-ui/core/styles"
 import { useAuthState } from "react-firebase-hooks/auth"
 import "normalize.css"
 
 import Firebase, { FirebaseCtx, useFirebase } from "./src/firebase"
+import theme from "./src/themes/main"
 
 const SessionCheck = ({ children }) => {
   const firebase = useFirebase()
@@ -29,7 +31,9 @@ export const wrapRootElement = ({ element }) => {
 
   return (
     <FirebaseCtx.Provider value={new Firebase(config)}>
-      <SessionCheck>{element}</SessionCheck>
+      <ThemeProvider theme={theme}>
+        <SessionCheck>{element}</SessionCheck>
+      </ThemeProvider>
     </FirebaseCtx.Provider>
   )
 }

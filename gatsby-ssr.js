@@ -1,18 +1,21 @@
 import React from "react"
+import { ThemeProvider } from "@material-ui/core/styles"
 import { useAuthState } from "react-firebase-hooks/auth"
 import "normalize.css"
 
 import Firebase, { FirebaseCtx, useFirebase } from "./src/firebase"
+import theme from "./src/themes/main"
 
 const SessionCheck = ({ children }) => {
   const firebase = useFirebase()
-  const [, loading, error] = useAuthState(firebase.auth)
+  const [user, loading, error] = useAuthState(firebase.auth)
 
   // TODO: Error page
   if (error) return <h1>Error!</h1>
 
-  // return Index if user is not logger
-  // return App if user is logged
+  if (user) firebase.currentUser = user.uid
+
+  // TODO: display loading component
   return !loading ? <>{children}</> : <></>
 }
 
@@ -28,7 +31,9 @@ export const wrapRootElement = ({ element }) => {
 
   return (
     <FirebaseCtx.Provider value={new Firebase(config)}>
-      <SessionCheck>{element}</SessionCheck>
+      <ThemeProvider theme={theme}>
+        <SessionCheck>{element}</SessionCheck>
+      </ThemeProvider>
     </FirebaseCtx.Provider>
   )
 }
