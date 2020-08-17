@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useRecoilState } from "recoil"
+import moment from "moment"
 import { makeStyles } from "@material-ui/core/styles"
 import { Typography, List } from "@material-ui/core"
 import { useCollection } from "react-firebase-hooks/firestore"
@@ -30,11 +31,48 @@ const TaskList = () => {
   useEffect(() => {
     if (!values) return
 
+    // TODO: Refactor
     if (filter === tasksFilters.important) {
       setTasks(
         values.docs.map(doc => {
           const docData = doc.data()
           if (docData.important) {
+            return { ...Task, id: doc.id, ...doc.data() }
+          }
+        })
+      )
+    } else if (filter === tasksFilters.today) {
+      const today = moment()
+
+      setTasks(
+        values.docs.map(doc => {
+          const docData = doc.data()
+          if (docData.dueDate && moment(docData.dueDate).isSame(today, "day")) {
+            return { ...Task, id: doc.id, ...doc.data() }
+          }
+        })
+      )
+    } else if (filter === tasksFilters.tomorrow) {
+      const tomorrow = moment().add(1, "day")
+
+      setTasks(
+        values.docs.map(doc => {
+          const docData = doc.data()
+          if (
+            docData.dueDate &&
+            moment(docData.dueDate).isSame(tomorrow, "day")
+          ) {
+            return { ...Task, id: doc.id, ...doc.data() }
+          }
+        })
+      )
+    } else if (filter === tasksFilters.week) {
+      const week = moment()
+
+      setTasks(
+        values.docs.map(doc => {
+          const docData = doc.data()
+          if (docData.dueDate && moment(docData.dueDate).isSame(week, "week")) {
             return { ...Task, id: doc.id, ...doc.data() }
           }
         })
