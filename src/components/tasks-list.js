@@ -12,7 +12,6 @@ import TaskItem from "./task-item"
 
 const useStyles = makeStyles({
   container: {
-    marginLeft: "5rem",
     padding: 16,
   },
 })

@@ -14,6 +14,7 @@ import {
   useTheme,
 } from "@material-ui/core"
 import AccountCircleIcon from "@material-ui/icons/AccountCircle"
+import AddIcon from "@material-ui/icons/Add"
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft"
 import ChevronRightIcon from "@material-ui/icons/ChevronRight"
 import InboxIcon from "@material-ui/icons/MoveToInbox"
@@ -33,26 +34,17 @@ const useStyles = makeStyles(theme => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
-    whiteSpace: "nowrap",
   },
-  drawerOpen: {
+  drawerPaper: {
     width: drawerWidth,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    overflowX: "hidden",
   },
-  drawerClose: {
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: "hidden",
-    width: theme.spacing(7) + 1,
-    [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(9) + 1,
-    },
+  drawerHeader: {
+    display: "flex",
+    alignItems: "center",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: "flex-end",
   },
   toolbar: {
     display: "flex",
@@ -79,15 +71,12 @@ const ListsDrawer = ({ open, handleDrawerClose }) => {
   return (
     <Drawer
       variant="permanent"
-      className={clsx(classes.drawer, {
-        [classes.drawerOpen]: open,
-        [classes.drawerClose]: !open,
-      })}
+      className={classes.drawer}
+      variant="persistent"
+      anchor="left"
+      open={open}
       classes={{
-        paper: clsx({
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
-        }),
+        paper: classes.drawerPaper,
       }}
     >
       <div className={classes.toolbar}>

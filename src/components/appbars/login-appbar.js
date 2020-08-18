@@ -19,30 +19,29 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
   },
-  offset: theme.mixins.toolbar,
   appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(["width", "margin"], {
+    transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
-  buttonGroup: {
-    marginLeft: "auto",
-  },
   appBarShift: {
-    marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
   menuButton: {
-    marginRight: 36,
+    marginRight: theme.spacing(2),
   },
   hide: {
     display: "none",
+  },
+  offset: theme.mixins.toolbar,
+  buttonGroup: {
+    marginLeft: "auto",
   },
 }))
 
@@ -74,9 +73,7 @@ const LoginAppbar = () => {
               aria-label="open drawer"
               onClick={handleDrawerOpen}
               edge="start"
-              className={clsx(classes.menuButton, {
-                [classes.hide]: open,
-              })}
+              className={clsx(classes.menuButton, open && classes.hide)}
             >
               <MenuIcon />
             </IconButton>
@@ -94,7 +91,6 @@ const LoginAppbar = () => {
       </nav>
 
       <div className={classes.offset}></div>
-
       <ListsDrawer open={open} handleDrawerClose={() => handleDrawerClose()} />
     </>
   )
