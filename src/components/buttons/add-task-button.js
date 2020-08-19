@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import { Fab } from "@material-ui/core"
 import AddIcon from "@material-ui/icons/Add"
 
-import TaskForm from "../task-form"
+import { TaskForm } from "../forms"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,9 +21,8 @@ const AddTaskButton = () => {
   const classes = useStyles()
 
   const handleOpen = () => setOpen(true)
-  const handleClose = () => {
-    setOpen(false)
-  }
+  const handleClose = () => setOpen(false)
+
   return (
     <>
       <TaskForm open={open} handleClose={handleClose} />

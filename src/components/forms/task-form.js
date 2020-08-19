@@ -11,7 +11,7 @@ import {
   Slide,
 } from "@material-ui/core"
 
-import { useFirebase } from "../firebase"
+import { useFirebase } from "../../firebase"
 
 const useStyles = makeStyles(theme => ({
   form: {
