@@ -1,7 +1,6 @@
-import React from "react"
+import React, { useState } from "react"
 import { useRecoilState } from "recoil"
 import { navigate } from "gatsby"
-import clsx from "clsx"
 import {
   Divider,
   Drawer,
@@ -27,6 +26,7 @@ import WbSunnyIcon from "@material-ui/icons/WbSunny"
 
 import { useFirebase } from "../firebase"
 import { tasksFilters, filterTasksBy } from "../filters/tasks"
+import { ListForm } from "./forms"
 
 const drawerWidth = 240
 
@@ -65,8 +65,12 @@ const useStyles = makeStyles(theme => ({
 const ListsDrawer = ({ open, handleDrawerClose }) => {
   const firebase = useFirebase()
   const [filter, setFilter] = useRecoilState(filterTasksBy)
+  const [listFormOpen, setListForm] = useState(false)
   const classes = useStyles()
   const theme = useTheme()
+
+  const handleListFormOpen = () => setListForm(true)
+  const handleListFormClose = () => setListForm(false)
 
   return (
     <Drawer
@@ -146,6 +150,18 @@ const ListsDrawer = ({ open, handleDrawerClose }) => {
             />
           </ListItemIcon>
           <ListItemText primary="Week" />
+        </ListItem>
+      </List>
+
+      <Divider />
+
+      <ListForm open={listFormOpen} handleClose={handleListFormClose} />
+      <List>
+        <ListItem button onClick={handleListFormOpen}>
+          <ListItemIcon>
+            <AddIcon />
+          </ListItemIcon>
+          <ListItemText primary="Add list" />
         </ListItem>
       </List>
 
