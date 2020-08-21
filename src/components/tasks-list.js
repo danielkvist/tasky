@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useRecoilState } from "recoil"
 import moment from "moment"
 import { makeStyles } from "@material-ui/core/styles"
-import { Typography, List } from "@material-ui/core"
+import { Typography, CircularProgress, List } from "@material-ui/core"
 import { useCollection } from "react-firebase-hooks/firestore"
 
 import { useFirebase } from "../firebase"
@@ -89,26 +89,51 @@ const TaskList = () => {
 
   if (loading) {
     return (
-      <Typography variant="h6" color="error">
-        Loading
-      </Typography>
+      <div
+        style={{
+          width: "100%",
+          height: "20vh",
+          display: "grid",
+          placeItems: "center",
+        }}
+      >
+        <CircularProgress />
+      </div>
     )
   }
 
   if (error) {
     return (
-      <Typography variant="h6" color="error">
-        Error
-      </Typography>
+      <div
+        style={{
+          width: "100%",
+          height: "20vh",
+          display: "grid",
+          placeItems: "center",
+        }}
+      >
+        <Typography variant="h6" color="error">
+          Error
+        </Typography>
+      </div>
     )
   }
 
   return (
     <div className={classes.container}>
       {tasks.length <= 0 ? (
-        <Typography variant="h6" color="error">
-          Empty list
-        </Typography>
+        <div
+          style={{
+            width: "100%",
+            height: "20vh",
+            display: "grid",
+            placeItems: "center",
+          }}
+        >
+          <Typography variant="h6" color="primary">
+            Empty list
+          </Typography>
+        </div>
       ) : (
         <List>
           {tasks.map(item => {

@@ -2,9 +2,8 @@ import { createContext } from "react"
 import firebase from "firebase/app"
 import "firebase/auth"
 import "firebase/firestore"
-import faker from "faker"
 
-import Task from "../models/tasks"
+import { Task, List } from "../models"
 import isBrowser from "./is-browser"
 
 class Firebase {
@@ -44,11 +43,30 @@ class Firebase {
     try {
       await document.set({
         ...Task,
-        title: faker.lorem.sentence(),
         ...task,
         id: documentUuid,
         createdAt: timestamp,
         lastModified: timestamp,
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  createList = async list => {
+    const document = this.db
+      .collection("users")
+      .doc(this.currentUser)
+      .collection("lists")
+      .doc()
+
+    const documentUuid = document.id
+
+    try {
+      await document.set({
+        ...List,
+        ...list,
+        id: documentUuid,
       })
     } catch (e) {
       console.log(e)

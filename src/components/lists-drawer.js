@@ -1,5 +1,6 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useRecoilState } from "recoil"
+import { useCollection } from "react-firebase-hooks/firestore"
 import { navigate } from "gatsby"
 import {
   Divider,
@@ -9,6 +10,8 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  ListItemSecondaryAction,
+  Typography,
   makeStyles,
   useTheme,
 } from "@material-ui/core"
@@ -23,6 +26,7 @@ import StarBorderIcon from "@material-ui/icons/StarBorder"
 import TodayIcon from "@material-ui/icons/Today"
 import ViewWeekIcon from "@material-ui/icons/ViewWeek"
 import WbSunnyIcon from "@material-ui/icons/WbSunny"
+import MoreVertIcon from "@material-ui/icons/MoreVert"
 
 import { useFirebase } from "../firebase"
 import { tasksFilters, filterTasksBy } from "../filters/tasks"
@@ -66,8 +70,19 @@ const ListsDrawer = ({ open, handleDrawerClose }) => {
   const firebase = useFirebase()
   const [filter, setFilter] = useRecoilState(filterTasksBy)
   const [listFormOpen, setListForm] = useState(false)
+  const [values, loading, error] = useCollection(
+    firebase.db.collection(`users/${firebase.auth.currentUser.uid}/lists`),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  )
+
   const classes = useStyles()
   const theme = useTheme()
+
+  useEffect(() => {
+    if (!values) return
+  }, [loading, values])
 
   const handleListFormOpen = () => setListForm(true)
   const handleListFormClose = () => setListForm(false)
@@ -163,6 +178,28 @@ const ListsDrawer = ({ open, handleDrawerClose }) => {
           </ListItemIcon>
           <ListItemText primary="Add list" />
         </ListItem>
+        {values
+          ? values.docs.map(doc => {
+              const data = doc.data()
+              return (
+                <ListItem key={doc.id} button onClick={() => {}}>
+                  <ListItemIcon>
+                    <Typography align="left" component="p">
+                      {data.listIcon.native}
+                    </Typography>
+                  </ListItemIcon>
+
+                  <ListItemText primary={data.title} />
+
+                  <ListItemSecondaryAction>
+                    <IconButton edge="end" aria-label="edit">
+                      <MoreVertIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              )
+            })
+          : null}
       </List>
 
       <div className={classes.separator}></div>

@@ -37,7 +37,7 @@ const IndexPage = () => {
           color="primary"
           onClick={() => firebase.login()}
         >
-          Log In
+          Log In with Google
         </Button>
       </Container>
     </LogoutLayout>

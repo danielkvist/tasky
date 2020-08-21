@@ -9,6 +9,8 @@ import {
   Typography,
 } from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu"
+import VisibilityIcon from "@material-ui/icons/Visibility"
+import VisibilityOffIcon from "@material-ui/icons/VisibilityOff"
 import NotificationsNone from "@material-ui/icons/NotificationsNone"
 
 import ListsDrawer from "../lists-drawer"
@@ -48,6 +50,8 @@ const useStyles = makeStyles(theme => ({
 const LoginAppbar = () => {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
+  //TODO: Fix
+  const [showDone, setShowDone] = useState(false)
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -82,6 +86,14 @@ const LoginAppbar = () => {
             </Typography>
 
             <div className={classes.buttonGroup}>
+              <IconButton
+                aria-label="Display done"
+                edge="end"
+                color="inherit"
+                onClick={() => setShowDone(!showDone)}
+              >
+                {showDone ? <VisibilityIcon /> : <VisibilityOffIcon />}
+              </IconButton>
               <IconButton aria-label="Notifications" edge="end" color="inherit">
                 <NotificationsNone />
               </IconButton>

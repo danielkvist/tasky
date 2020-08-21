@@ -62,8 +62,9 @@ const ListForm = ({ open, handleClose }) => {
   }
 
   const onSubmit = data => {
+    // TODO: Add emoji validation
     data.listIcon = chosenEmoji
-    console.log(data)
+    firebase.createList(data)
     setChosenEmoji(null)
     handleClose()
   }
