@@ -6,7 +6,7 @@ import { Typography, CircularProgress, List } from "@material-ui/core"
 import { useCollection } from "react-firebase-hooks/firestore"
 
 import { useFirebase } from "../firebase"
-import { tasksFilters, filterTasksBy } from "../filters"
+import { tasksFilters, filterTasksBy, selectedProject } from "../filters"
 import Task from "../models/tasks"
 import TaskItem from "./task-item"
 
@@ -19,6 +19,7 @@ const useStyles = makeStyles({
 const TaskList = () => {
   const firebase = useFirebase()
   const [filter, setFilter] = useRecoilState(filterTasksBy)
+  const [project, setProject] = useRecoilState(selectedProject)
   const [tasks, setTasks] = useState([])
   const [values, loading, error] = useCollection(
     firebase.db.collection(`users/${firebase.auth.currentUser.uid}/tasks`),
@@ -76,6 +77,15 @@ const TaskList = () => {
           }
         })
       )
+    } else if (filter === tasksFilters.project) {
+      setTasks(
+        values.docs.map(doc => {
+          const docData = doc.data()
+          if (docData.project === project) {
+            return { ...Task, id: doc.id, ...doc.data() }
+          }
+        })
+      )
     } else {
       setTasks(
         values.docs.map(doc => {
@@ -83,7 +93,7 @@ const TaskList = () => {
         })
       )
     }
-  }, [loading, values, filter])
+  }, [loading, values, filter, project])
 
   const classes = useStyles()
 

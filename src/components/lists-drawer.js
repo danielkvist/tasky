@@ -29,7 +29,7 @@ import WbSunnyIcon from "@material-ui/icons/WbSunny"
 import MoreVertIcon from "@material-ui/icons/MoreVert"
 
 import { useFirebase } from "../firebase"
-import { tasksFilters, filterTasksBy } from "../filters"
+import { tasksFilters, filterTasksBy, selectedProject } from "../filters"
 import { ListForm } from "./forms"
 
 const drawerWidth = 240
@@ -69,6 +69,7 @@ const useStyles = makeStyles(theme => ({
 const ListsDrawer = ({ open, handleDrawerClose }) => {
   const firebase = useFirebase()
   const [filter, setFilter] = useRecoilState(filterTasksBy)
+  const [project, setProject] = useRecoilState(selectedProject)
   const [listFormOpen, setListForm] = useState(false)
   const [values, loading, error] = useCollection(
     firebase.db.collection(`users/${firebase.auth.currentUser.uid}/lists`),
@@ -111,11 +112,15 @@ const ListsDrawer = ({ open, handleDrawerClose }) => {
       <Divider />
 
       <List>
-        <ListItem button onClick={() => setFilter(tasksFilters.inbox)}>
+        <ListItem
+          button
+          onClick={() => {
+            setFilter(tasksFilters.project)
+            setProject("Inbox")
+          }}
+        >
           <ListItemIcon>
-            <InboxIcon
-              color={filter === tasksFilters.inbox ? "primary" : "inherit"}
-            />
+            <InboxIcon color={project === "Inbox" ? "primary" : "inherit"} />
           </ListItemIcon>
           <ListItemText primary="Inbox" />
         </ListItem>
@@ -182,7 +187,14 @@ const ListsDrawer = ({ open, handleDrawerClose }) => {
           ? values.docs.map(doc => {
               const data = doc.data()
               return (
-                <ListItem key={doc.id} button onClick={() => {}}>
+                <ListItem
+                  key={doc.id}
+                  button
+                  onClick={() => {
+                    setFilter(tasksFilters.project)
+                    setProject(doc.id)
+                  }}
+                >
                   <ListItemIcon>
                     <Typography align="left" component="p">
                       {data.listIcon.native}

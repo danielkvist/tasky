@@ -8,6 +8,7 @@ const tasksFilters = {
   today: "TODAY",
   tomorrow: "TOMORROW",
   week: "WEEK",
+  project: "PROJECT",
 }
 
 const filterTasksBy = atom({
@@ -15,5 +16,10 @@ const filterTasksBy = atom({
   default: tasksFilters.noCompleted,
 })
 
+const selectedProject = atom({
+  key: "selectedProject",
+  default: null,
+})
+
 export default filterTasksBy
-export { tasksFilters, filterTasksBy }
+export { tasksFilters, filterTasksBy, selectedProject }
