@@ -1,5 +1,6 @@
-import React, { forwardRef } from "react"
-import { useForm } from "react-hook-form"
+import React, { useEffect, forwardRef } from "react"
+import { useCollectionOnce } from "react-firebase-hooks/firestore"
+import { useForm, Controller } from "react-hook-form"
 import { makeStyles } from "@material-ui/core/styles"
 import {
   Button,
@@ -9,19 +10,21 @@ import {
   DialogTitle,
   TextField,
   Slide,
+  MenuItem,
 } from "@material-ui/core"
 
 import { useFirebase } from "../../firebase"
+import { Task } from "../../models"
 
 const useStyles = makeStyles(theme => ({
   form: {
     display: "flex",
     flexDirection: "column",
   },
-  dueDate: {
+  due: {
     display: "flex",
     gap: "1rem",
-    justifyContent: "flex-end",
+    justifyContent: "center",
     marginBottom: theme.spacing(5),
     marginTop: theme.spacing(3),
   },
@@ -33,8 +36,22 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 const TaskForm = ({ open, handleClose }) => {
   const firebase = useFirebase()
-  const { register, handleSubmit, reset, errors } = useForm()
+  const [values, loading, error] = useCollectionOnce(
+    firebase.db.collection(`users/${firebase.auth.currentUser.uid}/lists`),
+    {}
+  )
+
+  const { register, handleSubmit, reset, control, errors } = useForm({
+    defaultValues: {
+      ...Task,
+      dueDate: "",
+    },
+  })
   const classes = useStyles()
+
+  useEffect(() => {
+    if (!values) return
+  }, [loading, values])
 
   const onClose = () => {
     handleClose()
@@ -59,7 +76,6 @@ const TaskForm = ({ open, handleClose }) => {
       <DialogContent>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
           <TextField
-            defaultValue=""
             error={!!errors.title}
             fullWidth
             helperText={errors.title ? "Task title is required" : ""}
@@ -81,27 +97,59 @@ const TaskForm = ({ open, handleClose }) => {
             name="description"
             inputRef={register}
             type="text"
-            defaultValue=""
           />
 
-          <div className={classes.dueDate}>
+          <div className={classes.due}>
+            <Controller
+              as={
+                <TextField
+                  fullWidth
+                  id="list"
+                  label="List"
+                  name="list"
+                  type="text"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  select
+                  inputRef={register}
+                >
+                  <MenuItem value={"Inbox"}>Inbox</MenuItem>
+                  {values
+                    ? values.docs.map(doc => {
+                        const docData = doc.data()
+                        // TODO: Add styles
+                        return (
+                          <MenuItem key={doc.id} value={doc.id}>
+                            {`${docData.listIcon.native} ${docData.title}`}
+                          </MenuItem>
+                        )
+                      })
+                    : null}
+                </TextField>
+              }
+              control={control}
+              name="project"
+            />
+
             <TextField
               id="dueDate"
               label="Due date"
               name="dueDate"
+              fullWidth
               type="date"
-              defaultValue=""
               InputLabelProps={{
                 shrink: true,
               }}
               inputRef={register}
             />
+
             <TextField
               id="remind"
               label="Remind At"
-              name="remind"
+              name="remindAt"
               type="time"
-              defaultValue=""
+              fullWidth
               InputLabelProps={{
                 shrink: true,
               }}

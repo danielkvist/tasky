@@ -6,7 +6,7 @@ import { Typography, CircularProgress, List } from "@material-ui/core"
 import { useCollection } from "react-firebase-hooks/firestore"
 
 import { useFirebase } from "../firebase"
-import { tasksFilters, filterTasksBy } from "../filters/tasks"
+import { tasksFilters, filterTasksBy } from "../filters"
 import Task from "../models/tasks"
 import TaskItem from "./task-item"
 

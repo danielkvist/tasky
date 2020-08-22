@@ -29,7 +29,7 @@ import WbSunnyIcon from "@material-ui/icons/WbSunny"
 import MoreVertIcon from "@material-ui/icons/MoreVert"
 
 import { useFirebase } from "../firebase"
-import { tasksFilters, filterTasksBy } from "../filters/tasks"
+import { tasksFilters, filterTasksBy } from "../filters"
 import { ListForm } from "./forms"
 
 const drawerWidth = 240
