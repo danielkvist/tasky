@@ -1,4 +1,5 @@
 import TaskForm from "./task-form"
-import ListForm from "./list-form"
+import AddListForm from "./add-list-form"
+import EditListForm from "./edit-list-form"
 
-export { TaskForm, ListForm }
+export { TaskForm, AddListForm, EditListForm }

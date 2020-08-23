@@ -34,13 +34,7 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />
 })
 
-const TaskForm = ({
-  title = "Add task",
-  task = { ...Task },
-  editMode = false,
-  open,
-  handleClose,
-}) => {
+const TaskForm = ({ open, handleClose }) => {
   const firebase = useFirebase()
   const [values, loading, error] = useCollectionOnce(
     firebase.db.collection(`users/${firebase.auth.currentUser.uid}/lists`),
@@ -49,7 +43,7 @@ const TaskForm = ({
 
   const { register, handleSubmit, reset, control, errors } = useForm({
     defaultValues: {
-      ...task,
+      ...Task,
     },
   })
   const classes = useStyles()
@@ -64,11 +58,7 @@ const TaskForm = ({
   }
 
   const onSubmit = data => {
-    if (editMode) {
-      console.log("Edit", data)
-    } else {
-      firebase.createTask({ ...data })
-    }
+    firebase.createTask({ ...data })
     handleClose()
   }
 
@@ -81,7 +71,7 @@ const TaskForm = ({
       maxWidth="sm"
       fullWidth
     >
-      <DialogTitle id="addTask">{title}</DialogTitle>
+      <DialogTitle id="addTask">Add task</DialogTitle>
       <DialogContent>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
           <TextField

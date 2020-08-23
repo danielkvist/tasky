@@ -86,6 +86,19 @@ class Firebase {
     }
   }
 
+  deleteList = async listId => {
+    try {
+      await this.db
+        .collection("users")
+        .doc(this.currentUser)
+        .collection("lists")
+        .doc(listId)
+        .delete()
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   updateTask = async task => {
     const timestamp = firebase.firestore.FieldValue.serverTimestamp()
 
@@ -96,6 +109,21 @@ class Firebase {
         .collection("tasks")
         .doc(task.id)
         .update({ ...task, lastModified: timestamp })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  updateList = async list => {
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp()
+
+    try {
+      await this.db
+        .collection("users")
+        .doc(this.currentUser)
+        .collection("lists")
+        .doc(list.id)
+        .update({ ...list, lastModified: timestamp })
     } catch (e) {
       console.log(e)
     }

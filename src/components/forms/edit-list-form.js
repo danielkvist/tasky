@@ -33,13 +33,12 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />
 })
 
-const ListForm = ({ list = { ...List }, open, handleClose }) => {
+const EditListForm = ({ list, open, handleClose }) => {
   const firebase = useFirebase()
-  const { register, handleSubmit, reset, errors } = useForm({
-    defaultValues: { ...list },
-  })
   const [anchorEl, setAnchorEl] = useState(null)
   const [chosenEmoji, setChosenEmoji] = useState(null)
+  const { register, handleSubmit, reset, errors } = useForm({})
+
   const classes = useStyles()
 
   const popupOpen = Boolean(anchorEl)
@@ -66,13 +65,8 @@ const ListForm = ({ list = { ...List }, open, handleClose }) => {
 
   const onSubmit = data => {
     // TODO: Add emoji validation
-    data.listIcon = chosenEmoji
-
-    if (list.title) {
-      console.log("Edit", data)
-    } else {
-      firebase.createList(data)
-    }
+    data.listIcon = chosenEmoji || list.listIcon
+    firebase.updateList({ id: list.id, ...data })
     setChosenEmoji(null)
     handleClose()
   }
@@ -81,12 +75,12 @@ const ListForm = ({ list = { ...List }, open, handleClose }) => {
     <Dialog
       open={open}
       onClose={onClose}
-      aria-labelledby="Add list"
+      aria-labelledby="Edit list"
       TransitionComponent={Transition}
       maxWidth="sm"
       fullWidth
     >
-      <DialogTitle id="listForm">Add list</DialogTitle>
+      <DialogTitle id="editListForm">Edit list</DialogTitle>
       <DialogContent>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
           <div className={classes.emojiPicker}>
@@ -96,7 +90,8 @@ const ListForm = ({ list = { ...List }, open, handleClose }) => {
               disableElevation
               onClick={handleEmojiPickerOpen}
             >
-              {chosenEmoji ? chosenEmoji.native : "Emoji"}
+              {(chosenEmoji && chosenEmoji.native) ||
+                (list && list.listIcon && list.listIcon.native)}
             </Button>
             <Popover
               id={id}
@@ -116,7 +111,7 @@ const ListForm = ({ list = { ...List }, open, handleClose }) => {
             </Popover>
           </div>
           <TextField
-            defaultValue=""
+            defaultValue={list.title}
             error={!!errors.title}
             fullWidth
             helperText={errors.title ? "List name is required" : ""}
@@ -137,11 +132,11 @@ const ListForm = ({ list = { ...List }, open, handleClose }) => {
           Cancel
         </Button>
         <Button onClick={handleSubmit(onSubmit)} color="primary">
-          Create
+          Update
         </Button>
       </DialogActions>
     </Dialog>
   )
 }
 
-export default ListForm
+export default EditListForm

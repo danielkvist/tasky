@@ -1,17 +1,8 @@
-import React from "react"
+import React, { useState } from "react"
 import { useRecoilState } from "recoil"
 import { useCollection } from "react-firebase-hooks/firestore"
-import {
-  IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  ListItemSecondaryAction,
-  Typography,
-} from "@material-ui/core"
+import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core"
 import AddIcon from "@material-ui/icons/Add"
-import MoreVertIcon from "@material-ui/icons/MoreVert"
 
 import { useFirebase } from "../../firebase"
 import {
@@ -19,11 +10,14 @@ import {
   filterTasksBy,
   selectedProject,
 } from "../../atoms/filters"
+import { listToEdit } from "../../atoms/forms"
+import ProjectFiltersItem from "./project-item"
 
 const ProjectFiltersList = ({ handleListFormOpen }) => {
   const firebase = useFirebase()
   const [filter, setFilter] = useRecoilState(filterTasksBy)
   const [project, setProject] = useRecoilState(selectedProject)
+  const [editList, setEditList] = useRecoilState(listToEdit)
   const [values, loading, error] = useCollection(
     firebase.db.collection(`users/${firebase.auth.currentUser.uid}/lists`),
     {
@@ -43,28 +37,21 @@ const ProjectFiltersList = ({ handleListFormOpen }) => {
         ? values.docs.map(doc => {
             const data = doc.data()
             return (
-              <ListItem
+              <ProjectFiltersItem
                 key={doc.id}
-                button
-                onClick={() => {
+                id={doc.id}
+                data={data}
+                clickHandler={() => {
                   setFilter(tasksFilters.project)
                   setProject(doc.id)
                 }}
-              >
-                <ListItemIcon>
-                  <Typography align="left" component="p">
-                    {data.listIcon.native}
-                  </Typography>
-                </ListItemIcon>
-
-                <ListItemText primary={data.title} />
-
-                <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="edit">
-                    <MoreVertIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
+                editHandler={() => {
+                  setEditList({ id: doc.id, ...data })
+                }}
+                deleteHandler={() => {
+                  firebase.deleteList(doc.id)
+                }}
+              />
             )
           })
         : null}
