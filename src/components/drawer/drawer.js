@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { useRecoilState } from "recoil"
-import { useCollection } from "react-firebase-hooks/firestore"
 import { navigate } from "gatsby"
 import {
   Divider,
@@ -19,9 +18,9 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight"
 import SettingsIcon from "@material-ui/icons/Settings"
 
 import { useFirebase } from "../../firebase"
+import { openAddListForm } from "../../atoms/forms"
 import MainFiltersList from "./main-filters"
 import ProjectFiltersList from "./project-filters"
-import { ListForm } from "../forms"
 
 const drawerWidth = 240
 
@@ -59,13 +58,10 @@ const useStyles = makeStyles(theme => ({
 
 const Drawer = ({ open, handleClose }) => {
   const firebase = useFirebase()
-  const [listFormOpen, setListForm] = useState(false)
+  const [listForm, setListForm] = useRecoilState(openAddListForm)
 
   const classes = useStyles()
   const theme = useTheme()
-
-  const handleListFormOpen = () => setListForm(true)
-  const handleListFormClose = () => setListForm(false)
 
   return (
     <MaterialDrawer
@@ -94,8 +90,7 @@ const Drawer = ({ open, handleClose }) => {
 
       <Divider />
 
-      <ListForm open={listFormOpen} handleClose={handleListFormClose} />
-      <ProjectFiltersList handleListFormOpen={handleListFormOpen} />
+      <ProjectFiltersList handleListFormOpen={() => setListForm(true)} />
 
       <div className={classes.separator}></div>
 

@@ -15,6 +15,7 @@ import "emoji-mart/css/emoji-mart.css"
 import { Picker } from "emoji-mart"
 
 import { useFirebase } from "../../firebase"
+import { List } from "../../models"
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -32,9 +33,11 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />
 })
 
-const ListForm = ({ open, handleClose }) => {
+const ListForm = ({ list = { ...List }, open, handleClose }) => {
   const firebase = useFirebase()
-  const { register, handleSubmit, reset, errors } = useForm()
+  const { register, handleSubmit, reset, errors } = useForm({
+    defaultValues: { ...list },
+  })
   const [anchorEl, setAnchorEl] = useState(null)
   const [chosenEmoji, setChosenEmoji] = useState(null)
   const classes = useStyles()
@@ -64,7 +67,12 @@ const ListForm = ({ open, handleClose }) => {
   const onSubmit = data => {
     // TODO: Add emoji validation
     data.listIcon = chosenEmoji
-    firebase.createList(data)
+
+    if (list.title) {
+      console.log("Edit", data)
+    } else {
+      firebase.createList(data)
+    }
     setChosenEmoji(null)
     handleClose()
   }
@@ -78,7 +86,7 @@ const ListForm = ({ open, handleClose }) => {
       maxWidth="sm"
       fullWidth
     >
-      <DialogTitle id="addList">Add List</DialogTitle>
+      <DialogTitle id="listForm">Add list</DialogTitle>
       <DialogContent>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
           <div className={classes.emojiPicker}>

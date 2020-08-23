@@ -14,7 +14,11 @@ import AddIcon from "@material-ui/icons/Add"
 import MoreVertIcon from "@material-ui/icons/MoreVert"
 
 import { useFirebase } from "../../firebase"
-import { tasksFilters, filterTasksBy, selectedProject } from "../../filters"
+import {
+  tasksFilters,
+  filterTasksBy,
+  selectedProject,
+} from "../../atoms/filters"
 
 const ProjectFiltersList = ({ handleListFormOpen }) => {
   const firebase = useFirebase()

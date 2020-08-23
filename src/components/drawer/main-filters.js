@@ -8,7 +8,11 @@ import TodayIcon from "@material-ui/icons/Today"
 import ViewWeekIcon from "@material-ui/icons/ViewWeek"
 import WbSunnyIcon from "@material-ui/icons/WbSunny"
 
-import { tasksFilters, filterTasksBy, selectedProject } from "../../filters"
+import {
+  tasksFilters,
+  filterTasksBy,
+  selectedProject,
+} from "../../atoms/filters"
 
 const MainFiltersList = () => {
   const [filter, setFilter] = useRecoilState(filterTasksBy)

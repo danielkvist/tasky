@@ -21,5 +21,4 @@ const selectedProject = atom({
   default: null,
 })
 
-export default filterTasksBy
 export { tasksFilters, filterTasksBy, selectedProject }

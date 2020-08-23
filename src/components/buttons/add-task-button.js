@@ -1,9 +1,10 @@
-import React, { useState } from "react"
+import React from "react"
+import { useRecoilState } from "recoil"
 import { makeStyles } from "@material-ui/core/styles"
 import { Fab } from "@material-ui/core"
 import AddIcon from "@material-ui/icons/Add"
 
-import { TaskForm } from "../forms"
+import { openAddTaskForm } from "../../atoms/forms"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -17,17 +18,17 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const AddTaskButton = () => {
-  const [open, setOpen] = useState(false)
+  const [taskForm, setTaskForm] = useRecoilState(openAddTaskForm)
   const classes = useStyles()
-
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
 
   return (
     <>
-      <TaskForm open={open} handleClose={handleClose} />
       <div className={classes.root}>
-        <Fab color="primary" aria-label="Add task" onClick={handleOpen}>
+        <Fab
+          color="primary"
+          aria-label="Add task"
+          onClick={() => setTaskForm(true)}
+        >
           <AddIcon />
         </Fab>
       </div>
