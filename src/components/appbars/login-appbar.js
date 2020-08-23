@@ -13,7 +13,7 @@ import VisibilityIcon from "@material-ui/icons/Visibility"
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff"
 import NotificationsNone from "@material-ui/icons/NotificationsNone"
 
-import ListsDrawer from "../lists-drawer"
+import Drawer from "../drawer"
 
 const drawerWidth = 240
 
@@ -53,14 +53,6 @@ const LoginAppbar = () => {
   //TODO: Fix
   const [showDone, setShowDone] = useState(false)
 
-  const handleDrawerOpen = () => {
-    setOpen(true)
-  }
-
-  const handleDrawerClose = () => {
-    setOpen(false)
-  }
-
   return (
     <>
       <nav className={classes.root}>
@@ -75,7 +67,7 @@ const LoginAppbar = () => {
             <IconButton
               color="inherit"
               aria-label="open drawer"
-              onClick={handleDrawerOpen}
+              onClick={() => setOpen(true)}
               edge="start"
               className={clsx(classes.menuButton, open && classes.hide)}
             >
@@ -103,7 +95,7 @@ const LoginAppbar = () => {
       </nav>
 
       <div className={classes.offset}></div>
-      <ListsDrawer open={open} handleDrawerClose={() => handleDrawerClose()} />
+      <Drawer open={open} handleClose={() => setOpen(false)} />
     </>
   )
 }
