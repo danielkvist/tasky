@@ -12,7 +12,7 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle"
 import StarIcon from "@material-ui/icons/Star"
 import StartBorder from "@material-ui/icons/StarBorder"
 
-const TaskItem = ({ task, handleUpdate, handleDelete }) => {
+const TaskItem = ({ task, handleClick, handleUpdate, handleDelete }) => {
   return (
     <ListItem key={task.id} button>
       <ListItemIcon>
@@ -39,7 +39,10 @@ const TaskItem = ({ task, handleUpdate, handleDelete }) => {
         )}
       </ListItemIcon>
 
-      <ListItemText primary={task.title} />
+      <ListItemText
+        primary={task.title}
+        onClick={() => handleClick({ ...task })}
+      />
 
       <ListItemSecondaryAction>
         {task.important ? (

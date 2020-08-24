@@ -7,6 +7,7 @@ import { useCollection } from "react-firebase-hooks/firestore"
 
 import { useFirebase } from "../firebase"
 import { tasksFilters, filterTasksBy, selectedProject } from "../atoms/filters"
+import { taskToEdit } from "../atoms/forms"
 import Task from "../models/tasks"
 import TaskItem from "./task-item"
 
@@ -18,8 +19,9 @@ const useStyles = makeStyles({
 
 const TaskList = () => {
   const firebase = useFirebase()
-  const [filter, setFilter] = useRecoilState(filterTasksBy)
-  const [project, setProject] = useRecoilState(selectedProject)
+  const [filter] = useRecoilState(filterTasksBy)
+  const [project] = useRecoilState(selectedProject)
+  const [editTask, setEditTask] = useRecoilState(taskToEdit)
   const [tasks, setTasks] = useState([])
   const [values, loading, error] = useCollection(
     firebase.db.collection(`users/${firebase.auth.currentUser.uid}/tasks`),
@@ -152,6 +154,7 @@ const TaskList = () => {
               <TaskItem
                 key={item.id}
                 task={item}
+                handleClick={task => setEditTask(task)}
                 handleUpdate={task => firebase.updateTask(task)}
                 handleDelete={taskId => firebase.deleteTask(taskId)}
               />

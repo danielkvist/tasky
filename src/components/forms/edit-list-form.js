@@ -15,7 +15,6 @@ import "emoji-mart/css/emoji-mart.css"
 import { Picker } from "emoji-mart"
 
 import { useFirebase } from "../../firebase"
-import { List } from "../../models"
 
 const useStyles = makeStyles(theme => ({
   form: {

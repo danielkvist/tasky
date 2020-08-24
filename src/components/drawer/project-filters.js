@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { useRecoilState } from "recoil"
 import { useCollection } from "react-firebase-hooks/firestore"
 import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core"
@@ -15,9 +15,9 @@ import ProjectFiltersItem from "./project-item"
 
 const ProjectFiltersList = ({ handleListFormOpen }) => {
   const firebase = useFirebase()
-  const [filter, setFilter] = useRecoilState(filterTasksBy)
-  const [project, setProject] = useRecoilState(selectedProject)
-  const [editList, setEditList] = useRecoilState(listToEdit)
+  const [, setFilter] = useRecoilState(filterTasksBy)
+  const [, setProject] = useRecoilState(selectedProject)
+  const [, setEditList] = useRecoilState(listToEdit)
   const [values, loading, error] = useCollection(
     firebase.db.collection(`users/${firebase.auth.currentUser.uid}/lists`),
     {

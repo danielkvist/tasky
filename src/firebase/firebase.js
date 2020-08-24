@@ -94,6 +94,16 @@ class Firebase {
         .collection("lists")
         .doc(listId)
         .delete()
+
+      const tasksInList = await this.db
+        .collection("users")
+        .doc(this.currentUser)
+        .collection("tasks")
+        .where("project", "==", listId)
+
+      tasksInList.get().then(snapshot => {
+        snapshot.forEach(doc => doc.ref.delete())
+      })
     } catch (e) {
       console.log(e)
     }

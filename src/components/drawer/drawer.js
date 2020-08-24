@@ -58,14 +58,13 @@ const useStyles = makeStyles(theme => ({
 
 const Drawer = ({ open, handleClose }) => {
   const firebase = useFirebase()
-  const [listForm, setListForm] = useRecoilState(openAddListForm)
+  const [, setListForm] = useRecoilState(openAddListForm)
 
   const classes = useStyles()
   const theme = useTheme()
 
   return (
     <MaterialDrawer
-      variant="permanent"
       className={classes.drawer}
       variant="persistent"
       anchor="left"

@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const AddTaskButton = () => {
-  const [taskForm, setTaskForm] = useRecoilState(openAddTaskForm)
+  const [, setTaskForm] = useRecoilState(openAddTaskForm)
   const classes = useStyles()
 
   return (

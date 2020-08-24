@@ -12,6 +12,7 @@ import {
   Slide,
   MenuItem,
 } from "@material-ui/core"
+import { KeyboardDatePicker } from "@material-ui/pickers"
 
 import { useFirebase } from "../../firebase"
 import { Task } from "../../models"
@@ -34,13 +35,12 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />
 })
 
-const TaskForm = ({ open, handleClose }) => {
+const AddTaskForm = ({ open, handleClose }) => {
   const firebase = useFirebase()
   const [values, loading, error] = useCollectionOnce(
     firebase.db.collection(`users/${firebase.auth.currentUser.uid}/lists`),
     {}
   )
-
   const { register, handleSubmit, reset, control, errors } = useForm({
     defaultValues: {
       ...Task,
@@ -131,16 +131,21 @@ const TaskForm = ({ open, handleClose }) => {
               name="project"
             />
 
-            <TextField
+            <KeyboardDatePicker
               id="dueDate"
+              disableToolbar
               label="Due date"
               name="dueDate"
+              format="yyyy-MM-D"
+              variant="inline"
               fullWidth
-              type="date"
               InputLabelProps={{
                 shrink: true,
               }}
               inputRef={register}
+              KeyboardButtonProps={{
+                "aria-label": "change date",
+              }}
             />
 
             <TextField
@@ -172,4 +177,4 @@ const TaskForm = ({ open, handleClose }) => {
   )
 }
 
-export default TaskForm
+export default AddTaskForm
