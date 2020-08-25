@@ -1,4 +1,5 @@
 import React, { useEffect, forwardRef } from "react"
+import moment from "moment"
 import { useCollectionOnce } from "react-firebase-hooks/firestore"
 import { useForm, Controller } from "react-hook-form"
 import { makeStyles } from "@material-ui/core/styles"
@@ -41,7 +42,7 @@ const AddTaskForm = ({ open, handleClose }) => {
     firebase.db.collection(`users/${firebase.auth.currentUser.uid}/lists`),
     {}
   )
-  const { register, handleSubmit, reset, control, errors } = useForm({
+  const { register, handleSubmit, reset, setValue, control, errors } = useForm({
     defaultValues: {
       ...Task,
     },
@@ -58,6 +59,7 @@ const AddTaskForm = ({ open, handleClose }) => {
   }
 
   const onSubmit = data => {
+    data.dueDate = moment(data.dueDate, "MM-DD-YYYY").toDate()
     firebase.createTask({ ...data })
     handleClose()
   }
@@ -131,21 +133,29 @@ const AddTaskForm = ({ open, handleClose }) => {
               name="project"
             />
 
-            <KeyboardDatePicker
-              id="dueDate"
-              disableToolbar
-              label="Due date"
+            <Controller
+              as={
+                <KeyboardDatePicker
+                  id="dueDate"
+                  disableToolbar
+                  label="Due date"
+                  name="dueDate"
+                  format="MM/DD/YYYY"
+                  variant="inline"
+                  fullWidth
+                  onChange={date => setValue(date())}
+                  innerRef={register}
+                  inputRef={register}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+              }
+              control={control}
               name="dueDate"
-              format="yyyy-MM-D"
-              variant="inline"
-              fullWidth
-              InputLabelProps={{
-                shrink: true,
-              }}
-              inputRef={register}
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
             />
 
             <TextField
