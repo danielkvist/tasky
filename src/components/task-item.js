@@ -1,4 +1,5 @@
 import React from "react"
+import moment from "moment"
 import {
   IconButton,
   ListItem,
@@ -13,6 +14,11 @@ import StarIcon from "@material-ui/icons/Star"
 import StartBorder from "@material-ui/icons/StarBorder"
 
 const TaskItem = ({ task, handleClick, handleUpdate, handleDelete }) => {
+  const dueDate = moment(task.dueDate.toDate()).format("MM/DD/YYYY")
+  const taskSubtitle = `${task.dueDate ? `Due ${dueDate}` : ""} ${
+    task.dueDate && task.remindAt ? " at " : ""
+  } ${task.remindAt ? `${task.remindAt}` : ""}`
+
   return (
     <ListItem key={task.id} button>
       <ListItemIcon>
@@ -41,6 +47,7 @@ const TaskItem = ({ task, handleClick, handleUpdate, handleDelete }) => {
 
       <ListItemText
         primary={task.title}
+        secondary={taskSubtitle}
         onClick={() => handleClick({ ...task })}
       />
 
