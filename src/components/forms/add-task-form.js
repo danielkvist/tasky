@@ -59,7 +59,16 @@ const AddTaskForm = ({ open, handleClose }) => {
   }
 
   const onSubmit = data => {
-    data.dueDate = moment(data.dueDate, "MM-DD-YYYY").toDate()
+    if (data.dueDate !== null) {
+      data.dueDate = moment(data.dueDate, "MM-DD-YYYY").toDate()
+    } else {
+      data.dueDate = 0
+    }
+
+    if (data.remindAt && !data.dueDate) {
+      data.dueDate = moment().toDate()
+    }
+
     firebase.createTask({ ...data })
     handleClose()
   }

@@ -54,7 +54,16 @@ const EditTaskForm = ({ task, open, handleClose }) => {
   }
 
   const onSubmit = data => {
-    data.dueDate = moment(data.dueDate, "MM-DD-YYYY").toDate()
+    if (data.dueDate !== null) {
+      data.dueDate = moment(data.dueDate, "MM-DD-YYYY").toDate()
+    } else {
+      data.dueDate = 0
+    }
+
+    if (data.remindAt && !data.dueDate) {
+      data.dueDate = moment().toDate()
+    }
+
     firebase.updateTask({ id: task.id, ...task, ...data })
     handleClose()
   }
@@ -132,12 +141,12 @@ const EditTaskForm = ({ task, open, handleClose }) => {
             />
 
             <Controller
-              defaultValue={task.dueDate && task.dueDate.toDate()}
+              defaultValue={(task.dueDate && task.dueDate.toDate()) || null}
               as={
                 <KeyboardDatePicker
                   id="dueDate"
                   disableToolbar
-                  value={task.dueDate && task.dueDate.toDate()}
+                  value={(task.dueDate && task.dueDate.toDate()) || null}
                   label="Due date"
                   name="dueDate"
                   format="MM/DD/YYYY"

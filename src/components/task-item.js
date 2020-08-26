@@ -14,7 +14,10 @@ import StarIcon from "@material-ui/icons/Star"
 import StartBorder from "@material-ui/icons/StarBorder"
 
 const TaskItem = ({ task, handleClick, handleUpdate, handleDelete }) => {
-  const dueDate = moment(task.dueDate.toDate()).format("MM/DD/YYYY")
+  let dueDate = 0
+  if (task.dueDate) {
+    dueDate = moment(task.dueDate.toDate()).format("MM/DD/YYYY")
+  }
   const taskSubtitle = `${task.dueDate ? `Due ${dueDate}` : ""} ${
     task.dueDate && task.remindAt ? " at " : ""
   } ${task.remindAt ? `${task.remindAt}` : ""}`

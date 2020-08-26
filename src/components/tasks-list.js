@@ -49,7 +49,10 @@ const TaskList = () => {
       setTasks(
         values.docs.map(doc => {
           const docData = doc.data()
-          if (docData.dueDate && moment(docData.dueDate).isSame(today, "day")) {
+          if (
+            docData.dueDate &&
+            moment(docData.dueDate.toDate()).isSame(today, "day")
+          ) {
             return { ...Task, id: doc.id, ...doc.data() }
           }
         })
@@ -62,7 +65,7 @@ const TaskList = () => {
           const docData = doc.data()
           if (
             docData.dueDate &&
-            moment(docData.dueDate).isSame(tomorrow, "day")
+            moment(docData.dueDate.toDate()).isSame(tomorrow, "day")
           ) {
             return { ...Task, id: doc.id, ...doc.data() }
           }
@@ -74,7 +77,10 @@ const TaskList = () => {
       setTasks(
         values.docs.map(doc => {
           const docData = doc.data()
-          if (docData.dueDate && moment(docData.dueDate).isSame(week, "week")) {
+          if (
+            docData.dueDate &&
+            moment(docData.dueDate.toDate()).isSame(week, "week")
+          ) {
             return { ...Task, id: doc.id, ...doc.data() }
           }
         })

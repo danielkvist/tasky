@@ -1,7 +1,13 @@
 import React from "react"
 import { useRecoilState } from "recoil"
 import { useCollection } from "react-firebase-hooks/firestore"
-import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core"
+import {
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  CircularProgress,
+} from "@material-ui/core"
 import AddIcon from "@material-ui/icons/Add"
 
 import { useFirebase } from "../../firebase"
@@ -33,6 +39,14 @@ const ProjectFiltersList = ({ handleListFormOpen }) => {
         </ListItemIcon>
         <ListItemText primary="Add list" />
       </ListItem>
+      {
+        // TODO: Refactor
+      }
+      {loading ? (
+        <div style={{ display: "grid", placeItems: "center" }}>
+          <CircularProgress size={24} />
+        </div>
+      ) : null}
       {values
         ? values.docs.map(doc => {
             const data = doc.data()
