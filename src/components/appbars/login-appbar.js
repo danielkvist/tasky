@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useRecoilState } from "recoil"
 import clsx from "clsx"
 import {
   AppBar,
@@ -14,6 +15,7 @@ import VisibilityOffIcon from "@material-ui/icons/VisibilityOff"
 import NotificationsNone from "@material-ui/icons/NotificationsNone"
 
 import Drawer from "../drawer"
+import { showDoneTasks } from "../../atoms/filters"
 
 const drawerWidth = 240
 
@@ -50,8 +52,7 @@ const useStyles = makeStyles(theme => ({
 const LoginAppbar = () => {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
-  //TODO: Fix
-  const [showDone, setShowDone] = useState(false)
+  const [showDone, setShowDone] = useRecoilState(showDoneTasks)
 
   return (
     <>

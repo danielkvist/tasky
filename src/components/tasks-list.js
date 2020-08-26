@@ -6,7 +6,12 @@ import { Typography, CircularProgress, List } from "@material-ui/core"
 import { useCollection } from "react-firebase-hooks/firestore"
 
 import { useFirebase } from "../firebase"
-import { tasksFilters, filterTasksBy, selectedProject } from "../atoms/filters"
+import {
+  tasksFilters,
+  filterTasksBy,
+  selectedProject,
+  showDoneTasks,
+} from "../atoms/filters"
 import { taskToEdit } from "../atoms/forms"
 import Task from "../models/tasks"
 import TaskItem from "./task-item"
@@ -22,9 +27,12 @@ const TaskList = () => {
   const [filter] = useRecoilState(filterTasksBy)
   const [project] = useRecoilState(selectedProject)
   const [editTask, setEditTask] = useRecoilState(taskToEdit)
+  const [showDone, setShowDone] = useRecoilState(showDoneTasks)
   const [tasks, setTasks] = useState([])
   const [values, loading, error] = useCollection(
-    firebase.db.collection(`users/${firebase.auth.currentUser.uid}/tasks`),
+    firebase.db
+      .collection(`users/${firebase.auth.currentUser.uid}/tasks`)
+      .where("done", "==", showDone),
     {
       snapshotListenOptions: { includeMetadataChanges: true },
     }
@@ -102,6 +110,12 @@ const TaskList = () => {
       )
     }
   }, [loading, values, filter, project])
+
+  useEffect(() => {
+    if (showDone) {
+      setTasks(tasks.filter(task => task.done))
+    }
+  }, [showDone])
 
   const classes = useStyles()
 

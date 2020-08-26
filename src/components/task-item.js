@@ -23,7 +23,7 @@ const TaskItem = ({ task, handleClick, handleUpdate, handleDelete }) => {
   } ${task.remindAt ? `${task.remindAt}` : ""}`
 
   return (
-    <ListItem key={task.id} button>
+    <ListItem key={task.id} button disabled={task.done}>
       <ListItemIcon>
         {task.done ? (
           <IconButton

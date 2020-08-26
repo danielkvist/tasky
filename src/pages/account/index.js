@@ -49,7 +49,6 @@ const AccountPage = () => {
           handleClose={() => setEditTask({})}
         />
       </MuiPickersUtilsProvider>
-
       <AddListForm open={listForm} handleClose={() => setListForm(false)} />
       <EditListForm
         open={Object.keys(editList).length > 0}
