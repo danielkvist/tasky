@@ -2,7 +2,7 @@ import React from "react"
 import moment from "moment"
 import {
   IconButton,
-  ListItem,
+  ListItem as MaterialListItem,
   ListItemIcon,
   ListItemText,
   ListItemSecondaryAction,
@@ -13,7 +13,7 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle"
 import StarIcon from "@material-ui/icons/Star"
 import StartBorder from "@material-ui/icons/StarBorder"
 
-const TaskItem = ({ task, handleClick, handleUpdate, handleDelete }) => {
+const ListItem = ({ task, handleClick, handleUpdate, handleDelete }) => {
   let dueDate = 0
   if (task.dueDate) {
     dueDate = moment(task.dueDate.toDate()).format("MM/DD/YYYY")
@@ -23,7 +23,7 @@ const TaskItem = ({ task, handleClick, handleUpdate, handleDelete }) => {
   } ${task.remindAt ? `${task.remindAt}` : ""}`
 
   return (
-    <ListItem key={task.id} button disabled={task.done}>
+    <MaterialListItem key={task.id} button disabled={task.done}>
       <ListItemIcon>
         {task.done ? (
           <IconButton
@@ -87,8 +87,8 @@ const TaskItem = ({ task, handleClick, handleUpdate, handleDelete }) => {
           <DeleteIcon />
         </IconButton>
       </ListItemSecondaryAction>
-    </ListItem>
+    </MaterialListItem>
   )
 }
 
-export default TaskItem
+export default ListItem
