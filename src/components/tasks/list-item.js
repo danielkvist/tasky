@@ -23,7 +23,7 @@ const ListItem = ({ task, handleClick, handleUpdate, handleDelete }) => {
   } ${task.remindAt ? `${task.remindAt}` : ""}`
 
   return (
-    <MaterialListItem key={task.id} button disabled={task.done}>
+    <MaterialListItem key={task.id} button>
       <ListItemIcon>
         {task.done ? (
           <IconButton
@@ -52,6 +52,7 @@ const ListItem = ({ task, handleClick, handleUpdate, handleDelete }) => {
         primary={task.title}
         secondary={taskSubtitle}
         onClick={() => handleClick({ ...task })}
+        style={{ textDecoration: `${task.done && "line-through"}` }}
       />
 
       <ListItemSecondaryAction>

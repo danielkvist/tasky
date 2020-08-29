@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   },
 })
 
-const List = () => {
+const DoneList = () => {
   const firebase = useFirebase()
   const [filter] = useRecoilState(filterTasksBy)
   const [project] = useRecoilState(selectedProject)
@@ -29,7 +29,7 @@ const List = () => {
   const [values, loading, error] = useCollection(
     firebase.db
       .collection(`users/${firebase.auth.currentUser.uid}/tasks`)
-      .where("done", "==", false),
+      .where("done", "==", true),
     {
       snapshotListenOptions: { includeMetadataChanges: true },
     }
@@ -109,4 +109,4 @@ const List = () => {
   )
 }
 
-export default List
+export default DoneList
