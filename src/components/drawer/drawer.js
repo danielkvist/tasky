@@ -2,6 +2,7 @@ import React from "react"
 import { useRecoilState } from "recoil"
 import { navigate } from "gatsby"
 import {
+  Avatar,
   Divider,
   Drawer as MaterialDrawer,
   IconButton,
@@ -81,6 +82,21 @@ const Drawer = ({ open, handleClose }) => {
             <ChevronLeftIcon />
           )}
         </IconButton>
+      </div>
+
+      <Divider />
+
+      <div style={{ display: "grid", placeItems: "center", padding: "5rem" }}>
+        <Avatar
+          alt={firebase.currentUser}
+          variant="square"
+          src="/images/avatars/fenix/01.png"
+          style={{
+            width: "5rem",
+            height: "5rem",
+            borderRadius: "16px",
+          }}
+        />
       </div>
 
       <Divider />
