@@ -10,14 +10,14 @@ const openAddListForm = atom({
   default: false,
 })
 
-const taskToEdit = atom({
-  key: "taskToEdit",
+const openEditTaskForm = atom({
+  key: "openEditTaskForm",
   default: {},
 })
 
-const listToEdit = atom({
-  key: "listToEdit",
+const openEditListForm = atom({
+  key: "openEditListForm",
   default: {},
 })
 
-export { openAddTaskForm, openAddListForm, taskToEdit, listToEdit }
+export { openAddTaskForm, openAddListForm, openEditTaskForm, openEditListForm }

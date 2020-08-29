@@ -24,8 +24,6 @@ class Firebase {
   }
 
   logout = async () => {
-    // TODO: Clean up
-    // TODO: Unsuscribe
     this.auth.signOut().catch(e => console.error(e))
   }
 
