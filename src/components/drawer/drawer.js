@@ -2,7 +2,6 @@ import React from "react"
 import { useRecoilState } from "recoil"
 import { navigate } from "gatsby"
 import {
-  Avatar,
   Divider,
   Drawer as MaterialDrawer,
   IconButton,
@@ -20,6 +19,7 @@ import SettingsIcon from "@material-ui/icons/Settings"
 
 import { useFirebase } from "../../firebase"
 import { openAddListForm } from "../../atoms/forms"
+import Avatar from "./avatar"
 import MainFiltersList from "./main-filters"
 import ProjectFiltersList from "./project-filters"
 
@@ -86,17 +86,8 @@ const Drawer = ({ open, handleClose }) => {
 
       <Divider />
 
-      <div style={{ display: "grid", placeItems: "center", padding: "5rem" }}>
-        <Avatar
-          alt={firebase.currentUser}
-          variant="square"
-          src="/images/avatars/fenix/01.png"
-          style={{
-            width: "5rem",
-            height: "5rem",
-            borderRadius: "16px",
-          }}
-        />
+      <div>
+        <Avatar username={firebase.currentUser} />
       </div>
 
       <Divider />
