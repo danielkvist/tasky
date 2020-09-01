@@ -36,7 +36,7 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />
 })
 
-const AddTaskForm = ({ open, handleClose }) => {
+const AddTaskForm = ({ open, handleClose, mobile = false }) => {
   const firebase = useFirebase()
   const [values, loading, error] = useCollectionOnce(
     firebase.db.collection(`users/${firebase.auth.currentUser.uid}/lists`),
@@ -76,6 +76,7 @@ const AddTaskForm = ({ open, handleClose }) => {
   return (
     <Dialog
       open={open}
+      fullScreen={mobile}
       onClose={onClose}
       aria-labelledby="Add task"
       TransitionComponent={Transition}

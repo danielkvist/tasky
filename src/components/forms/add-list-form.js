@@ -33,7 +33,7 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />
 })
 
-const AddListForm = ({ open, handleClose }) => {
+const AddListForm = ({ open, handleClose, mobile = false }) => {
   const firebase = useFirebase()
   const [anchorEl, setAnchorEl] = useState(null)
   const [chosenEmoji, setChosenEmoji] = useState(null)
@@ -77,6 +77,7 @@ const AddListForm = ({ open, handleClose }) => {
     <Dialog
       open={open}
       onClose={onClose}
+      fullScreen={mobile}
       aria-labelledby="Add list"
       TransitionComponent={Transition}
       maxWidth="sm"

@@ -32,7 +32,7 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />
 })
 
-const EditListForm = ({ list, open, handleClose }) => {
+const EditListForm = ({ list, open, handleClose, mobile = false }) => {
   const firebase = useFirebase()
   const [anchorEl, setAnchorEl] = useState(null)
   const [chosenEmoji, setChosenEmoji] = useState(null)
@@ -76,6 +76,7 @@ const EditListForm = ({ list, open, handleClose }) => {
       onClose={onClose}
       aria-labelledby="Edit list"
       TransitionComponent={Transition}
+      fullScreen={mobile}
       maxWidth="sm"
       fullWidth
     >

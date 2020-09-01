@@ -35,7 +35,7 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />
 })
 
-const EditTaskForm = ({ task, open, handleClose }) => {
+const EditTaskForm = ({ task, open, handleClose, mobile = false }) => {
   const firebase = useFirebase()
   const [values, loading, error] = useCollectionOnce(
     firebase.db.collection(`users/${firebase.auth.currentUser.uid}/lists`),
@@ -74,6 +74,7 @@ const EditTaskForm = ({ task, open, handleClose }) => {
       onClose={onClose}
       aria-labelledby="Edit task"
       TransitionComponent={Transition}
+      fullScreen={mobile}
       maxWidth="sm"
       fullWidth
     >
