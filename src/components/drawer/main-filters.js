@@ -28,7 +28,13 @@ const MainFiltersList = () => {
         }}
       >
         <ListItemIcon>
-          <InboxIcon color={project === "Inbox" ? "primary" : "inherit"} />
+          <InboxIcon
+            color={
+              filter === tasksFilters.project && project === "Inbox"
+                ? "primary"
+                : "inherit"
+            }
+          />
         </ListItemIcon>
         <ListItemText primary="Inbox" />
       </ListItem>
