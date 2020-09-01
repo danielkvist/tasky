@@ -87,7 +87,7 @@ const Drawer = ({ open, handleClose }) => {
       <Divider />
 
       <div>
-        <Avatar username={firebase.currentUser} />
+        <Avatar alt={firebase.currentUser} filename="fenix/03.png" />
       </div>
 
       <Divider />
