@@ -31,13 +31,7 @@ const Avatar = props => {
           return null
         }
 
-        return (
-          <Img
-            alt={props.alt}
-            fluid={image.node.childImageSharp.fluid}
-            critical={true}
-          />
-        )
+        return <Img alt={props.alt} fluid={image.node.childImageSharp.fluid} />
       }}
     />
   )
