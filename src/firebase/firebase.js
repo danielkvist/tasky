@@ -3,7 +3,7 @@ import firebase from "firebase/app"
 import "firebase/auth"
 import "firebase/firestore"
 
-import { Task, List } from "../models"
+import { Task, List, Config } from "../models"
 import isBrowser from "./is-browser"
 
 class Firebase {
@@ -64,6 +64,26 @@ class Firebase {
       await document.set({
         ...List,
         ...list,
+        id: documentUuid,
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  createConfig = async config => {
+    const document = this.db
+      .collection("users")
+      .doc(this.currentUser)
+      .collection("configs")
+      .doc()
+
+    const documentUuid = document.id
+
+    try {
+      await document.set({
+        ...Config,
+        ...config,
         id: documentUuid,
       })
     } catch (e) {
