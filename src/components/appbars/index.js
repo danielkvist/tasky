@@ -1,4 +1,3 @@
-import LoginAppbar from "./login-appbar"
-import LogoutAppbar from "./logout-appbar"
+import AppBar from "./appbar"
 
-export { LoginAppbar, LogoutAppbar }
+export default AppBar

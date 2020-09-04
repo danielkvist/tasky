@@ -1,4 +1,3 @@
-import LogoutLayout from "./logout-layout"
-import LoginLayout from "./login-layout"
+import Layout from "./layout"
 
-export { LogoutLayout, LoginLayout }
+export default Layout

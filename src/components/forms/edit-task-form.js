@@ -21,12 +21,12 @@ const useStyles = makeStyles(theme => ({
   form: {
     display: "flex",
     flexDirection: "column",
+    marginBottom: theme.spacing(5),
   },
   due: {
     display: "flex",
     gap: "1rem",
     justifyContent: "center",
-    marginBottom: theme.spacing(5),
     marginTop: theme.spacing(3),
   },
 }))
@@ -182,6 +182,42 @@ const EditTaskForm = ({ task, open, handleClose, mobile = false }) => {
                 step: 300,
               }}
               inputRef={register}
+            />
+          </div>
+
+          <div className={classes.due}>
+            <Controller
+              defaultValue={task.repeat || null}
+              as={
+                <TextField
+                  fullWidth
+                  id="repeat"
+                  label="Repeat"
+                  name="Repeat"
+                  type="text"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  select
+                  inputRef={register}
+                >
+                  {[
+                    "Never repeat",
+                    "Repeat every day",
+                    "Repeat every week",
+                    "Repeat every month",
+                    "Repeat every year",
+                  ].map(item => {
+                    return (
+                      <MenuItem key={item} value={item}>
+                        {item}
+                      </MenuItem>
+                    )
+                  })}
+                </TextField>
+              }
+              control={control}
+              name="repeat"
             />
           </div>
         </form>

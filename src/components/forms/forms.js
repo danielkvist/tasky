@@ -5,10 +5,10 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers"
 import MomentUtils from "@date-io/moment"
 
 import {
-  openAddTaskForm,
-  openAddListForm,
-  openEditTaskForm,
-  openEditListForm,
+  isAddListFormOpen,
+  isAddTaskFormOpen,
+  isEditListFormOpen,
+  isEditTaskFormOpen,
 } from "../../atoms/forms"
 import {
   AddTaskForm,
@@ -18,10 +18,10 @@ import {
 } from "../../components/forms"
 
 const Forms = () => {
-  const [taskForm, setTaskForm] = useRecoilState(openAddTaskForm)
-  const [listForm, setListForm] = useRecoilState(openAddListForm)
-  const [editTask, setEditTask] = useRecoilState(openEditTaskForm)
-  const [editList, setEditList] = useRecoilState(openEditListForm)
+  const [addTask, setAddTask] = useRecoilState(isAddTaskFormOpen)
+  const [addList, setAddList] = useRecoilState(isAddListFormOpen)
+  const [editTask, setEditTask] = useRecoilState(isEditTaskFormOpen)
+  const [editList, setEditList] = useRecoilState(isEditListFormOpen)
 
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.up("md"))
@@ -30,8 +30,8 @@ const Forms = () => {
     <>
       <MuiPickersUtilsProvider utils={MomentUtils}>
         <AddTaskForm
-          open={taskForm}
-          handleClose={() => setTaskForm(false)}
+          open={addTask}
+          handleClose={() => setAddTask(false)}
           mobile={!matches}
         />
         <EditTaskForm
@@ -42,8 +42,8 @@ const Forms = () => {
         />
       </MuiPickersUtilsProvider>
       <AddListForm
-        open={listForm}
-        handleClose={() => setListForm(false)}
+        open={addList}
+        handleClose={() => setAddList(false)}
         mobile={!matches}
       />
       <EditListForm

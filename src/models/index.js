@@ -1,5 +1,5 @@
 import Task from "./tasks"
 import List from "./lists"
-import User from "./users"
+import Config from "./configs"
 
-export { Task, List, User }
+export { Task, List, Config }

@@ -16,14 +16,14 @@ import {
   filterTasksBy,
   selectedProject,
 } from "../../atoms/filters"
-import { openEditListForm } from "../../atoms/forms"
+import { isEditListFormOpen } from "../../atoms/forms"
 import ProjectFiltersItem from "./project-item"
 
 const ProjectFiltersList = ({ handleListFormOpen }) => {
   const firebase = useFirebase()
   const [, setFilter] = useRecoilState(filterTasksBy)
   const [, setProject] = useRecoilState(selectedProject)
-  const [, setEditList] = useRecoilState(openEditListForm)
+  const [, setEditList] = useRecoilState(isEditListFormOpen)
   const [values, loading, error] = useCollection(
     firebase.db.collection(`users/${firebase.auth.currentUser.uid}/lists`),
     {

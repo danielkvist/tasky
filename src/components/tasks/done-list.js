@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import clsx from "clsx"
 import { useRecoilState } from "recoil"
 import { makeStyles } from "@material-ui/core/styles"
 import {
@@ -10,21 +11,31 @@ import { useCollection } from "react-firebase-hooks/firestore"
 
 import { useFirebase } from "../../firebase"
 import { filterTasksBy, selectedProject } from "../../atoms/filters"
-import { openEditTaskForm } from "../../atoms/forms"
+import { isEditTaskFormOpen } from "../../atoms/forms"
+import { isDrawerOpen } from "../../atoms/ui"
 import filterByProject from "./filter"
 import ListItem from "./list-item"
 
-const useStyles = makeStyles({
-  container: {
+const useStyles = makeStyles(theme => ({
+  content: {
     padding: 15,
   },
-})
+  contentShift: {
+    width: `calc(100% - ${theme.props.drawerWidth}px)`,
+    marginLeft: theme.props.drawerWidth,
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+}))
 
 const DoneList = () => {
   const firebase = useFirebase()
   const [filter] = useRecoilState(filterTasksBy)
   const [project] = useRecoilState(selectedProject)
-  const [, setEditTask] = useRecoilState(openEditTaskForm)
+  const [, setEditTask] = useRecoilState(isEditTaskFormOpen)
+  const [open] = useRecoilState(isDrawerOpen)
   const [tasks, setTasks] = useState([])
   const [values, loading, error] = useCollection(
     firebase.db
@@ -75,7 +86,11 @@ const DoneList = () => {
   }
 
   return (
-    <div className={classes.container}>
+    <div
+      className={clsx(classes.content, {
+        [classes.contentShift]: open,
+      })}
+    >
       {tasks.length <= -1 ? (
         <div
           style={{

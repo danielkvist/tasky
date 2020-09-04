@@ -2,7 +2,11 @@ import React from "react"
 import { graphql, StaticQuery } from "gatsby"
 import Img from "gatsby-image"
 
-const Avatar = props => {
+import { useFirebase } from "../../firebase"
+
+const Avatar = ({ filename, alt }) => {
+  const firebase = useFirebase()
+
   return (
     <StaticQuery
       query={graphql`
@@ -24,14 +28,14 @@ const Avatar = props => {
       `}
       render={data => {
         const image = data.images.edges.find(n => {
-          return n.node.relativePath.includes(props.filename)
+          return n.node.relativePath.includes(filename)
         })
 
         if (!image) {
           return null
         }
 
-        return <Img alt={props.alt} fluid={image.node.childImageSharp.fluid} />
+        return <Img alt={alt} fluid={image.node.childImageSharp.fluid} />
       }}
     />
   )

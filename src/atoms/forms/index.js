@@ -1,23 +1,28 @@
 import { atom } from "recoil"
 
-const openAddTaskForm = atom({
-  key: "openAddTaskForm",
+const isAddTaskFormOpen = atom({
+  key: "isAddTaskFormOpen",
   default: false,
 })
 
-const openAddListForm = atom({
-  key: "openAddListForm",
+const isAddListFormOpen = atom({
+  key: "isAddListFormOpen",
   default: false,
 })
 
-const openEditTaskForm = atom({
-  key: "openEditTaskForm",
+const isEditTaskFormOpen = atom({
+  key: "isEditTaskFormOpen",
   default: {},
 })
 
-const openEditListForm = atom({
-  key: "openEditListForm",
+const isEditListFormOpen = atom({
+  key: "isEditListFormOpen",
   default: {},
 })
 
-export { openAddTaskForm, openAddListForm, openEditTaskForm, openEditListForm }
+export {
+  isAddListFormOpen,
+  isAddTaskFormOpen,
+  isEditListFormOpen,
+  isEditTaskFormOpen,
+}

@@ -1,8 +1,8 @@
-import React, { useState } from "react"
+import React from "react"
 import { useRecoilState } from "recoil"
 import clsx from "clsx"
 import {
-  AppBar,
+  AppBar as MaterialAppBar,
   CssBaseline,
   IconButton,
   makeStyles,
@@ -15,9 +15,8 @@ import VisibilityOffIcon from "@material-ui/icons/VisibilityOff"
 import NotificationsNone from "@material-ui/icons/NotificationsNone"
 
 import Drawer from "../drawer"
+import { isDrawerOpen } from "../../atoms/ui"
 import { showDoneTasks } from "../../atoms/filters"
-
-const drawerWidth = 240
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,8 +29,8 @@ const useStyles = makeStyles(theme => ({
     }),
   },
   appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
+    width: `calc(100% - ${theme.props.drawerWidth}px)`,
+    marginLeft: theme.props.drawerWidth,
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
@@ -49,16 +48,16 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const LoginAppbar = () => {
+const AppBar = ({ disable = false }) => {
   const classes = useStyles()
-  const [open, setOpen] = useState(false)
+  const [open, setDrawer] = useRecoilState(isDrawerOpen)
   const [showDone, setShowDone] = useRecoilState(showDoneTasks)
 
   return (
     <>
       <nav className={classes.root}>
         <CssBaseline />
-        <AppBar
+        <MaterialAppBar
           position="fixed"
           className={clsx(classes.appBar, {
             [classes.appBarShift]: open,
@@ -66,9 +65,10 @@ const LoginAppbar = () => {
         >
           <Toolbar>
             <IconButton
+              disabled={disable}
               color="inherit"
               aria-label="open drawer"
-              onClick={() => setOpen(true)}
+              onClick={() => setDrawer(true)}
               edge="start"
               className={clsx(classes.menuButton, open && classes.hide)}
             >
@@ -80,6 +80,7 @@ const LoginAppbar = () => {
 
             <div className={classes.buttonGroup}>
               <IconButton
+                disabled={disable}
                 aria-label="Display done"
                 edge="end"
                 color="inherit"
@@ -87,18 +88,23 @@ const LoginAppbar = () => {
               >
                 {showDone ? <VisibilityIcon /> : <VisibilityOffIcon />}
               </IconButton>
-              <IconButton aria-label="Notifications" edge="end" color="inherit">
+              <IconButton
+                disabled={disable}
+                aria-label="Notifications"
+                edge="end"
+                color="inherit"
+              >
                 <NotificationsNone />
               </IconButton>
             </div>
           </Toolbar>
-        </AppBar>
+        </MaterialAppBar>
       </nav>
 
       <div className={classes.offset}></div>
-      <Drawer open={open} handleClose={() => setOpen(false)} />
+      <Drawer open={open} handleClose={() => setDrawer(false)} />
     </>
   )
 }
 
-export default LoginAppbar
+export default AppBar

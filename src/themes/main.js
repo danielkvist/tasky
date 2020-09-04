@@ -7,6 +7,9 @@ const theme = createMuiTheme({
     primary: blue,
   },
   secondary: green,
+  props: {
+    drawerWidth: 240,
+  },
 })
 
 export default theme

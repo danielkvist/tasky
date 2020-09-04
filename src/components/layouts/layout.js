@@ -1,19 +1,19 @@
 import React from "react"
 
 import SEO from "../seo"
-import { LoginAppbar } from "../appbars"
+import AppBar from "../appbars"
 
-const LoginLayout = ({ title, children }) => {
+const Layout = ({ title, disable = false, children }) => {
   return (
     <>
       <SEO title={title} />
 
       <header>
-        <LoginAppbar />
+        <AppBar disable={disable} />
       </header>
       <main>{children}</main>
     </>
   )
 }
 
-export default LoginLayout
+export default Layout

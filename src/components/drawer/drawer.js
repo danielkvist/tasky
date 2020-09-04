@@ -1,6 +1,5 @@
 import React from "react"
 import { useRecoilState } from "recoil"
-import { navigate } from "gatsby"
 import {
   Divider,
   Drawer as MaterialDrawer,
@@ -18,20 +17,20 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight"
 import SettingsIcon from "@material-ui/icons/Settings"
 
 import { useFirebase } from "../../firebase"
-import { openAddListForm } from "../../atoms/forms"
+import { isAddListFormOpen } from "../../atoms/forms"
+import { isDrawerOpen } from "../../atoms/ui"
+import { userAvatarClass } from "../../atoms/user"
 import Avatar from "./avatar"
 import MainFiltersList from "./main-filters"
 import ProjectFiltersList from "./project-filters"
 
-const drawerWidth = 240
-
 const useStyles = makeStyles(theme => ({
   drawer: {
-    width: drawerWidth,
+    width: theme.props.drawerWidth,
     flexShrink: 0,
   },
   drawerPaper: {
-    width: drawerWidth,
+    width: theme.props.drawerWidth,
   },
   drawerHeader: {
     display: "flex",
@@ -57,12 +56,16 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const Drawer = ({ open, handleClose }) => {
+const Drawer = () => {
   const firebase = useFirebase()
-  const [, setListForm] = useRecoilState(openAddListForm)
+  const [, setAddList] = useRecoilState(isAddListFormOpen)
+  const [open, setDrawer] = useRecoilState(isDrawerOpen)
+  const [avatar] = useRecoilState(userAvatarClass)
 
   const classes = useStyles()
   const theme = useTheme()
+
+  const handleDrawerClose = () => setDrawer(false)
 
   return (
     <MaterialDrawer
@@ -75,7 +78,7 @@ const Drawer = ({ open, handleClose }) => {
       }}
     >
       <div className={classes.toolbar}>
-        <IconButton onClick={handleClose}>
+        <IconButton onClick={handleDrawerClose}>
           {theme.direction === "rtl" ? (
             <ChevronRightIcon />
           ) : (
@@ -87,7 +90,10 @@ const Drawer = ({ open, handleClose }) => {
       <Divider />
 
       <div>
-        <Avatar alt={firebase.currentUser} filename="fenix/03.png" />
+        <Avatar
+          alt={firebase.currentUser}
+          filename={`${avatar || "fenix"}/01.png`}
+        />
       </div>
 
       <Divider />
@@ -96,14 +102,14 @@ const Drawer = ({ open, handleClose }) => {
 
       <Divider />
 
-      <ProjectFiltersList handleListFormOpen={() => setListForm(true)} />
+      <ProjectFiltersList handleListFormOpen={() => setAddList(true)} />
 
       <div className={classes.separator}></div>
 
       <Divider />
 
       <List>
-        <ListItem button onClick={() => navigate("/account/settings/")}>
+        <ListItem button onClick={() => {}}>
           <ListItemIcon>
             <SettingsIcon />
           </ListItemIcon>
