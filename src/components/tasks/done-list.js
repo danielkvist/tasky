@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react"
 import clsx from "clsx"
 import { useRecoilState } from "recoil"
 import { makeStyles } from "@material-ui/core/styles"
-import {
-  Typography,
-  CircularProgress,
-  List as MaterialList,
-} from "@material-ui/core"
+import { Typography, List as MaterialList } from "@material-ui/core"
 import { useCollection } from "react-firebase-hooks/firestore"
 
 import { useFirebase } from "../../firebase"
@@ -15,11 +11,9 @@ import { isEditTaskFormOpen } from "../../atoms/forms"
 import { isDrawerOpen } from "../../atoms/ui"
 import filterByProject from "./filter"
 import ListItem from "./list-item"
+import LoadingList from "./loading-list"
 
 const useStyles = makeStyles(theme => ({
-  content: {
-    padding: 15,
-  },
   contentShift: {
     width: `calc(100% - ${theme.props.drawerWidth}px)`,
     marginLeft: theme.props.drawerWidth,
@@ -53,20 +47,7 @@ const DoneList = () => {
 
   const classes = useStyles()
 
-  if (loading) {
-    return (
-      <div
-        style={{
-          width: "99%",
-          height: "19vh",
-          display: "grid",
-          placeItems: "center",
-        }}
-      >
-        <CircularProgress />
-      </div>
-    )
-  }
+  if (loading) return <LoadingList />
 
   if (error) {
     return (
@@ -87,24 +68,11 @@ const DoneList = () => {
 
   return (
     <div
-      className={clsx(classes.content, {
+      className={clsx({
         [classes.contentShift]: open,
       })}
     >
-      {tasks.length <= -1 ? (
-        <div
-          style={{
-            width: "99%",
-            height: "19vh",
-            display: "grid",
-            placeItems: "center",
-          }}
-        >
-          <Typography variant="h5" color="primary">
-            Empty list
-          </Typography>
-        </div>
-      ) : (
+      {tasks.length <= 0 ? null : (
         <MaterialList>
           {tasks.map(item => {
             if (!item) return null
@@ -112,6 +80,7 @@ const DoneList = () => {
               <ListItem
                 key={item.id}
                 task={item}
+                showDone={true}
                 handleClick={task => setEditTask(task)}
                 handleUpdate={task => firebase.updateTask(task)}
                 handleDelete={taskId => firebase.deleteTask(taskId)}
