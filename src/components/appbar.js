@@ -13,10 +13,12 @@ import MenuIcon from "@material-ui/icons/Menu"
 import VisibilityIcon from "@material-ui/icons/Visibility"
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff"
 import NotificationsNone from "@material-ui/icons/NotificationsNone"
+import Brightness4Icon from "@material-ui/icons/Brightness4"
+import Brightness7Icon from "@material-ui/icons/Brightness7"
 
-import Drawer from "../drawer"
-import { isDrawerOpen } from "../../atoms/ui"
-import { showDoneTasks } from "../../atoms/filters"
+import Drawer from "./drawer"
+import { isDrawerOpen, materialThemeType } from "../atoms/ui"
+import { showDoneTasks } from "../atoms/filters"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,19 +41,30 @@ const useStyles = makeStyles(theme => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
+  title: {
+    marginRight: "auto",
+  },
   hide: {
     display: "none",
   },
-  offset: theme.mixins.toolbar,
   buttonGroup: {
-    marginLeft: "auto",
+    "& > *": {
+      marginLeft: theme.spacing(2),
+    },
   },
+  offset: theme.mixins.toolbar,
 }))
 
 const AppBar = ({ disable = false }) => {
   const classes = useStyles()
+  const [themeType, setThemeType] = useRecoilState(materialThemeType)
   const [open, setDrawer] = useRecoilState(isDrawerOpen)
   const [showDone, setShowDone] = useRecoilState(showDoneTasks)
+
+  const changeThemeType = () => {
+    if (themeType === "light") setThemeType("dark")
+    else setThemeType("light")
+  }
 
   return (
     <>
@@ -74,11 +87,25 @@ const AppBar = ({ disable = false }) => {
             >
               <MenuIcon />
             </IconButton>
+
             <Typography variant="h6" className={classes.title}>
               Tasky
             </Typography>
 
             <div className={classes.buttonGroup}>
+              <IconButton
+                edge="end"
+                color="inherit"
+                aria-label="Switch theme"
+                onClick={changeThemeType}
+              >
+                {themeType === "light" ? (
+                  <Brightness4Icon />
+                ) : (
+                  <Brightness7Icon />
+                )}
+              </IconButton>
+
               <IconButton
                 disabled={disable}
                 aria-label="Display done"
@@ -88,6 +115,7 @@ const AppBar = ({ disable = false }) => {
               >
                 {showDone ? <VisibilityIcon /> : <VisibilityOffIcon />}
               </IconButton>
+
               <IconButton
                 disabled={disable}
                 aria-label="Notifications"

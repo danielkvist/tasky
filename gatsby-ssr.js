@@ -1,11 +1,23 @@
 import React from "react"
-import { RecoilRoot } from "recoil"
+import { RecoilRoot, useRecoilState } from "recoil"
 import { ThemeProvider } from "@material-ui/core/styles"
 import { useAuthState } from "react-firebase-hooks/auth"
-import "normalize.css"
+import { CssBaseline } from "@material-ui/core"
 
 import Firebase, { FirebaseCtx, useFirebase } from "./src/firebase"
-import theme from "./src/themes/main"
+import { lightTheme, darkTheme } from "./src/themes"
+import { materialThemeType } from "./src/atoms/ui"
+
+const ThemeWrapper = ({ children }) => {
+  const [themeType] = useRecoilState(materialThemeType)
+
+  return (
+    <ThemeProvider theme={themeType === "light" ? lightTheme : darkTheme}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
+  )
+}
 
 const SessionCheck = ({ children }) => {
   const firebase = useFirebase()
@@ -32,9 +44,9 @@ export const wrapRootElement = ({ element }) => {
   return (
     <FirebaseCtx.Provider value={new Firebase(config)}>
       <RecoilRoot>
-        <ThemeProvider theme={theme}>
+        <ThemeWrapper>
           <SessionCheck>{element}</SessionCheck>
-        </ThemeProvider>
+        </ThemeWrapper>
       </RecoilRoot>
     </FirebaseCtx.Provider>
   )
