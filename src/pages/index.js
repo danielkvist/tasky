@@ -15,7 +15,7 @@ const IndexPage = () => {
   const [user] = useAuthState(firebase.auth)
 
   if (user) {
-    navigate("/account", { replace: true })
+    navigate("/account/", { replace: true })
   }
 
   return (

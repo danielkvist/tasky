@@ -1,6 +1,6 @@
 import React, { useEffect, forwardRef } from "react"
 import moment from "moment"
-import { useCollectionOnce } from "react-firebase-hooks/firestore"
+import { useCollection } from "react-firebase-hooks/firestore"
 import { useForm, Controller } from "react-hook-form"
 import { makeStyles } from "@material-ui/core/styles"
 import {
@@ -39,7 +39,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 const AddTaskForm = ({ open, handleClose, mobile = false }) => {
   const firebase = useFirebase()
-  const [values, loading, error] = useCollectionOnce(
+  const [values, loading, error] = useCollection(
     firebase.db.collection(`users/${firebase.auth.currentUser.uid}/lists`),
     {}
   )

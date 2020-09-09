@@ -1,8 +1,13 @@
 import { atom } from "recoil"
 
-const userAvatarClass = atom({
-  key: "userAvatarClass",
+const userNameState = atom({
+  key: "userNameState",
   default: "",
 })
 
-export { userAvatarClass }
+const userAvatarClassState = atom({
+  key: "userAvatarClassState",
+  default: "",
+})
+
+export { userNameState, userAvatarClassState }

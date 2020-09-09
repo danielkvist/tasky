@@ -19,7 +19,7 @@ import SettingsIcon from "@material-ui/icons/Settings"
 import { useFirebase } from "../../firebase"
 import { isAddListFormOpen } from "../../atoms/forms"
 import { isDrawerOpen } from "../../atoms/ui"
-import { userAvatarClass } from "../../atoms/user"
+import { userAvatarClassState } from "../../atoms/user"
 import Avatar from "./avatar"
 import MainFiltersList from "./main-filters"
 import ProjectFiltersList from "./project-filters"
@@ -60,7 +60,7 @@ const Drawer = () => {
   const firebase = useFirebase()
   const [, setAddList] = useRecoilState(isAddListFormOpen)
   const [open, setDrawer] = useRecoilState(isDrawerOpen)
-  const [avatar] = useRecoilState(userAvatarClass)
+  const [avatar] = useRecoilState(userAvatarClassState)
 
   const classes = useStyles()
   const theme = useTheme()
