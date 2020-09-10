@@ -7,7 +7,7 @@ import { useAuthState } from "react-firebase-hooks/auth"
 
 import { useFirebase } from "../firebase"
 import { userAvatarClassState } from "../atoms/user"
-import Layout from "../components/layouts"
+import Layout from "../components/layout"
 import SetupWelcome from "../components/setup-welcome"
 import SetupAvatar from "../components/setup-avatar"
 

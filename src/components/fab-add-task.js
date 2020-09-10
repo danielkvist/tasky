@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import { Fab } from "@material-ui/core"
 import AddIcon from "@material-ui/icons/Add"
 
-import { isAddTaskFormOpen } from "../../atoms/forms"
+import { isAddTaskFormOpen } from "../atoms/forms"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const AddTaskButton = () => {
+const FabAddTask = () => {
   const [, setAddTask] = useRecoilState(isAddTaskFormOpen)
   const classes = useStyles()
 
@@ -36,4 +36,4 @@ const AddTaskButton = () => {
   )
 }
 
-export default AddTaskButton
+export default FabAddTask

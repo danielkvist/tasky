@@ -6,7 +6,6 @@ import Typography from "@material-ui/core/Typography"
 import Container from "@material-ui/core/Container"
 import Button from "@material-ui/core/Button"
 
-import { LogoutLayout } from "../components/layouts"
 import { useFirebase } from "../firebase"
 
 const IndexPage = () => {
@@ -19,7 +18,7 @@ const IndexPage = () => {
   }
 
   return (
-    <LogoutLayout title="Home">
+    <>
       <CssBaseline />
       <Container
         style={{
@@ -40,7 +39,7 @@ const IndexPage = () => {
           Log In with Google
         </Button>
       </Container>
-    </LogoutLayout>
+    </>
   )
 }
 
