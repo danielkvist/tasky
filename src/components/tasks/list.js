@@ -81,6 +81,7 @@ const List = () => {
                 key={item.id}
                 task={item}
                 showDone={false}
+                handleRepeat={task => firebase.createTask(task)}
                 handleClick={task => setEditTask(task)}
                 handleUpdate={task => firebase.updateTask(task)}
                 handleDelete={taskId => firebase.deleteTask(taskId)}

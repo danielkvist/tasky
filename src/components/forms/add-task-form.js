@@ -62,6 +62,12 @@ const AddTaskForm = ({ open, handleClose, mobile = false }) => {
   const onSubmit = data => {
     if (data.dueDate !== null) {
       data.dueDate = moment(data.dueDate, "MM-DD-YYYY").toDate()
+    } else if (
+      data.dueDate === null &&
+      data.repeat &&
+      data.repeat !== "Never repeat"
+    ) {
+      data.dueDate = moment().toDate()
     } else {
       data.dueDate = 0
     }
@@ -192,8 +198,9 @@ const AddTaskForm = ({ open, handleClose, mobile = false }) => {
                   fullWidth
                   id="repeat"
                   label="Repeat"
-                  name="Repeat"
+                  name="repeat"
                   type="text"
+                  value="Never repeat"
                   InputLabelProps={{
                     shrink: true,
                   }}

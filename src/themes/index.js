@@ -17,8 +17,8 @@ const lightTheme = createMuiTheme({
 const darkTheme = createMuiTheme({
   palette: {
     type: "dark",
-    primary: orange,
-    secondary: blue,
+    primary: blue,
+    secondary: green,
   },
   props: {
     drawerWidth,

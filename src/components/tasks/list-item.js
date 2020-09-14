@@ -14,10 +14,23 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle"
 import StarIcon from "@material-ui/icons/Star"
 import StartBorder from "@material-ui/icons/StarBorder"
 
+const repeatedTaskDate = (oldDate, repeatEach) => {
+  if (repeatEach === "Repeat every day") {
+    return moment(oldDate.toDate()).add(1, "d").toDate()
+  } else if (repeatEach === "Repeat every week") {
+    return moment(oldDate.toDate()).add(1, "w").toDate()
+  } else if (repeatEach === "Repeat every month") {
+    return moment(oldDate.toDate()).add(1, "M").toDate()
+  } else if (repeatEach === "Repeat every year") {
+    return moment(oldDate.toDate()).add(1, "y").toDate()
+  }
+}
+
 const ListItem = ({
   task,
   showDone,
   handleClick,
+  handleRepeat,
   handleUpdate,
   handleDelete,
 }) => {
@@ -31,7 +44,9 @@ const ListItem = ({
 
   const taskSubtitle = `${task.dueDate ? `Due ${dueDate}` : ""} ${
     task.dueDate && task.remindAt ? " at " : ""
-  } ${task.remindAt ? `${task.remindAt}` : ""}`
+  } ${task.remindAt ? `${task.remindAt}` : ""} ${
+    task.repeat && task.repeat !== "Never repeat" ? ` - ${task.repeat}` : ""
+  }`
 
   return (
     <Slide
@@ -63,6 +78,14 @@ const ListItem = ({
                 setDone(true)
                 setTimeout(() => {
                   handleUpdate({ ...task, done: true })
+
+                  if (task.repeat && task.repear !== "Never repeat") {
+                    handleRepeat({
+                      ...task,
+                      done: false,
+                      dueDate: repeatedTaskDate(task.dueDate, task.repeat),
+                    })
+                  }
                 }, transitionDuration)
               }}
             >

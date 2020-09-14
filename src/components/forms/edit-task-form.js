@@ -56,6 +56,12 @@ const EditTaskForm = ({ task, open, handleClose, mobile = false }) => {
   const onSubmit = data => {
     if (data.dueDate !== null) {
       data.dueDate = moment(data.dueDate, "MM-DD-YYYY").toDate()
+    } else if (
+      data.dueDate === null &&
+      data.repeat &&
+      data.repeat !== "Never repeat"
+    ) {
+      data.dueDate = moment().toDate()
     } else {
       data.dueDate = 0
     }
