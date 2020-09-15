@@ -7,9 +7,12 @@ import { userNameState } from "../atoms/user"
 
 const useStyles = makeStyles(theme => ({
   root: {
+    margin: "auto",
+    marginBottom: theme.spacing(4),
+    width: theme.spacing(52),
+    height: theme.spacing(52),
     display: "grid",
-    placeContent: "center",
-    marginBottom: theme.spacing(16),
+    alignContent: "center",
   },
 }))
 
@@ -18,17 +21,16 @@ const SetupWelcome = () => {
   const classes = useStyles()
 
   return (
-    <div className={classes.root}>
+    <form className={classes.root}>
       <TextField
         id="userName"
         label="Your name"
-        helperText={"Left blank to use your Google's account name!"}
         type="text"
         value={userName}
         onChange={e => setUserName(e.target.value)}
         fullWidth
       />
-    </div>
+    </form>
   )
 }
 

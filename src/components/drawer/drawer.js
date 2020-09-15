@@ -60,7 +60,7 @@ const Drawer = () => {
   const firebase = useFirebase()
   const [, setAddList] = useRecoilState(isAddListFormOpen)
   const [open, setDrawer] = useRecoilState(isDrawerOpen)
-  const [avatar] = useRecoilState(userAvatarClassState)
+  const [userAvatar] = useRecoilState(userAvatarClassState)
 
   const classes = useStyles()
   const theme = useTheme()
@@ -92,7 +92,7 @@ const Drawer = () => {
       <div>
         <Avatar
           alt={firebase.currentUser}
-          filename={`${avatar || "fenix"}/01.png`}
+          filename={`${userAvatar || "fenix"}/01.png`}
         />
       </div>
 

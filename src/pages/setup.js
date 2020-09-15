@@ -6,7 +6,7 @@ import { Stepper, Step, StepLabel, Button, Typography } from "@material-ui/core"
 import { useAuthState } from "react-firebase-hooks/auth"
 
 import { useFirebase } from "../firebase"
-import { userAvatarClassState } from "../atoms/user"
+import { userAvatarClassState, userNameState } from "../atoms/user"
 import Layout from "../components/layout"
 import SetupWelcome from "../components/setup-welcome"
 import SetupAvatar from "../components/setup-avatar"
@@ -45,7 +45,8 @@ const getSteps = () => ["Welcome", "Select avatar"]
 const SetupPage = () => {
   const firebase = useFirebase()
   const [activeStep, setActiveStep] = useState(0)
-  const [userAvatar] = useRecoilState(userAvatarClassState)
+  const [, setUserName] = useRecoilState(userNameState)
+  const [userAvatar, setAvatar] = useRecoilState(userAvatarClassState)
   const steps = getSteps()
   // TODO: Handle error
   const [user] = useAuthState(firebase.auth)
@@ -61,6 +62,8 @@ const SetupPage = () => {
   }
 
   const handleReset = () => {
+    setUserName("")
+    setAvatar("")
     setActiveStep(0)
   }
 
@@ -75,7 +78,9 @@ const SetupPage = () => {
   return (
     <Layout title="Setup" disable>
       <div className={classes.root}>
-        <div>{activeStep === 0 ? <SetupWelcome /> : <SetupAvatar />}</div>
+        {activeStep !== steps.length ? (
+          <div>{activeStep === 0 ? <SetupWelcome /> : <SetupAvatar />}</div>
+        ) : null}
 
         <Stepper activeStep={activeStep} alternativeLabel>
           {steps.map(label => (

@@ -32,6 +32,7 @@ const SetupAvatar = () => {
         return (
           <button
             className={classes.button}
+            key="avatar"
             onClick={() => {
               setUserAvatar(avatar.toLowerCase())
             }}

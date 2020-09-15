@@ -9,16 +9,16 @@ import {
   Toolbar,
   Typography,
 } from "@material-ui/core"
-import MenuIcon from "@material-ui/icons/Menu"
+import MenuIcon from "@material-ui/icons/MenuOutlined"
 import VisibilityIcon from "@material-ui/icons/Visibility"
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff"
 import NotificationsNone from "@material-ui/icons/NotificationsNone"
 import Brightness4Icon from "@material-ui/icons/Brightness4"
 import Brightness7Icon from "@material-ui/icons/Brightness7"
 
-import Drawer from "./drawer"
-import { isDrawerOpen, materialThemeType } from "../atoms/ui"
 import { showDoneTasks } from "../atoms/filters"
+import { isDrawerOpen, materialThemeType } from "../atoms/ui"
+import Drawer from "./drawer"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -56,10 +56,11 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const AppBar = ({ disable = false }) => {
-  const classes = useStyles()
   const [themeType, setThemeType] = useRecoilState(materialThemeType)
   const [open, setDrawer] = useRecoilState(isDrawerOpen)
   const [showDone, setShowDone] = useRecoilState(showDoneTasks)
+
+  const classes = useStyles()
 
   const changeThemeType = () => {
     if (themeType === "light") setThemeType("dark")

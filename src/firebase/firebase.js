@@ -24,6 +24,7 @@ class Firebase {
   }
 
   logout = async () => {
+    this.currentUser = ""
     this.auth.signOut().catch(e => console.error(e))
   }
 

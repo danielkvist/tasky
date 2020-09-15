@@ -2,11 +2,7 @@ import React from "react"
 import { graphql, StaticQuery } from "gatsby"
 import Img from "gatsby-image"
 
-import { useFirebase } from "../../firebase"
-
 const Avatar = ({ filename, alt }) => {
-  const firebase = useFirebase()
-
   return (
     <StaticQuery
       query={graphql`
@@ -35,7 +31,13 @@ const Avatar = ({ filename, alt }) => {
           return null
         }
 
-        return <Img alt={alt} fluid={image.node.childImageSharp.fluid} />
+        return (
+          <Img
+            alt={alt}
+            style={{ width: "100%" }}
+            fluid={image.node.childImageSharp.fluid}
+          />
+        )
       }}
     />
   )

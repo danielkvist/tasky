@@ -1,5 +1,5 @@
 import { createMuiTheme } from "@material-ui/core/styles"
-import { blue, green, orange } from "@material-ui/core/colors"
+import { blue, green } from "@material-ui/core/colors"
 
 const drawerWidth = 240
 
