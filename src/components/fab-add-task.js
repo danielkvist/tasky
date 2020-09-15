@@ -10,6 +10,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     "& > *": {
       margin: theme.spacing(1),
+      background: `linear-gradient(95deg, ${theme.palette.primary[400]} 30%, ${theme.palette.primary[700]} 90%)`,
     },
     bottom: 25,
     position: "absolute",

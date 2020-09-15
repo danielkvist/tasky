@@ -3,7 +3,6 @@ import { useRecoilState } from "recoil"
 import clsx from "clsx"
 import {
   AppBar as MaterialAppBar,
-  CssBaseline,
   IconButton,
   makeStyles,
   Toolbar,
@@ -25,6 +24,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
   },
   appBar: {
+    background: `linear-gradient(45deg, ${theme.palette.primary[400]} 30%, ${theme.palette.primary[700]} 90%)`,
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -70,7 +70,6 @@ const AppBar = ({ disable = false }) => {
   return (
     <>
       <nav className={classes.root}>
-        <CssBaseline />
         <MaterialAppBar
           position="fixed"
           className={clsx(classes.appBar, {
