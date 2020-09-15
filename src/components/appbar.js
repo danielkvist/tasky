@@ -1,22 +1,29 @@
-import React from "react"
+import React, { useState } from "react"
 import { useRecoilState } from "recoil"
 import clsx from "clsx"
 import {
   AppBar as MaterialAppBar,
   IconButton,
   makeStyles,
+  Menu,
+  MenuItem,
   Toolbar,
   Typography,
+  Switch,
+  Grid,
+  Divider,
 } from "@material-ui/core"
-import MenuIcon from "@material-ui/icons/MenuOutlined"
-import VisibilityIcon from "@material-ui/icons/Visibility"
-import VisibilityOffIcon from "@material-ui/icons/VisibilityOff"
-import NotificationsNone from "@material-ui/icons/NotificationsNone"
 import Brightness4Icon from "@material-ui/icons/Brightness4"
 import Brightness7Icon from "@material-ui/icons/Brightness7"
+import MoreIcon from "@material-ui/icons/MoreVert"
+import AccountCircle from "@material-ui/icons/AccountCircle"
+import NotificationsIcon from "@material-ui/icons/Notifications"
+import SettingsIcon from "@material-ui/icons/Settings"
 
-import { showDoneTasks } from "../atoms/filters"
+import { useFirebase } from "../firebase"
 import { isDrawerOpen, materialThemeType } from "../atoms/ui"
+import { userNameState, userAvatarClassState } from "../atoms/user"
+import Avatar from "./avatar"
 import Drawer from "./drawer"
 
 const useStyles = makeStyles(theme => ({
@@ -40,32 +47,114 @@ const useStyles = makeStyles(theme => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
+    padding: 0,
+  },
+  avatar: {
+    width: theme.spacing(5),
+    height: theme.spacing(5),
   },
   title: {
     marginRight: "auto",
   },
+  sectionDesktop: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
+    },
+  },
+  sectionMobile: {
+    display: "flex",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
+  },
   hide: {
     display: "none",
-  },
-  buttonGroup: {
-    "& > *": {
-      marginLeft: theme.spacing(2),
-    },
   },
   offset: theme.mixins.toolbar,
 }))
 
 const AppBar = ({ disable = false }) => {
-  const [themeType, setThemeType] = useRecoilState(materialThemeType)
+  const firebase = useFirebase()
   const [open, setDrawer] = useRecoilState(isDrawerOpen)
-  const [showDone, setShowDone] = useRecoilState(showDoneTasks)
+  const [themeType, setThemeType] = useRecoilState(materialThemeType)
+  const [userName] = useRecoilState(userNameState)
+  const [userAvatar] = useRecoilState(userAvatarClassState)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
 
   const classes = useStyles()
 
-  const changeThemeType = () => {
-    if (themeType === "light") setThemeType("dark")
-    else setThemeType("light")
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
+
+  const handleProfileMenuOpen = event => {
+    setAnchorEl(event.currentTarget)
   }
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null)
+  }
+
+  const handleMobileMenuOpen = event => {
+    setMobileMoreAnchorEl(event.currentTarget)
+  }
+
+  const mobileMenuId = "primary-search-account-menu-mobile"
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem>
+        <Typography component="div">
+          <Grid component="label" container alignItems="center" spacing={1}>
+            <Grid item>Dark mode</Grid>
+            <Grid item>
+              <Switch
+                checked={themeType === "dark"}
+                onChange={() =>
+                  setThemeType(themeType === "dark" ? "light" : "dark")
+                }
+                name="dark-mode"
+              />
+            </Grid>
+          </Grid>
+        </Typography>
+      </MenuItem>
+
+      <Divider />
+
+      <MenuItem>
+        <IconButton aria-label="Show notifications" color="inherit">
+          <NotificationsIcon />
+        </IconButton>
+        <p>Notifications</p>
+      </MenuItem>
+
+      <MenuItem>
+        <IconButton aria-label="Settings" color="inherit">
+          <SettingsIcon />
+        </IconButton>
+        <p>Settings</p>
+      </MenuItem>
+
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton
+          aria-label="Log Out"
+          onClick={() => firebase.logout()}
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>Log Out</p>
+      </MenuItem>
+    </Menu>
+  )
 
   return (
     <>
@@ -80,57 +169,80 @@ const AppBar = ({ disable = false }) => {
             <IconButton
               disabled={disable}
               color="inherit"
-              aria-label="open drawer"
+              aria-label="Open drawer"
               onClick={() => setDrawer(true)}
               edge="start"
               className={clsx(classes.menuButton, open && classes.hide)}
             >
-              <MenuIcon />
+              <div className={classes.avatar}>
+                <Avatar
+                  title={userName}
+                  alt={userName}
+                  filename={`${userAvatar || "fenix"}/01.png`}
+                  rounded={true}
+                />
+              </div>
             </IconButton>
 
             <Typography variant="h6" className={classes.title}>
               Tasky
             </Typography>
 
-            <div className={classes.buttonGroup}>
-              <IconButton
-                edge="end"
-                color="inherit"
-                aria-label="Switch theme"
-                onClick={changeThemeType}
-              >
-                {themeType === "light" ? (
-                  <Brightness4Icon />
-                ) : (
+            <div className={classes.sectionDesktop}>
+              {themeType === "light" ? (
+                <IconButton
+                  aria-label="Enable dark mode"
+                  color="inherit"
+                  onClick={() => setThemeType("dark")}
+                >
                   <Brightness7Icon />
-                )}
+                </IconButton>
+              ) : (
+                <IconButton
+                  aria-label="Disable dark mode"
+                  color="inherit"
+                  onClick={() => setThemeType("light")}
+                >
+                  <Brightness4Icon />
+                </IconButton>
+              )}
+              <IconButton
+                aria-label="Show notifications"
+                color="inherit"
+                disabled={disable}
+              >
+                <NotificationsIcon />
               </IconButton>
 
               <IconButton
-                disabled={disable}
-                aria-label="Display done"
                 edge="end"
+                aria-label="Log Out"
+                onClick={() => firebase.logout()}
                 color="inherit"
-                onClick={() => setShowDone(!showDone)}
+                disabled={disable}
               >
-                {showDone ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                <AccountCircle />
               </IconButton>
-
+            </div>
+            <div className={classes.sectionMobile}>
               <IconButton
-                disabled={disable}
-                aria-label="Notifications"
-                edge="end"
+                aria-label="Show more"
+                aria-controls={mobileMenuId}
+                aria-haspopup="true"
+                onClick={handleMobileMenuOpen}
                 color="inherit"
+                disabled={disable}
               >
-                <NotificationsNone />
+                <MoreIcon />
               </IconButton>
             </div>
           </Toolbar>
         </MaterialAppBar>
       </nav>
 
+      {renderMobileMenu}
       <div className={classes.offset}></div>
-      <Drawer open={open} handleClose={() => setDrawer(false)} />
+      <Drawer />
     </>
   )
 }

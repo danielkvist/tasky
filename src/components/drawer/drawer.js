@@ -4,23 +4,16 @@ import {
   Divider,
   Drawer as MaterialDrawer,
   IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   makeStyles,
   useTheme,
 } from "@material-ui/core"
-import AccountCircleIcon from "@material-ui/icons/AccountCircle"
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft"
 import ChevronRightIcon from "@material-ui/icons/ChevronRight"
-import SettingsIcon from "@material-ui/icons/Settings"
 
-import { useFirebase } from "../../firebase"
 import { isAddListFormOpen } from "../../atoms/forms"
 import { isDrawerOpen } from "../../atoms/ui"
-import { userAvatarClassState } from "../../atoms/user"
-import Avatar from "./avatar"
+import { userNameState, userAvatarClassState } from "../../atoms/user"
+import Avatar from "../avatar"
 import MainFiltersList from "./main-filters"
 import ProjectFiltersList from "./project-filters"
 
@@ -51,15 +44,12 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
-  separator: {
-    marginTop: "auto",
-  },
 }))
 
 const Drawer = () => {
-  const firebase = useFirebase()
   const [, setAddList] = useRecoilState(isAddListFormOpen)
   const [open, setDrawer] = useRecoilState(isDrawerOpen)
+  const [userName] = useRecoilState(userNameState)
   const [userAvatar] = useRecoilState(userAvatarClassState)
 
   const classes = useStyles()
@@ -91,7 +81,8 @@ const Drawer = () => {
 
       <div>
         <Avatar
-          alt={firebase.currentUser}
+          title={userName}
+          alt={userName}
           filename={`${userAvatar || "fenix"}/01.png`}
         />
       </div>
@@ -103,26 +94,6 @@ const Drawer = () => {
       <Divider />
 
       <ProjectFiltersList handleListFormOpen={() => setAddList(true)} />
-
-      <div className={classes.separator}></div>
-
-      <Divider />
-
-      <List>
-        <ListItem button onClick={() => {}}>
-          <ListItemIcon>
-            <SettingsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Settings" />
-        </ListItem>
-
-        <ListItem button onClick={() => firebase.logout()}>
-          <ListItemIcon>
-            <AccountCircleIcon />
-          </ListItemIcon>
-          <ListItemText primary="Log Out" />
-        </ListItem>
-      </List>
     </MaterialDrawer>
   )
 }

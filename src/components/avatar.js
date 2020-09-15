@@ -1,8 +1,11 @@
 import React from "react"
 import { graphql, StaticQuery } from "gatsby"
+import { useTheme } from "@material-ui/core/styles"
 import Img from "gatsby-image"
 
-const Avatar = ({ filename, alt }) => {
+const Avatar = ({ filename, title = "", alt = "", rounded = false }) => {
+  const theme = useTheme()
+
   return (
     <StaticQuery
       query={graphql`
@@ -33,9 +36,14 @@ const Avatar = ({ filename, alt }) => {
 
         return (
           <Img
+            title={title}
             alt={alt}
-            style={{ width: "100%" }}
+            backgroundColor={theme.palette.primary[50]}
+            style={{
+              borderRadius: rounded ? "50%" : "0%",
+            }}
             fluid={image.node.childImageSharp.fluid}
+            fadeIn
           />
         )
       }}

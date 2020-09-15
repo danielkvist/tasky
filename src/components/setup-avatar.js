@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import { Paper } from "@material-ui/core"
 
 import { userAvatarClassState } from "../atoms/user"
-import Avatar from "../components/drawer/avatar"
+import Avatar from "../components/avatar"
 
 const useStyles = makeStyles(theme => ({
   root: {
