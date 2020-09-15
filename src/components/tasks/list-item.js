@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import moment from "moment"
+import { red } from "@material-ui/core/colors"
 import {
   IconButton,
   ListItem as MaterialListItem,
@@ -7,6 +8,7 @@ import {
   ListItemText,
   ListItemSecondaryAction,
   Slide,
+  makeStyles,
 } from "@material-ui/core"
 import DeleteIcon from "@material-ui/icons/Delete"
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked"
@@ -26,6 +28,12 @@ const repeatedTaskDate = (oldDate, repeatEach) => {
   }
 }
 
+const useStyles = makeStyles(theme => ({
+  itemDone: {
+    background: `linear-gradient(90deg, ${red[400]} 0.5%, transparent 0.5%)`,
+  },
+}))
+
 const ListItem = ({
   task,
   showDone,
@@ -35,6 +43,7 @@ const ListItem = ({
   handleDelete,
 }) => {
   const [done, setDone] = useState(task.done)
+  const classes = useStyles()
   const transitionDuration = 500
 
   let dueDate = 0
@@ -55,7 +64,15 @@ const ListItem = ({
       timeout={transitionDuration}
       mountOnEnter
     >
-      <MaterialListItem key={task.id} button>
+      <MaterialListItem
+        key={task.id}
+        className={
+          moment(dueDate).isBefore(moment().format("MM/DD/YYYY"))
+            ? classes.itemDone
+            : null
+        }
+        button
+      >
         <ListItemIcon>
           {task.done ? (
             <IconButton
