@@ -1,14 +1,9 @@
 import React from 'react';
 
-import app from '../firebase';
+import Layout from '../components/layout';
 
 const Home = () => {
-	return (
-		<>
-			<h1>Welcome</h1>
-			<button onClick={() => app.auth().signOut()}>Sign out</button>
-		</>
-	);
+	return <Layout></Layout>;
 };
 
 export default Home;
