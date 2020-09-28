@@ -1,8 +1,10 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
+import { useRecoilState } from 'recoil';
 import { withRouter, Redirect } from 'react-router';
 import { makeStyles, Typography, Button } from '@material-ui/core';
 
-import app, { authGoogleProvider, AuthContext } from '../firebase';
+import app, { authGoogleProvider } from '../firebase';
+import { currentUserState } from '../recoil/atoms';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -25,17 +27,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Login = ({ history }) => {
+	const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
+
 	const handleLogin = useCallback(async () => {
 		try {
-			await app.auth().signInWithPopup(authGoogleProvider);
+			const user = await app.auth().signInWithPopup(authGoogleProvider);
+			setCurrentUser(user);
 			history.push('/');
 		} catch (error) {
 			//TODO: Improve error handling
 			console.error(error);
 		}
-	}, [history]);
+	}, [history, setCurrentUser]);
 
-	const { currentUser } = useContext(AuthContext);
 	const classes = useStyles();
 
 	if (currentUser) {

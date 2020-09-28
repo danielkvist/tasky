@@ -68,8 +68,8 @@ const MobileMenu = ({
 				<p>Settings</p>
 			</MenuItem>
 
-			<MenuItem onClick={handleProfileMenuOpen}>
-				<IconButton aria-label="Log Out" onClick={handleLogOut} color="inherit">
+			<MenuItem onClick={handleLogOut}>
+				<IconButton aria-label="Log Out" color="inherit">
 					<AccountCircle />
 				</IconButton>
 				<p>Log Out</p>

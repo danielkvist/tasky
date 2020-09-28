@@ -1,6 +1,7 @@
 import app, { authGoogleProvider } from './firebase';
-import { AuthProvider, AuthContext } from './auth';
+import AuthProvider from './auth';
+import db, { fetchTasks } from './db';
 import PrivateRoute from './private-route';
 
 export default app;
-export { app, authGoogleProvider, AuthProvider, AuthContext, PrivateRoute };
+export { app, db, authGoogleProvider, fetchTasks, AuthProvider, PrivateRoute };

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useResetRecoilState } from 'recoil';
 import clsx from 'clsx';
 import {
 	AppBar as MaterialAppBar,
@@ -10,6 +11,7 @@ import {
 import MoreIcon from '@material-ui/icons/MoreVert';
 
 import app from '../firebase';
+import { currentUserState } from '../recoil/atoms';
 import DesktopMenu from './desktop-menu';
 import MobileMenu from './mobile-menu';
 
@@ -58,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AppBar = () => {
+	const resetCurrentUser = useResetRecoilState(currentUserState);
 	const [open, setDrawer] = useState(false);
 	const [, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -65,7 +68,10 @@ const AppBar = () => {
 	const classes = useStyles();
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-	const handleLogOut = () => app.auth().signOut();
+	const handleLogOut = () => {
+		resetCurrentUser();
+		app.auth().signOut();
+	};
 
 	const handleProfileMenuOpen = (event) => {
 		setAnchorEl(event.currentTarget);

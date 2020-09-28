@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
-import { AuthContext } from './auth';
+import { currentUserState } from '../recoil/atoms';
 
 const PrivateRoute = ({ component: RouteComponent, ...rest }) => {
-	const { currentUser } = useContext(AuthContext);
+	const currentUser = useRecoilValue(currentUserState);
 
 	return (
 		<Route

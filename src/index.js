@@ -7,11 +7,11 @@ import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 
 render(
-	<AuthProvider>
-		<RecoilRoot>
+	<RecoilRoot>
+		<AuthProvider>
 			<App />
-		</RecoilRoot>
-	</AuthProvider>,
+		</AuthProvider>
+	</RecoilRoot>,
 	document.getElementById('root')
 );
 

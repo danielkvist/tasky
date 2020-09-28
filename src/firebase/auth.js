@@ -1,34 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 
 import app from './firebase';
+import { currentUserState, pendingUserAuthState } from '../recoil/atoms';
 import Loading from '../components/loading';
 
-const AuthContext = React.createContext();
-
 const AuthProvider = ({ children }) => {
-	const [currentUser, setCurrentUser] = useState(null);
-	const [pending, setPending] = useState(true);
+	const [, setCurrentUser] = useRecoilState(currentUserState);
+	const [pending, setPending] = useRecoilState(pendingUserAuthState);
 
 	useEffect(() => {
 		app.auth().onAuthStateChanged((user) => {
-			setCurrentUser(user);
+			setCurrentUser(user && user.uid);
 			setPending(false);
 		});
-	}, []);
+	});
 
 	if (pending) {
 		return <Loading />;
 	}
 
-	return (
-		<AuthContext.Provider
-			value={{
-				currentUser,
-			}}
-		>
-			{children}
-		</AuthContext.Provider>
-	);
+	return <>{children}</>;
 };
 
-export { AuthContext, AuthProvider };
+export default AuthProvider;
