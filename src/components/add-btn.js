@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useRecoilState } from 'recoil';
 import { makeStyles, useTheme, Fab, Zoom } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+
+import { taskFormState } from '../recoil/atoms';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -15,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddTask = () => {
-	const [loaded, setLoad] = useState(false);
+	const [taskForm, setTaskForm] = useRecoilState(taskFormState);
 	const theme = useTheme();
 	const classes = useStyles();
 
@@ -24,17 +26,13 @@ const AddTask = () => {
 		exit: theme.transitions.duration.leavingScreen,
 	};
 
-	useEffect(() => {
-		setLoad(true);
-	}, [setLoad]);
-
 	return (
-		<Zoom in={loaded} timeout={transitionDuration} unmountOnExit>
+		<Zoom in={!taskForm} timeout={transitionDuration} unmountOnExit>
 			<Fab
 				className={classes.root}
 				color="primary"
 				aria-label="Add task"
-				onClick={() => {}}
+				onClick={() => setTaskForm(true)}
 			>
 				<AddIcon />
 			</Fab>

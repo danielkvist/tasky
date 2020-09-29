@@ -15,6 +15,16 @@ const tasksState = atom({
 	default: [],
 });
 
+const taskFormState = atom({
+	key: 'taskFormState',
+	default: null,
+});
+
+const dateFormatState = atom({
+	key: 'dateFormatState',
+	default: 'MM/dd/yyyy',
+});
+
 const fetchTasksErrorState = atom({
 	key: 'fetchTasksErrorState',
 	default: null,
@@ -29,6 +39,8 @@ export {
 	currentUserState,
 	pendingUserAuthState,
 	tasksState,
+	taskFormState,
+	dateFormatState,
 	fetchTasksErrorState,
 	materialThemeTypeState,
 };
