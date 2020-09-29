@@ -64,6 +64,7 @@ const TaskForm = () => {
 	const onSubmit = (data) => {
 		data.dueDate = formatISO(data.dueDate);
 		data.done = false;
+		data.fav = false;
 
 		if (data.remindAt && !data.dueDate) {
 			data.dueDate = formatISO(new Date());

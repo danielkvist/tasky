@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useResetRecoilState } from 'recoil';
+import { useResetRecoilState, useRecoilState } from 'recoil';
 import clsx from 'clsx';
 import {
 	AppBar as MaterialAppBar,
@@ -8,12 +8,14 @@ import {
 	Toolbar,
 	Typography,
 } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
 import app from '../firebase';
-import { currentUserState } from '../recoil/atoms';
+import { currentUserState, drawerOpenState } from '../recoil/atoms';
 import DesktopMenu from './desktop-menu';
 import MobileMenu from './mobile-menu';
+import Drawer from './drawer';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -41,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
 	title: {
 		marginRight: 'auto',
 	},
+	separator: {
+		marginRight: 'auto',
+	},
 	sectionDesktop: {
 		display: 'none',
 		[theme.breakpoints.up('md')]: {
@@ -61,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AppBar = () => {
 	const resetCurrentUser = useResetRecoilState(currentUserState);
-	const [open, setDrawer] = useState(false);
+	const [open, setOpen] = useRecoilState(drawerOpenState);
 	const [, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
@@ -106,20 +111,25 @@ const AppBar = () => {
 						[classes.appBarShift]: open,
 					})}
 				>
+					<Drawer />
 					<Toolbar>
 						<IconButton
 							color="inherit"
 							aria-label="Open drawer"
-							onClick={() => setDrawer(true)}
+							onClick={() => setOpen(true)}
 							edge="start"
 							className={clsx(classes.menuButton, open && classes.hide)}
 						>
-							<div className={classes.avatar}></div>
+							<MenuIcon />
 						</IconButton>
 
-						<Typography variant="h6" className={classes.title}>
+						<Typography
+							variant="h6"
+							className={clsx(classes.title, open && classes.hide)}
+						>
 							Tasky
 						</Typography>
+						{open ? <div className={classes.separator}></div> : null}
 
 						<div className={classes.sectionDesktop}>
 							<DesktopMenu handleLogOut={handleLogOut} />

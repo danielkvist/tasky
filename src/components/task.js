@@ -12,6 +12,8 @@ import {
 	Slide,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+import StarIcon from '@material-ui/icons/Star';
+import StartBorder from '@material-ui/icons/StarBorder';
 
 import { tasksDoneState } from '../recoil/atoms';
 
@@ -57,6 +59,28 @@ const Task = ({ task, onUpdate, onDelete }) => {
 					secondary={dueDate ? format(dueDate, 'PPPP') : ''}
 				/>
 				<ListItemSecondaryAction>
+					{task.fav ? (
+						<IconButton
+							edge="end"
+							aria-label="Mark off as important"
+							onClick={() => {
+								onUpdate({ ...task, fav: false });
+							}}
+						>
+							<StarIcon />
+						</IconButton>
+					) : (
+						<IconButton
+							edge="end"
+							aria-label="Mark as important"
+							onClick={() => {
+								onUpdate({ ...task, fav: true });
+							}}
+						>
+							<StartBorder />
+						</IconButton>
+					)}
+
 					<IconButton
 						edge="end"
 						aria-label="delete"

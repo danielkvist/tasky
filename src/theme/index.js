@@ -1,7 +1,7 @@
 import { createMuiTheme } from '@material-ui/core';
 import { blue, green } from '@material-ui/core/colors';
 
-const drawerWidth = 240;
+const drawerWidth = 270;
 
 const base = {
 	palette: {

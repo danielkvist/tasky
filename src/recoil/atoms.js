@@ -25,6 +25,11 @@ const taskFormState = atom({
 	default: null,
 });
 
+const drawerOpenState = atom({
+	key: 'drawerOpenState',
+	default: false,
+});
+
 const dateFormatState = atom({
 	key: 'dateFormatState',
 	default: 'MM/dd/yyyy',
@@ -46,6 +51,7 @@ export {
 	tasksState,
 	tasksDoneState,
 	taskFormState,
+	drawerOpenState,
 	dateFormatState,
 	fetchTasksErrorState,
 	materialThemeTypeState,
