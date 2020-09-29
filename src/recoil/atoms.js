@@ -15,6 +15,11 @@ const tasksState = atom({
 	default: [],
 });
 
+const tasksDoneState = atom({
+	key: 'tasksDoneState',
+	default: false,
+});
+
 const taskFormState = atom({
 	key: 'taskFormState',
 	default: null,
@@ -39,6 +44,7 @@ export {
 	currentUserState,
 	pendingUserAuthState,
 	tasksState,
+	tasksDoneState,
 	taskFormState,
 	dateFormatState,
 	fetchTasksErrorState,

@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { makeStyles, List } from '@material-ui/core';
+import { makeStyles, List, Button } from '@material-ui/core';
 
 import { fetchTasks, updateTask, deleteTask } from '../firebase';
 import {
 	currentUserState,
 	tasksState,
+	tasksDoneState,
 	fetchTasksErrorState,
 } from '../recoil/atoms';
 import Task from './task';
+import TasksDone from './tasks-done';
 import TasksEmpty from './tasks-empty';
 
 const useStyles = makeStyles((theme) => ({
@@ -18,11 +20,24 @@ const useStyles = makeStyles((theme) => ({
 		overflowX: 'hidden',
 		width: '100%',
 	},
+	done: {
+		marginTop: theme.spacing(1),
+		marginBottom: theme.spacing(1),
+		display: 'grid',
+		placeItems: 'center',
+	},
 }));
+
+const ToggleDoneBtn = ({ text, onClick, disabled }) => (
+	<Button size="small" onClick={onClick} disabled={disabled}>
+		{text}
+	</Button>
+);
 
 const Tasks = () => {
 	const currentUser = useRecoilValue(currentUserState);
 	const [tasks, setTasks] = useRecoilState(tasksState);
+	const [showDone, setDone] = useRecoilState(tasksDoneState);
 	const setTasksError = useSetRecoilState(fetchTasksErrorState);
 
 	const classes = useStyles();
@@ -45,22 +60,48 @@ const Tasks = () => {
 		deleteTask(currentUser, task).catch((e) => console.error(e));
 	};
 
-	if (!tasks.length) {
+	if (!tasks.filter((t) => !t.done).length) {
 		return <TasksEmpty />;
 	}
 
 	return (
 		<div className={classes.root}>
 			<List>
-				{tasks.map((task) => (
-					<Task
-						key={task.id}
-						task={task}
+				{tasks
+					.filter((t) => !t.done)
+					.map((task) => (
+						<Task
+							key={task.id}
+							task={task}
+							onUpdate={updateHandler}
+							onDelete={deleteHandler}
+						/>
+					))}
+			</List>
+			{showDone ? (
+				<>
+					<div className={classes.done}>
+						<ToggleDoneBtn
+							onClick={() => setDone(!showDone)}
+							text="Hide done"
+							disabled={false}
+						/>
+					</div>
+					<TasksDone
+						tasks={tasks.filter((t) => t.done)}
 						onUpdate={updateHandler}
 						onDelete={deleteHandler}
 					/>
-				))}
-			</List>
+				</>
+			) : (
+				<div className={classes.done}>
+					<ToggleDoneBtn
+						onClick={() => setDone(!showDone)}
+						text="Show done"
+						disabled={!tasks.filter((t) => t.done).length}
+					/>
+				</div>
+			)}
 		</div>
 	);
 };
