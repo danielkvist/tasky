@@ -10,6 +10,16 @@ const pendingUserAuthState = atom({
 	default: true,
 });
 
+const userAvatarClassState = atom({
+	key: 'userAvatarClassState',
+	default: 'fenix',
+});
+
+const userExpState = atom({
+	key: 'userExpState',
+	default: 10,
+});
+
 const tasksState = atom({
 	key: 'tasksState',
 	default: [],
@@ -48,6 +58,8 @@ const materialThemeTypeState = atom({
 export {
 	currentUserState,
 	pendingUserAuthState,
+	userAvatarClassState,
+	userExpState,
 	tasksState,
 	tasksDoneState,
 	taskFormState,
