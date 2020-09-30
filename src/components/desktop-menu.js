@@ -37,7 +37,7 @@ const DesktopMenu = ({ handleLogOut }) => {
 					<Brightness4Icon />
 				</IconButton>
 			)}
-			<IconButton aria-label="Show notifications" color="inherit">
+			<IconButton aria-label="Show notifications" color="inherit" disabled>
 				<NotificationsIcon />
 			</IconButton>
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { format } from 'date-fns';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
 	makeStyles,
 	ListItem,
@@ -15,7 +15,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import StarIcon from '@material-ui/icons/Star';
 import StartBorder from '@material-ui/icons/StarBorder';
 
-import { tasksDoneState } from '../recoil/atoms';
+import { taskFormState, tasksDoneState } from '../recoil/atoms';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Task = ({ task, onUpdate, onDelete }) => {
 	const [done] = useState(task.done);
+	const setTaskForm = useSetRecoilState(taskFormState);
 	const showDone = useRecoilValue(tasksDoneState);
 
 	const classes = useStyles();
@@ -40,7 +41,11 @@ const Task = ({ task, onUpdate, onDelete }) => {
 			mountOnEnter
 			unmountOnExit
 		>
-			<ListItem button className={classes.root}>
+			<ListItem
+				button
+				className={classes.root}
+				onClick={() => setTaskForm(task)}
+			>
 				<ListItemIcon>
 					<Checkbox
 						edge="start"

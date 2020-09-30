@@ -1,9 +1,11 @@
 import React, { forwardRef } from 'react';
-import { formatISO } from 'date-fns';
+import { formatISO, format } from 'date-fns';
 import { useRecoilValue, useRecoilState, useResetRecoilState } from 'recoil';
 import { useForm, Controller } from 'react-hook-form';
-import { makeStyles } from '@material-ui/core/styles';
 import {
+	makeStyles,
+	useMediaQuery,
+	useTheme,
 	Button,
 	Dialog,
 	DialogActions,
@@ -19,7 +21,7 @@ import {
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
-import { addTask } from '../firebase';
+import { addTask, updateTask } from '../firebase';
 import {
 	currentUserState,
 	tasksState,
@@ -47,13 +49,23 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 const TaskForm = () => {
 	const [tasks, setTasks] = useRecoilState(tasksState);
+	const taskForm = useRecoilValue(taskFormState);
 	const resetTaskForm = useResetRecoilState(taskFormState);
 	const open = useRecoilValue(taskFormState);
 	const dateFormat = useRecoilValue(dateFormatState);
 	const currentUser = useRecoilValue(currentUserState);
-	const { register, handleSubmit, reset, setValue, control, errors } = useForm({
-		defaultValues: {},
-	});
+	const {
+		register,
+		handleSubmit,
+		reset,
+		setValue,
+		control,
+		errors,
+	} = useForm();
+	const theme = useTheme();
+	const matches = useMediaQuery(theme.breakpoints.down('md'));
+
+	const edit = taskForm && taskForm.id;
 	const classes = useStyles();
 
 	const close = () => {
@@ -62,19 +74,30 @@ const TaskForm = () => {
 	};
 
 	const onSubmit = (data) => {
-		data.dueDate = formatISO(data.dueDate);
-		data.done = false;
-		data.fav = false;
+		if (edit) {
+			data.dueDate = formatISO(data.dueDate);
+			data.id = taskForm.id;
 
-		if (data.remindAt && !data.dueDate) {
-			data.dueDate = formatISO(new Date());
+			if (data.remindAt && !data.dueDate) {
+				data.dueDate = formatISO(new Date());
+			}
+
+			updateTask(currentUser, data).catch((e) => console.log(e));
+			setTasks([...tasks.filter((task) => task.id !== data.id), data]);
+		} else {
+			data.dueDate = formatISO(data.dueDate);
+			data.done = false;
+			data.fav = false;
+
+			if (data.remindAt && !data.dueDate) {
+				data.dueDate = formatISO(new Date());
+			}
+
+			addTask(currentUser, data)
+				.then((id) => (data.id = id))
+				.catch((e) => console.log(e));
+			setTasks([...tasks, data]);
 		}
-
-		addTask(currentUser, data)
-			.then((id) => (data.id = id))
-			.catch((e) => console.log(e));
-
-		setTasks([...tasks, data]);
 
 		close();
 	};
@@ -83,17 +106,21 @@ const TaskForm = () => {
 		<Dialog
 			open={open !== null}
 			onClose={close}
-			aria-labelledby="Add task"
+			aria-labelledby={edit ? 'Edit task' : 'Add task'}
 			TransitionComponent={Transition}
 			maxWidth="sm"
 			fullWidth
+			fullScreen={matches}
 		>
-			<DialogTitle id="addTask">Add task</DialogTitle>
+			<DialogTitle id={edit ? 'edit-task' : 'add-task'}>
+				{edit ? 'Edit Task' : 'Add Task'}
+			</DialogTitle>
 			<DialogContent>
 				<MuiPickersUtilsProvider utils={DateFnsUtils}>
 					<form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
 						<TextField
 							error={!!errors.title}
+							defaultValue={edit ? taskForm.title : ''}
 							fullWidth
 							helperText={errors.title ? 'Task title is required' : ''}
 							id="title"
@@ -110,6 +137,7 @@ const TaskForm = () => {
 							fullWidth
 							id="description"
 							label="Description"
+							defaultValue={edit ? taskForm.description : ''}
 							multiline
 							name="description"
 							inputRef={register}
@@ -134,7 +162,7 @@ const TaskForm = () => {
 										<MenuItem value={'Inbox'}>Inbox</MenuItem>
 									</TextField>
 								}
-								defaultValue="Inbox"
+								defaultValue={edit ? taskForm.project : 'Inbox'}
 								control={control}
 								name="project"
 							/>
@@ -160,7 +188,7 @@ const TaskForm = () => {
 										}}
 									/>
 								}
-								defaultValue={new Date()}
+								defaultValue={edit ? taskForm.dueDate : new Date()}
 								control={control}
 								name="dueDate"
 							/>
@@ -178,6 +206,13 @@ const TaskForm = () => {
 									step: 300,
 								}}
 								inputRef={register}
+								defaultValue={
+									edit
+										? taskForm.remindAt
+											? format(taskForm.remindAt, 'HH:mm')
+											: ''
+										: ''
+								}
 							/>
 						</div>
 
@@ -190,7 +225,6 @@ const TaskForm = () => {
 										label="Repeat"
 										name="repeat"
 										type="text"
-										defaultValue="Never repeat"
 										InputLabelProps={{
 											shrink: true,
 										}}
@@ -198,15 +232,30 @@ const TaskForm = () => {
 										inputRef={register}
 									>
 										{[
-											'Never repeat',
-											'Repeat every day',
-											'Repeat every week',
-											'Repeat every month',
-											'Repeat every year',
+											{
+												value: 'Never repeat',
+												text: 'Never repeat',
+											},
+											{
+												value: 'Every day',
+												text: 'Every day',
+											},
+											{
+												value: 'Every week',
+												text: 'Every week',
+											},
+											{
+												value: 'Every month',
+												text: 'Every month',
+											},
+											{
+												value: 'Never repeat',
+												text: 'Never repeat',
+											},
 										].map((item) => {
 											return (
-												<MenuItem key={item} value={item}>
-													{item}
+												<MenuItem key={item.value} value={item.text}>
+													{item.text}
 												</MenuItem>
 											);
 										})}
@@ -225,7 +274,7 @@ const TaskForm = () => {
 					Cancel
 				</Button>
 				<Button onClick={handleSubmit(onSubmit)} color="primary">
-					Create
+					{edit ? 'Update' : 'Create'}
 				</Button>
 			</DialogActions>
 		</Dialog>
