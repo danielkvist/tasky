@@ -5,16 +5,20 @@ import { useMediaQuery, ThemeProvider, CssBaseline } from '@material-ui/core';
 
 import { PrivateRoute } from '../firebase';
 import { materialThemeTypeState } from '../recoil/atoms';
+import useLocalStorage from '../hooks/use-local-storage';
 import { main, mainDark } from '../theme';
 import Index from '../pages/Index';
 import Login from '../pages/Login';
 
 const ThemeWrapper = ({ children }) => {
 	const [themeType, setThemeType] = useRecoilState(materialThemeTypeState);
+	const [lsTheme] = useLocalStorage('theme', themeType);
 	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
 	useEffect(() => {
-		if (prefersDarkMode) setThemeType('dark');
+		if (prefersDarkMode || lsTheme === 'dark') {
+			setThemeType('dark');
+		}
 	});
 
 	return (

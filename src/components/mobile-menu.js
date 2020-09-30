@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import {
 	IconButton,
@@ -14,16 +14,17 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import SettingsIcon from '@material-ui/icons/Settings';
 
 import { materialThemeTypeState } from '../recoil/atoms';
+import useLocalStorage from '../hooks/use-local-storage';
 
 const MobileMenu = ({
 	mobileMoreAnchorEl,
 	mobileMenuId,
 	isOpen,
 	handleMobileMenuClose,
-	handleProfileMenuOpen,
 	handleLogOut,
 }) => {
 	const [themeType, setThemeType] = useRecoilState(materialThemeTypeState);
+	const [, setLcTheme] = useLocalStorage('theme', themeType);
 
 	return (
 		<Menu
@@ -42,9 +43,10 @@ const MobileMenu = ({
 						<Grid item>
 							<Switch
 								checked={themeType === 'dark'}
-								onChange={() =>
-									setThemeType(themeType === 'dark' ? 'light' : 'dark')
-								}
+								onChange={() => {
+									setThemeType(themeType === 'dark' ? 'light' : 'dark');
+									setLcTheme(themeType === 'dark' ? 'light' : 'dark');
+								}}
 								name="dark-mode"
 							/>
 						</Grid>

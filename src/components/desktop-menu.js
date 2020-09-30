@@ -7,9 +7,16 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
 import { materialThemeTypeState } from '../recoil/atoms';
+import useLocalStorage from '../hooks/use-local-storage';
 
 const DesktopMenu = ({ handleLogOut }) => {
 	const [themeType, setThemeType] = useRecoilState(materialThemeTypeState);
+	const [, setLcTheme] = useLocalStorage('theme', themeType);
+
+	const themeToggle = (type) => {
+		setThemeType(type);
+		setLcTheme(type);
+	};
 
 	return (
 		<div>
@@ -17,7 +24,7 @@ const DesktopMenu = ({ handleLogOut }) => {
 				<IconButton
 					aria-label="Enable dark mode"
 					color="inherit"
-					onClick={() => setThemeType('dark')}
+					onClick={() => themeToggle('dark')}
 				>
 					<Brightness7Icon />
 				</IconButton>
@@ -25,7 +32,7 @@ const DesktopMenu = ({ handleLogOut }) => {
 				<IconButton
 					aria-label="Disable dark mode"
 					color="inherit"
-					onClick={() => setThemeType('light')}
+					onClick={() => themeToggle('light')}
 				>
 					<Brightness4Icon />
 				</IconButton>
