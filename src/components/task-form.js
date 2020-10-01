@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react';
-import { formatISO, format } from 'date-fns';
 import { useRecoilValue, useRecoilState, useResetRecoilState } from 'recoil';
+import { formatISO, format } from 'date-fns';
+import { Trans, useTranslation } from 'react-i18next';
 import { useForm, Controller } from 'react-hook-form';
 import {
 	makeStyles,
@@ -10,7 +11,7 @@ import {
 	Dialog,
 	DialogActions,
 	DialogContent,
-	DialogTitle,
+	DialogTitle as MaterialDialogTitle,
 	TextField,
 	Slide,
 	MenuItem,
@@ -47,12 +48,25 @@ const Transition = forwardRef(function Transition(props, ref) {
 	return <Slide direction="down" ref={ref} {...props} />;
 });
 
+const DialogTitle = ({ edit }) => {
+	const { t } = useTranslation();
+
+	return (
+		<MaterialDialogTitle id="task-dialog">
+			{edit
+				? t('form.task.editTitle') || 'Edit Task'
+				: t('form.task.addTitle') || 'Add Task'}
+		</MaterialDialogTitle>
+	);
+};
+
 const TaskForm = () => {
 	const [tasks, setTasks] = useRecoilState(tasksState);
 	const taskForm = useRecoilValue(taskFormState);
 	const resetTaskForm = useResetRecoilState(taskFormState);
 	const open = useRecoilValue(taskFormState);
 	const dateFormat = useRecoilValue(dateFormatState);
+	const { t } = useTranslation();
 	const currentUser = useRecoilValue(currentUserState);
 	const {
 		register,
@@ -106,15 +120,17 @@ const TaskForm = () => {
 		<Dialog
 			open={open !== null}
 			onClose={close}
-			aria-labelledby={edit ? 'Edit task' : 'Add task'}
+			aria-labelledby={
+				edit
+					? t('form.task.editTitle') || 'Edit Task'
+					: t('form.task.addTitle') || 'Add Task'
+			}
 			TransitionComponent={Transition}
 			maxWidth="sm"
 			fullWidth
 			fullScreen={matches}
 		>
-			<DialogTitle id={edit ? 'edit-task' : 'add-task'}>
-				{edit ? 'Edit Task' : 'Add Task'}
-			</DialogTitle>
+			<DialogTitle edit={edit} />
 			<DialogContent>
 				<MuiPickersUtilsProvider utils={DateFnsUtils}>
 					<form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
@@ -122,21 +138,26 @@ const TaskForm = () => {
 							error={!!errors.title}
 							defaultValue={edit ? taskForm.title : ''}
 							fullWidth
-							helperText={errors.title ? 'Task title is required' : ''}
+							helperText={
+								errors.title
+									? t('form.task.titleRequired') || 'Task title is required'
+									: ''
+							}
 							id="title"
 							inputRef={register({
 								required: true,
 							})}
-							label="Title"
+							label={t('form.task.title')}
 							margin="dense"
 							name="title"
 							required
 							type="text"
 						/>
+
 						<TextField
 							fullWidth
 							id="description"
-							label="Description"
+							label={t('form.task.description')}
 							defaultValue={edit ? taskForm.description : ''}
 							multiline
 							name="description"
@@ -150,7 +171,7 @@ const TaskForm = () => {
 									<TextField
 										fullWidth
 										id="list"
-										label="List"
+										label={t('form.task.list')}
 										name="list"
 										type="text"
 										InputLabelProps={{
@@ -172,7 +193,7 @@ const TaskForm = () => {
 									<KeyboardDatePicker
 										id="dueDate"
 										disableToolbar
-										label="Due date"
+										label={t('form.task.dueDate')}
 										name="dueDate"
 										format={dateFormat}
 										variant="inline"
@@ -195,7 +216,7 @@ const TaskForm = () => {
 
 							<TextField
 								id="remind"
-								label="Remind At"
+								label={t('form.task.remindAt')}
 								name="remindAt"
 								type="time"
 								fullWidth
@@ -222,7 +243,7 @@ const TaskForm = () => {
 									<TextField
 										fullWidth
 										id="repeat"
-										label="Repeat"
+										label={t('form.task.repeat.title')}
 										name="repeat"
 										type="text"
 										InputLabelProps={{
@@ -233,24 +254,20 @@ const TaskForm = () => {
 									>
 										{[
 											{
-												value: 'Never repeat',
-												text: 'Never repeat',
+												value: 'never',
+												text: t('form.task.repeat.neverRepeat'),
 											},
 											{
-												value: 'Every day',
-												text: 'Every day',
+												value: 'everyDay',
+												text: t('form.task.repeat.everyDay'),
 											},
 											{
-												value: 'Every week',
-												text: 'Every week',
+												value: 'everyWeek',
+												text: t('form.task.repeat.everyWeek'),
 											},
 											{
-												value: 'Every month',
-												text: 'Every month',
-											},
-											{
-												value: 'Never repeat',
-												text: 'Never repeat',
+												value: 'everyMonth',
+												text: t('form.task.repeat.everyMonth'),
 											},
 										].map((item) => {
 											return (
@@ -271,10 +288,10 @@ const TaskForm = () => {
 			</DialogContent>
 			<DialogActions>
 				<Button onClick={resetTaskForm} color="primary">
-					Cancel
+					<Trans i18nKey="form.task.cancel">Cancel</Trans>
 				</Button>
 				<Button onClick={handleSubmit(onSubmit)} color="primary">
-					{edit ? 'Update' : 'Create'}
+					{edit ? t('form.task.update') : t('form.task.create')}
 				</Button>
 			</DialogActions>
 		</Dialog>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Trans } from 'react-i18next';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import ListIcon from '@material-ui/icons/List';
@@ -14,42 +15,54 @@ const DrawerFilters = () => {
 				<ListItemIcon>
 					<InboxIcon color="inherit" />
 				</ListItemIcon>
-				<ListItemText primary="Inbox" />
+				<ListItemText>
+					<Trans i18nKey="drawer.inbox">Inbox</Trans>
+				</ListItemText>
 			</ListItem>
 
 			<ListItem button onClick={() => {}}>
 				<ListItemIcon>
 					<StarBorderIcon color="inherit" />
 				</ListItemIcon>
-				<ListItemText primary="Important" />
+				<ListItemText>
+					<Trans i18nKey="drawer.important">Important</Trans>
+				</ListItemText>
 			</ListItem>
 
 			<ListItem button onClick={() => {}}>
 				<ListItemIcon>
 					<ListIcon color="inherit" />
 				</ListItemIcon>
-				<ListItemText primary="All tasks" />
+				<ListItemText>
+					<Trans i18nKey="drawer.all">All tasks</Trans>
+				</ListItemText>
 			</ListItem>
 
 			<ListItem button onClick={() => {}}>
 				<ListItemIcon>
 					<TodayIcon color="inherit" />
 				</ListItemIcon>
-				<ListItemText primary="Today" />
+				<ListItemText>
+					<Trans i18nKey="drawer.today">Today</Trans>
+				</ListItemText>
 			</ListItem>
 
 			<ListItem button onClick={() => {}}>
 				<ListItemIcon>
 					<WbSunnyIcon color="inherit" />
 				</ListItemIcon>
-				<ListItemText primary="Tomorrow" />
+				<ListItemText>
+					<Trans i18nKey="drawer.tomorrow">Tomorrow</Trans>
+				</ListItemText>
 			</ListItem>
 
 			<ListItem button onClick={() => {}}>
 				<ListItemIcon>
 					<ViewWeekIcon color="inherit" />
 				</ListItemIcon>
-				<ListItemText primary="Week" />
+				<ListItemText>
+					<Trans i18nKey="drawer.week">Week</Trans>
+				</ListItemText>
 			</ListItem>
 		</List>
 	);

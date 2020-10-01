@@ -1,4 +1,5 @@
 import React from 'react';
+import { Trans } from 'react-i18next';
 import { makeStyles, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +18,7 @@ const TasksEmpty = () => {
 	return (
 		<div className={classes.root}>
 			<Typography variant="body1" component="p">
-				Nothing to be done.
+				<Trans i18nKey="tasks.empty">Nothing to be done.</Trans>
 			</Typography>
 		</div>
 	);

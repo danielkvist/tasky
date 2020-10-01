@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { Trans } from 'react-i18next';
 import { makeStyles, List, Button } from '@material-ui/core';
 
 import { fetchTasks, updateTask, deleteTask } from '../firebase';
@@ -28,9 +29,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const ToggleDoneBtn = ({ text, onClick, disabled }) => (
+const ToggleDoneBtn = ({ show, text, onClick, disabled }) => (
 	<Button size="small" onClick={onClick} disabled={disabled}>
-		{text}
+		<Trans i18nKey={show ? 'tasks.hideDone' : 'tasks.showDone'}>{text}</Trans>
 	</Button>
 );
 
@@ -82,6 +83,7 @@ const Tasks = () => {
 				<>
 					<div className={classes.done}>
 						<ToggleDoneBtn
+							show={showDone}
 							onClick={() => setDone(!showDone)}
 							text="Hide done"
 							disabled={false}
@@ -96,6 +98,7 @@ const Tasks = () => {
 			) : (
 				<div className={classes.done}>
 					<ToggleDoneBtn
+						show={showDone}
 						onClick={() => setDone(!showDone)}
 						text="Show done"
 						disabled={!tasks.filter((t) => t.done).length}

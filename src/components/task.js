@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { format } from 'date-fns';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { format } from 'date-fns';
+import { enUS, es } from 'date-fns/locale';
 import {
 	makeStyles,
 	ListItem,
@@ -16,6 +17,7 @@ import StarIcon from '@material-ui/icons/Star';
 import StartBorder from '@material-ui/icons/StarBorder';
 
 import { taskFormState, tasksDoneState } from '../recoil/atoms';
+import useLocalStorage from '../hooks/use-local-storage';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -27,41 +29,41 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Task = ({ task, onUpdate, onDelete }) => {
-	const [done] = useState(task.done);
-	const setTaskForm = useSetRecoilState(taskFormState);
 	const showDone = useRecoilValue(tasksDoneState);
+	const setTaskForm = useSetRecoilState(taskFormState);
+	const [lang] = useLocalStorage('i18nextLng', 'en');
+	const [done, setDone] = useState(task.done);
 
 	const classes = useStyles();
 	const dueDate = task && task.dueDate ? new Date(task.dueDate) : null;
 
 	return (
-		<Slide
-			direction="left"
-			in={!task.done || showDone}
-			mountOnEnter
-			unmountOnExit
-		>
-			<ListItem
-				button
-				className={classes.root}
-				onClick={() => setTaskForm(task)}
-			>
+		<Slide direction="left" in={!done || showDone} mountOnEnter unmountOnExit>
+			<ListItem button className={classes.root}>
 				<ListItemIcon>
 					<Checkbox
 						edge="start"
 						color="primary"
 						tabIndex={-1}
 						inputProps={{ 'aria-labelledby': task.id }}
-						defaultChecked={done}
+						checked={done}
 						onChange={() => {
-							onUpdate({ ...task, done: !done });
+							setDone(!done);
+							setTimeout(() => {
+								onUpdate({ ...task, done: !done });
+							}, 500);
 						}}
 					/>
 				</ListItemIcon>
 				<ListItemText
 					id={task.id}
+					onClick={() => setTaskForm(task)}
 					primary={task.title}
-					secondary={dueDate ? format(dueDate, 'PPPP') : ''}
+					secondary={
+						dueDate
+							? format(dueDate, 'PPPP', { locale: lang === 'es' ? es : enUS })
+							: ''
+					}
 				/>
 				<ListItemSecondaryAction>
 					{task.fav ? (

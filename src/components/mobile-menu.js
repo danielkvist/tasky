@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
+import { Trans } from 'react-i18next';
 import {
 	IconButton,
 	Menu,
@@ -39,7 +40,9 @@ const MobileMenu = ({
 			<MenuItem>
 				<Typography component="div">
 					<Grid component="label" container alignItems="center" spacing={1}>
-						<Grid item>Dark mode</Grid>
+						<Grid item>
+							<Trans i18nKey="menu.theme">Dark mode</Trans>
+						</Grid>
 						<Grid item>
 							<Switch
 								checked={themeType === 'dark'}
@@ -60,21 +63,21 @@ const MobileMenu = ({
 				<IconButton aria-label="Show notifications" color="inherit">
 					<NotificationsIcon />
 				</IconButton>
-				<p>Notifications</p>
+				<Trans i18nKey="menu.notifications">Notifications</Trans>
 			</MenuItem>
 
 			<MenuItem>
 				<IconButton aria-label="Settings" color="inherit">
 					<SettingsIcon />
 				</IconButton>
-				<p>Settings</p>
+				<Trans i18nKey="menu.settings">Settings</Trans>
 			</MenuItem>
 
 			<MenuItem onClick={handleLogOut}>
 				<IconButton aria-label="Log Out" color="inherit">
 					<AccountCircle />
 				</IconButton>
-				<p>Log Out</p>
+				<Trans i18nKey="menu.logout">Log Out</Trans>
 			</MenuItem>
 		</Menu>
 	);

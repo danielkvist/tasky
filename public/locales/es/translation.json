@@ -1,0 +1,44 @@
+{
+	"tasks": {
+		"showDone": "Mostrar tareas completadas",
+		"hideDone": "Ocultar tareas completadas",
+		"empty": "No quedan tareas."
+	},
+	"menu": {
+		"theme": "Tema oscuro",
+		"notifications": "Notificaciones",
+		"settings": "Opciones",
+		"logout": "Salir"
+	},
+	"drawer": {
+		"inbox": "Bandeja de entrada",
+		"important": "Importantes",
+		"all": "Todas",
+		"today": "Hoy",
+		"tomorrow": "Mañana",
+		"week": "Esta semana",
+		"add": "Añadir lista"
+	},
+	"form": {
+		"task": {
+			"addTitle": "Añadir Tarea",
+			"editTitle": "Editar Tarea",
+			"title": "Título",
+			"titleRequired": "El título de la tarea es necesario.",
+			"description": "Descripción",
+			"list": "Lista",
+			"dueDate": "Fecha límite",
+			"remindAt": "Recordar",
+			"repeat": {
+				"title": "Repetir",
+				"neverRepeat": "Nunca",
+				"everyDay": "Todos los días",
+				"everyWeek": "Todas las semanas",
+				"everyMonth": "Todos los meses"
+			},
+			"cancel": "Cancelar",
+			"update": "Actualizar",
+			"create": "Crear"
+		}
+	}
+}

@@ -1,0 +1,44 @@
+{
+	"tasks": {
+		"showDone": "Show done",
+		"hideDone": "Hide done",
+		"empty": "Nothing to be done."
+	},
+	"menu": {
+		"theme": "Dark mode",
+		"notifications": "Notifications",
+		"settings": "Settings",
+		"logout": "Log Out"
+	},
+	"drawer": {
+		"inbox": "Inbox",
+		"important": "Important",
+		"all": "All tasks",
+		"today": "Today",
+		"tomorrow": "Tomorrow",
+		"week": "Week",
+		"add": "Add list"
+	},
+	"form": {
+		"task": {
+			"addTitle": "Add Task",
+			"editTitle": "Edit Task",
+			"title": "Title",
+			"titleRequired": "Task title is required.",
+			"description": "Description",
+			"list": "List",
+			"dueDate": "Due date",
+			"remindAt": "Remind at",
+			"repeat": {
+				"title": "Repeat",
+				"neverRepeat": "Never repeat",
+				"everyDay": "Every day",
+				"everyWeek": "Every week",
+				"everyMonth": "Every month"
+			},
+			"cancel": "Cancel",
+			"update": "Update",
+			"create": "Create"
+		}
+	}
+}
