@@ -64,6 +64,7 @@ const List = ({ list, onSelect, onDelete }) => {
 				<MenuItem
 					onClick={() => {
 						setListForm(list);
+						setAnchorEl(null);
 					}}
 				>
 					<ListItemIcon>

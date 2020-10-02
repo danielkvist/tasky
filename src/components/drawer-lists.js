@@ -9,7 +9,14 @@ import {
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 
-import { currentUserState, listFormState, listsState } from '../recoil/atoms';
+import {
+	currentUserState,
+	listFormState,
+	listsState,
+	currentFilterState,
+	currentListState,
+} from '../recoil/atoms';
+import useLocalStorage from '../hooks/use-local-storage';
 import { fetchLists, deleteLists } from '../firebase';
 import List from './list';
 
@@ -17,6 +24,10 @@ const DrawerLists = () => {
 	const currentUser = useRecoilValue(currentUserState);
 	const setListForm = useSetRecoilState(listFormState);
 	const [lists, setLists] = useRecoilState(listsState);
+	const setCurrentList = useSetRecoilState(currentListState);
+	const setFilter = useSetRecoilState(currentFilterState);
+	const [, setLcFilter] = useLocalStorage('filter', 'today');
+	const [, setLcList] = useLocalStorage('list', '');
 
 	useEffect(() => {
 		fetchLists(currentUser)
@@ -43,7 +54,17 @@ const DrawerLists = () => {
 			{lists
 				? lists.map((list) => {
 						return (
-							<List list={list} onSelect={() => {}} onDelete={deleteHandler} />
+							<List
+								key={list.id}
+								list={list}
+								onSelect={() => {
+									setFilter('list');
+									setLcFilter('list');
+									setCurrentList(list.id);
+									setLcList(list.id);
+								}}
+								onDelete={deleteHandler}
+							/>
 						);
 				  })
 				: null}

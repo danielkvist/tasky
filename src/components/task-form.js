@@ -26,6 +26,7 @@ import { addTask, updateTask } from '../firebase';
 import {
 	currentUserState,
 	tasksState,
+	listsState,
 	taskFormState,
 	dateFormatState,
 } from '../recoil/atoms';
@@ -63,6 +64,7 @@ const TaskForm = () => {
 	const taskForm = useRecoilValue(taskFormState);
 	const resetTaskForm = useResetRecoilState(taskFormState);
 	const dateFormat = useRecoilValue(dateFormatState);
+	const lists = useRecoilValue(listsState);
 	const { t } = useTranslation();
 	const currentUser = useRecoilValue(currentUserState);
 	const {
@@ -86,7 +88,7 @@ const TaskForm = () => {
 
 	const onSubmit = (data) => {
 		const task = { ...data };
-		task.dueDate = formatISO(task.dueDate);
+		task.dueDate = formatISO(new Date(task.dueDate));
 
 		if (edit) {
 			task.id = taskForm.id;
@@ -172,10 +174,19 @@ const TaskForm = () => {
 										select
 										inputRef={register}
 									>
-										<MenuItem value={'Inbox'}>Inbox</MenuItem>
+										<MenuItem value={'inbox'}>Inbox</MenuItem>
+										{lists
+											? lists.map((l) => {
+													return (
+														<MenuItem value={l.id}>
+															{l.listIcon.native} {l.title}
+														</MenuItem>
+													);
+											  })
+											: null}
 									</TextField>
 								}
-								defaultValue={edit ? taskForm.project : 'Inbox'}
+								defaultValue={edit ? taskForm.project : 'inbox'}
 								control={control}
 								name="project"
 							/>

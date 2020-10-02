@@ -45,6 +45,16 @@ const listFormState = atom({
 	default: null,
 });
 
+const currentFilterState = atom({
+	key: 'currentFilterState',
+	default: 'today',
+});
+
+const currentListState = atom({
+	key: 'currentListState',
+	default: '',
+});
+
 const drawerOpenState = atom({
 	key: 'drawerOpenState',
 	default: true,
@@ -66,6 +76,8 @@ const materialThemeTypeState = atom({
 });
 
 export {
+	currentFilterState,
+	currentListState,
 	currentUserState,
 	dateFormatState,
 	drawerOpenState,

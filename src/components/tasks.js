@@ -9,7 +9,11 @@ import {
 	tasksState,
 	tasksDoneState,
 	fetchTasksErrorState,
+	currentFilterState,
+	currentListState,
 } from '../recoil/atoms';
+import { filteredTasksSelector } from '../recoil/selectors';
+import useLocalStorage from '../hooks/use-local-storage';
 import Task from './task';
 import TasksDone from './tasks-done';
 import TasksEmpty from './tasks-empty';
@@ -39,7 +43,12 @@ const Tasks = () => {
 	const currentUser = useRecoilValue(currentUserState);
 	const [tasks, setTasks] = useRecoilState(tasksState);
 	const [showDone, setDone] = useRecoilState(tasksDoneState);
+	const filteredTasks = useRecoilValue(filteredTasksSelector);
+	const setFilter = useSetRecoilState(currentFilterState);
+	const setList = useSetRecoilState(currentListState);
 	const setTasksError = useSetRecoilState(fetchTasksErrorState);
+	const [lsFilter] = useLocalStorage('filter', 'today');
+	const [lsList] = useLocalStorage('list', '');
 
 	const classes = useStyles();
 
@@ -48,6 +57,11 @@ const Tasks = () => {
 			.then((data) => setTasks(data))
 			.catch((e) => setTasksError(e));
 	}, [currentUser, setTasks, setTasksError]);
+
+	useEffect(() => {
+		setFilter(lsFilter);
+		setList(lsList);
+	}, [setFilter, setList, lsFilter, lsList]);
 
 	const updateHandler = (task) => {
 		const filteredTasks = tasks.filter((t) => t.id !== task.id);
@@ -68,7 +82,7 @@ const Tasks = () => {
 	return (
 		<div className={classes.root}>
 			<List>
-				{tasks
+				{filteredTasks
 					.filter((t) => !t.done)
 					.map((task) => (
 						<Task
@@ -90,7 +104,7 @@ const Tasks = () => {
 						/>
 					</div>
 					<TasksDone
-						tasks={tasks.filter((t) => t.done)}
+						tasks={filteredTasks.filter((t) => t.done)}
 						onUpdate={updateHandler}
 						onDelete={deleteHandler}
 					/>
