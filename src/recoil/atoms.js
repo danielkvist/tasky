@@ -25,6 +25,11 @@ const tasksState = atom({
 	default: [],
 });
 
+const listsState = atom({
+	key: 'listsState',
+	default: [],
+});
+
 const tasksDoneState = atom({
 	key: 'tasksDoneState',
 	default: false,
@@ -35,9 +40,14 @@ const taskFormState = atom({
 	default: null,
 });
 
+const listFormState = atom({
+	key: 'listFormState',
+	default: null,
+});
+
 const drawerOpenState = atom({
 	key: 'drawerOpenState',
-	default: false,
+	default: true,
 });
 
 const dateFormatState = atom({
@@ -57,14 +67,16 @@ const materialThemeTypeState = atom({
 
 export {
 	currentUserState,
+	dateFormatState,
+	drawerOpenState,
+	fetchTasksErrorState,
+	listFormState,
+	listsState,
+	materialThemeTypeState,
 	pendingUserAuthState,
+	taskFormState,
+	tasksDoneState,
+	tasksState,
 	userAvatarClassState,
 	userExpState,
-	tasksState,
-	tasksDoneState,
-	taskFormState,
-	drawerOpenState,
-	dateFormatState,
-	fetchTasksErrorState,
-	materialThemeTypeState,
 };

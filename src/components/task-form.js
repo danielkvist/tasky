@@ -53,9 +53,7 @@ const DialogTitle = ({ edit }) => {
 
 	return (
 		<MaterialDialogTitle id="task-dialog">
-			{edit
-				? t('form.task.editTitle') || 'Edit Task'
-				: t('form.task.addTitle') || 'Add Task'}
+			{edit ? t('form.task.editTitle') : t('form.task.addTitle')}
 		</MaterialDialogTitle>
 	);
 };
@@ -64,7 +62,6 @@ const TaskForm = () => {
 	const [tasks, setTasks] = useRecoilState(tasksState);
 	const taskForm = useRecoilValue(taskFormState);
 	const resetTaskForm = useResetRecoilState(taskFormState);
-	const open = useRecoilValue(taskFormState);
 	const dateFormat = useRecoilValue(dateFormatState);
 	const { t } = useTranslation();
 	const currentUser = useRecoilValue(currentUserState);
@@ -88,29 +85,30 @@ const TaskForm = () => {
 	};
 
 	const onSubmit = (data) => {
+		const task = { ...data };
+		task.dueDate = formatISO(task.dueDate);
+
 		if (edit) {
-			data.dueDate = formatISO(data.dueDate);
-			data.id = taskForm.id;
+			task.id = taskForm.id;
 
-			if (data.remindAt && !data.dueDate) {
+			if (task.remindAt && !task.dueDate) {
 				data.dueDate = formatISO(new Date());
 			}
 
-			updateTask(currentUser, data).catch((e) => console.log(e));
-			setTasks([...tasks.filter((task) => task.id !== data.id), data]);
+			updateTask(currentUser, task).catch((e) => console.log(e));
+			setTasks([...tasks.filter((t) => t.id !== task.id), task]);
 		} else {
-			data.dueDate = formatISO(data.dueDate);
-			data.done = false;
-			data.fav = false;
+			task.done = false;
+			task.fav = false;
 
-			if (data.remindAt && !data.dueDate) {
-				data.dueDate = formatISO(new Date());
+			if (task.remindAt && !task.dueDate) {
+				task.dueDate = formatISO(new Date());
 			}
 
-			addTask(currentUser, data)
-				.then((id) => (data.id = id))
+			addTask(currentUser, task)
+				.then((id) => (task.id = id))
 				.catch((e) => console.log(e));
-			setTasks([...tasks, data]);
+			setTasks([...tasks, task]);
 		}
 
 		close();
@@ -118,12 +116,10 @@ const TaskForm = () => {
 
 	return (
 		<Dialog
-			open={open !== null}
+			open={taskForm !== null}
 			onClose={close}
 			aria-labelledby={
-				edit
-					? t('form.task.editTitle') || 'Edit Task'
-					: t('form.task.addTitle') || 'Add Task'
+				edit ? t('form.task.editTitle') : t('form.task.addTitle')
 			}
 			TransitionComponent={Transition}
 			maxWidth="sm"
@@ -138,11 +134,7 @@ const TaskForm = () => {
 							error={!!errors.title}
 							defaultValue={edit ? taskForm.title : ''}
 							fullWidth
-							helperText={
-								errors.title
-									? t('form.task.titleRequired') || 'Task title is required'
-									: ''
-							}
+							helperText={errors.title ? t('form.task.titleRequired') : ''}
 							id="title"
 							inputRef={register({
 								required: true,

@@ -39,6 +39,18 @@
 			"cancel": "Cancelar",
 			"update": "Actualizar",
 			"create": "Crear"
+		},
+		"list": {
+			"addTitle": "Añadir Lista",
+			"editTitle": "Editat Lista",
+			"emoji": "Elige un emoji",
+			"title": "Título",
+			"titleRequired": "El título de la lista es necesario.",
+			"cancel": "Cancelar",
+			"update": "Actualizar",
+			"edit": "Editar",
+			"delete": "Eliminar",
+			"create": "Crear"
 		}
 	}
 }

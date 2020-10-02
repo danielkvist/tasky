@@ -8,6 +8,7 @@ import { userExpState } from '../recoil/atoms';
 const useStyles = makeStyles((theme) => ({
 	root: {
 		height: theme.spacing(3),
+		minHeight: theme.spacing(2),
 		width: '100%',
 		margin: 0,
 	},

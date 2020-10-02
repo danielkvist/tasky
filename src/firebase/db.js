@@ -12,11 +12,32 @@ const fetchTasks = async (userID) => {
 	}
 };
 
+const fetchLists = async (userID) => {
+	try {
+		const data = await db.collection(`users/${userID}/lists`).get();
+		return data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+	} catch (e) {
+		throw new Error(e);
+	}
+};
+
 const addTask = async (userID, task) => {
 	try {
 		const result = await db
 			.collection(`users/${userID}/tasks`)
 			.add({ ...task });
+
+		return result.id;
+	} catch (e) {
+		throw new Error(e);
+	}
+};
+
+const addList = async (userID, list) => {
+	try {
+		const result = await db
+			.collection(`users/${userID}/lists`)
+			.add({ ...list });
 
 		return result.id;
 	} catch (e) {
@@ -38,6 +59,19 @@ const updateTask = async (userID, task) => {
 	}
 };
 
+const updateList = async (userID, list) => {
+	try {
+		const result = await db
+			.collection(`users/${userID}/lists`)
+			.doc(list.id)
+			.update({ ...list });
+
+		return result;
+	} catch (e) {
+		throw new Error(e);
+	}
+};
+
 const deleteTask = async (userID, task) => {
 	try {
 		const result = await db
@@ -51,5 +85,27 @@ const deleteTask = async (userID, task) => {
 	}
 };
 
+const deleteLists = async (userID, list) => {
+	try {
+		const result = await db
+			.collection(`users/${userID}/lists`)
+			.doc(list.id)
+			.delete();
+
+		return result;
+	} catch (e) {
+		throw new Error(e);
+	}
+};
+
 export default db;
-export { fetchTasks, addTask, updateTask, deleteTask };
+export {
+	fetchTasks,
+	fetchLists,
+	addTask,
+	addList,
+	updateTask,
+	updateList,
+	deleteTask,
+	deleteLists,
+};

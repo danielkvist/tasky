@@ -39,6 +39,18 @@
 			"cancel": "Cancel",
 			"update": "Update",
 			"create": "Create"
+		},
+		"list": {
+			"addTitle": "Add List",
+			"editTitle": "Edit List",
+			"emoji": "Pick an emoji",
+			"title": "Title",
+			"titleRequired": "Task title is required.",
+			"cancel": "Cancel",
+			"update": "Update",
+			"edit": "Edit",
+			"delete": "Delete",
+			"create": "Create"
 		}
 	}
 }
