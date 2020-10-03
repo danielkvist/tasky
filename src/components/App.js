@@ -1,18 +1,20 @@
 import React, { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { createMuiTheme } from '@material-ui/core';
 import { useMediaQuery, ThemeProvider, CssBaseline } from '@material-ui/core';
 
 import { PrivateRoute } from '../firebase';
 import { materialThemeTypeState } from '../recoil/atoms';
+import { materialThemeSelector } from '../recoil/selectors';
 import useLocalStorage from '../hooks/use-local-storage';
-import { main, mainDark } from '../theme';
 import Index from '../pages/Index';
 import Login from '../pages/Login';
 
 const ThemeWrapper = ({ children }) => {
-	const [themeType, setThemeType] = useRecoilState(materialThemeTypeState);
-	const [lsTheme] = useLocalStorage('theme', themeType);
+	const setThemeType = useSetRecoilState(materialThemeTypeState);
+	const theme = useRecoilValue(materialThemeSelector);
+	const [lsTheme] = useLocalStorage('theme', 'light');
 	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
 	useEffect(() => {
@@ -22,7 +24,7 @@ const ThemeWrapper = ({ children }) => {
 	});
 
 	return (
-		<ThemeProvider theme={themeType === 'light' ? main : mainDark}>
+		<ThemeProvider theme={createMuiTheme(theme)}>
 			<CssBaseline />
 			{children}
 		</ThemeProvider>

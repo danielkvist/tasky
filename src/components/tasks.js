@@ -11,6 +11,7 @@ import {
 	fetchTasksErrorState,
 	currentFilterState,
 	currentListState,
+	dateFormatState,
 } from '../recoil/atoms';
 import { filteredTasksSelector } from '../recoil/selectors';
 import useLocalStorage from '../hooks/use-local-storage';
@@ -46,11 +47,17 @@ const Tasks = () => {
 	const filteredTasks = useRecoilValue(filteredTasksSelector);
 	const setFilter = useSetRecoilState(currentFilterState);
 	const setList = useSetRecoilState(currentListState);
+	const setDateFormat = useSetRecoilState(dateFormatState);
 	const setTasksError = useSetRecoilState(fetchTasksErrorState);
 	const [lsFilter] = useLocalStorage('filter', 'today');
 	const [lsList] = useLocalStorage('list', '');
+	const [lsDateFormat] = useLocalStorage('dateFormat', 'MM/dd/yyyy');
 
 	const classes = useStyles();
+
+	useEffect(() => {
+		setDateFormat(lsDateFormat);
+	});
 
 	useEffect(() => {
 		fetchTasks(currentUser)

@@ -1,19 +1,14 @@
 import React from 'react';
-import { useRecoilValue } from 'recoil';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
-import { userAvatarClassState } from '../recoil/atoms';
-
-const Avatar = ({ alt, height, width }) => {
-	const avatarClass = useRecoilValue(userAvatarClassState);
-
+const Avatar = ({ alt, height, width, avatarClass, level = '01' }) => {
 	return (
 		<LazyLoadImage
 			alt={alt}
 			height={height}
 			effect="blur"
-			src={`/avatars/${avatarClass}/01.png`}
+			src={`/avatars/${avatarClass}/${level}.png`}
 			width={width}
 		/>
 	);

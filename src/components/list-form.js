@@ -57,7 +57,7 @@ const ListForm = () => {
 	const [lists, setLists] = useRecoilState(listsState);
 	const themeType = useRecoilValue(materialThemeTypeState);
 	const currentUser = useRecoilValue(currentUserState);
-	const resetTaskForm = useResetRecoilState(listFormState);
+	const resetListForm = useResetRecoilState(listFormState);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [chosenEmoji, setChosenEmoji] = useState(null);
 	const { register, handleSubmit, reset, errors } = useForm();
@@ -95,7 +95,7 @@ const ListForm = () => {
 	const close = () => {
 		reset();
 		setChosenEmoji(null);
-		resetTaskForm();
+		resetListForm();
 	};
 
 	const onSubmit = (data) => {
@@ -182,10 +182,14 @@ const ListForm = () => {
 				</form>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={resetTaskForm} color="primary">
+				<Button onClick={resetListForm} color="inherit">
 					<Trans i18nKey="form.list.cancel">Cancel</Trans>
 				</Button>
-				<Button onClick={handleSubmit(onSubmit)} color="primary">
+				<Button
+					onClick={handleSubmit(onSubmit)}
+					color="primary"
+					variant="contained"
+				>
 					{edit ? t('form.list.update') : t('form.list.create')}
 				</Button>
 			</DialogActions>

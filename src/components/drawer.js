@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import {
 	Divider,
@@ -10,7 +10,8 @@ import {
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
-import { drawerOpenState } from '../recoil/atoms';
+import { drawerOpenState, userAvatarClassState } from '../recoil/atoms';
+import useLocalStorage from '../hooks/use-local-storage';
 import Avatar from './avatar';
 import UserExp from './drawer-exp';
 import DrawerFilters from './drawer-filters';
@@ -39,6 +40,13 @@ const useStyles = makeStyles((theme) => ({
 
 function Drawer() {
 	const [open, setOpen] = useRecoilState(drawerOpenState);
+	const [avatarClass, setAvatarClass] = useRecoilState(userAvatarClassState);
+	const [lsAvatarClass] = useLocalStorage('avatarClass', 'fenix');
+
+	useEffect(() => {
+		setAvatarClass(lsAvatarClass);
+	});
+
 	const theme = useTheme();
 	const classes = useStyles();
 
@@ -73,6 +81,7 @@ function Drawer() {
 					height="100%"
 					width="100%"
 					caption="User avatar"
+					avatarClass={avatarClass}
 				/>
 			</div>
 

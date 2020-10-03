@@ -5,7 +5,6 @@
 		"empty": "No quedan tareas."
 	},
 	"menu": {
-		"theme": "Tema oscuro",
 		"notifications": "Notificaciones",
 		"settings": "Opciones",
 		"logout": "Salir"
@@ -52,5 +51,13 @@
 			"delete": "Eliminar",
 			"create": "Crear"
 		}
+	},
+	"config": {
+		"title": "Configuración",
+		"theme": "Tema oscuro",
+		"palette": "Paleta de colores",
+		"dateFormat": "Formato de fecha",
+		"avatar": "Avatar",
+		"exit": "Salir"
 	}
 }

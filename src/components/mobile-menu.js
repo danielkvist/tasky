@@ -1,21 +1,13 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { Trans } from 'react-i18next';
-import {
-	IconButton,
-	Menu,
-	MenuItem,
-	Typography,
-	Switch,
-	Grid,
-	Divider,
-} from '@material-ui/core';
+import { IconButton, Menu, MenuItem, Divider } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SettingsIcon from '@material-ui/icons/Settings';
 
-import { materialThemeTypeState } from '../recoil/atoms';
-import useLocalStorage from '../hooks/use-local-storage';
+import { configDialogState } from '../recoil/atoms';
+import SwitchTheme from './switch-theme';
 
 const MobileMenu = ({
 	mobileMoreAnchorEl,
@@ -24,8 +16,7 @@ const MobileMenu = ({
 	handleMobileMenuClose,
 	handleLogOut,
 }) => {
-	const [themeType, setThemeType] = useRecoilState(materialThemeTypeState);
-	const [, setLcTheme] = useLocalStorage('theme', themeType);
+	const setConfig = useSetRecoilState(configDialogState);
 
 	return (
 		<Menu
@@ -38,43 +29,31 @@ const MobileMenu = ({
 			onClose={handleMobileMenuClose}
 		>
 			<MenuItem>
-				<Typography component="div">
-					<Grid component="label" container alignItems="center" spacing={1}>
-						<Grid item>
-							<Trans i18nKey="menu.theme">Dark mode</Trans>
-						</Grid>
-						<Grid item>
-							<Switch
-								checked={themeType === 'dark'}
-								onChange={() => {
-									setThemeType(themeType === 'dark' ? 'light' : 'dark');
-									setLcTheme(themeType === 'dark' ? 'light' : 'dark');
-								}}
-								name="dark-mode"
-							/>
-						</Grid>
-					</Grid>
-				</Typography>
+				<SwitchTheme />
 			</MenuItem>
 
 			<Divider />
 
 			<MenuItem>
-				<IconButton aria-label="Show notifications" color="inherit">
+				<IconButton
+					edge="start"
+					aria-label="Show notifications"
+					color="inherit"
+				>
 					<NotificationsIcon />
 				</IconButton>
 				<Trans i18nKey="menu.notifications">Notifications</Trans>
 			</MenuItem>
 
-			<MenuItem>
-				<IconButton aria-label="Settings" color="inherit">
+			<MenuItem onClick={() => setConfig(true)}>
+				<IconButton edge="start" aria-label="Settings" color="inherit">
 					<SettingsIcon />
 				</IconButton>
 				<Trans i18nKey="menu.settings">Settings</Trans>
 			</MenuItem>
 
 			<MenuItem onClick={handleLogOut}>
-				<IconButton aria-label="Log Out" color="inherit">
+				<IconButton edge="start" aria-label="Log Out" color="inherit">
 					<AccountCircle />
 				</IconButton>
 				<Trans i18nKey="menu.logout">Log Out</Trans>

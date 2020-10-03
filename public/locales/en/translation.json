@@ -5,7 +5,6 @@
 		"empty": "Nothing to be done."
 	},
 	"menu": {
-		"theme": "Dark mode",
 		"notifications": "Notifications",
 		"settings": "Settings",
 		"logout": "Log Out"
@@ -52,5 +51,13 @@
 			"delete": "Delete",
 			"create": "Create"
 		}
+	},
+	"config": {
+		"title": "Settings",
+		"theme": "Dark mode",
+		"palette": "Palette",
+		"dateFormat": "Date format",
+		"avatar": "Avatar",
+		"exit": "Exit"
 	}
 }

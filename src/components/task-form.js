@@ -4,17 +4,17 @@ import { formatISO, format } from 'date-fns';
 import { Trans, useTranslation } from 'react-i18next';
 import { useForm, Controller } from 'react-hook-form';
 import {
-	makeStyles,
-	useMediaQuery,
-	useTheme,
 	Button,
 	Dialog,
 	DialogActions,
 	DialogContent,
 	DialogTitle as MaterialDialogTitle,
-	TextField,
-	Slide,
+	makeStyles,
 	MenuItem,
+	Slide,
+	TextField,
+	useMediaQuery,
+	useTheme,
 } from '@material-ui/core';
 import {
 	MuiPickersUtilsProvider,
@@ -25,10 +25,10 @@ import DateFnsUtils from '@date-io/date-fns';
 import { addTask, updateTask } from '../firebase';
 import {
 	currentUserState,
-	tasksState,
+	dateFormatState,
 	listsState,
 	taskFormState,
-	dateFormatState,
+	tasksState,
 } from '../recoil/atoms';
 
 const useStyles = makeStyles((theme) => ({
@@ -290,10 +290,14 @@ const TaskForm = () => {
 				</MuiPickersUtilsProvider>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={resetTaskForm} color="primary">
+				<Button onClick={resetTaskForm} color="inherit">
 					<Trans i18nKey="form.task.cancel">Cancel</Trans>
 				</Button>
-				<Button onClick={handleSubmit(onSubmit)} color="primary">
+				<Button
+					onClick={handleSubmit(onSubmit)}
+					color="primary"
+					variant="contained"
+				>
 					{edit ? t('form.task.update') : t('form.task.create')}
 				</Button>
 			</DialogActions>

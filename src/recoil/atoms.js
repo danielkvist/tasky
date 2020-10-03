@@ -45,6 +45,11 @@ const listFormState = atom({
 	default: null,
 });
 
+const configDialogState = atom({
+	key: 'configDialogState',
+	default: false,
+});
+
 const currentFilterState = atom({
 	key: 'currentFilterState',
 	default: 'today',
@@ -57,7 +62,7 @@ const currentListState = atom({
 
 const drawerOpenState = atom({
 	key: 'drawerOpenState',
-	default: true,
+	default: false,
 });
 
 const dateFormatState = atom({
@@ -75,7 +80,13 @@ const materialThemeTypeState = atom({
 	default: 'light',
 });
 
+const materialThemePaletteState = atom({
+	key: 'materialThemePaletteState',
+	default: 'main',
+});
+
 export {
+	configDialogState,
 	currentFilterState,
 	currentListState,
 	currentUserState,
@@ -84,6 +95,7 @@ export {
 	fetchTasksErrorState,
 	listFormState,
 	listsState,
+	materialThemePaletteState,
 	materialThemeTypeState,
 	pendingUserAuthState,
 	taskFormState,

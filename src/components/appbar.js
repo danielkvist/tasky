@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useResetRecoilState, useRecoilState } from 'recoil';
+import React, { useState, useEffect } from 'react';
+import { useResetRecoilState, useRecoilState, useRecoilValue } from 'recoil';
 import clsx from 'clsx';
 import {
 	AppBar as MaterialAppBar,
@@ -8,11 +8,17 @@ import {
 	Toolbar,
 	Typography,
 } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
 import app from '../firebase';
-import { currentUserState, drawerOpenState } from '../recoil/atoms';
+import {
+	currentUserState,
+	userAvatarClassState,
+	drawerOpenState,
+	materialThemePaletteState,
+} from '../recoil/atoms';
+import useLocalStorage from '../hooks/use-local-storage';
+import Avatar from './avatar';
 import DesktopMenu from './desktop-menu';
 import MobileMenu from './mobile-menu';
 import Drawer from './drawer';
@@ -35,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
 			easing: theme.transitions.easing.easeOut,
 			duration: theme.transitions.duration.enteringScreen,
 		}),
+	},
+	avatar: {
+		width: theme.spacing(5),
+		height: theme.spacing(5),
 	},
 	menuButton: {
 		marginRight: theme.spacing(2),
@@ -66,9 +76,16 @@ const useStyles = makeStyles((theme) => ({
 
 const AppBar = () => {
 	const resetCurrentUser = useResetRecoilState(currentUserState);
+	const [palette, setPalette] = useRecoilState(materialThemePaletteState);
+	const [lsPalette] = useLocalStorage('palette', palette);
 	const [open, setOpen] = useRecoilState(drawerOpenState);
+	const avatarClass = useRecoilValue(userAvatarClassState);
 	const [, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+
+	useEffect(() => {
+		setPalette(lsPalette);
+	}, [palette, lsPalette, setPalette]);
 
 	const classes = useStyles();
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -120,7 +137,16 @@ const AppBar = () => {
 							edge="start"
 							className={clsx(classes.menuButton, open && classes.hide)}
 						>
-							<MenuIcon />
+							<div className={classes.avatar}>
+								<Avatar
+									alt="User avatar"
+									height="100%"
+									width="100%"
+									caption="User avatar"
+									avatarClass={avatarClass}
+									level="avatar"
+								/>
+							</div>
 						</IconButton>
 
 						<Typography

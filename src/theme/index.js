@@ -1,27 +1,51 @@
-import { createMuiTheme } from '@material-ui/core';
-import { blue, green } from '@material-ui/core/colors';
+import { blue, green, red, deepPurple } from '@material-ui/core/colors';
 
 const drawerWidth = 270;
 
-const base = {
+const darkVersion = (theme) => {
+	return { ...theme, palette: { ...theme.palette, type: 'dark' } };
+};
+
+const main = {
 	palette: {
 		type: 'light',
 		primary: blue,
-		secondary: green,
 	},
 	props: {
 		drawerWidth,
 	},
 };
 
-const main = createMuiTheme({ ...base });
+const mainDark = darkVersion(main);
 
-const mainDark = createMuiTheme({
-	...base,
-	palette: {
-		...base.palette,
-		type: 'dark',
-	},
-});
+const greenTheme = {
+	...main,
+	palette: { ...main.palette, primary: green },
+};
 
-export { main, mainDark };
+const greenThemeDark = darkVersion(greenTheme);
+
+const redTheme = {
+	...main,
+	palette: { ...main.palette, primary: red },
+};
+
+const redThemeDark = darkVersion(redTheme);
+
+const purpleTheme = {
+	...main,
+	palette: { ...main.palette, primary: deepPurple },
+};
+
+const purpleThemeDark = darkVersion(purpleTheme);
+
+export {
+	main,
+	mainDark,
+	greenTheme,
+	greenThemeDark,
+	redTheme,
+	redThemeDark,
+	purpleTheme,
+	purpleThemeDark,
+};

@@ -1,5 +1,11 @@
 import { selector } from 'recoil';
-import { tasksState, currentListState, currentFilterState } from './atoms';
+import {
+	tasksState,
+	currentListState,
+	currentFilterState,
+	materialThemePaletteState,
+	materialThemeTypeState,
+} from './atoms';
 import {
 	filterImportant,
 	filterDueToday,
@@ -7,6 +13,16 @@ import {
 	filterDueThisWeek,
 	filterByList,
 } from './filters';
+import {
+	main,
+	mainDark,
+	greenTheme,
+	greenThemeDark,
+	redTheme,
+	redThemeDark,
+	purpleTheme,
+	purpleThemeDark,
+} from '../theme';
 
 const filteredTasksSelector = selector({
 	key: 'filteredTasksSelector',
@@ -32,4 +48,23 @@ const filteredTasksSelector = selector({
 	},
 });
 
-export { filteredTasksSelector };
+const materialThemeSelector = selector({
+	key: 'materialThemeSelector',
+	get: ({ get }) => {
+		const type = get(materialThemeTypeState);
+		const palette = get(materialThemePaletteState);
+
+		switch (palette) {
+			case 'green':
+				return type === 'dark' ? greenThemeDark : greenTheme;
+			case 'red':
+				return type === 'dark' ? redThemeDark : redTheme;
+			case 'purple':
+				return type === 'dark' ? purpleThemeDark : purpleTheme;
+			default:
+				return type === 'dark' ? mainDark : main;
+		}
+	},
+});
+
+export { filteredTasksSelector, materialThemeSelector };
