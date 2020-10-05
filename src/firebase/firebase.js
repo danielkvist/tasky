@@ -3,12 +3,12 @@ import 'firebase/auth';
 import 'firebase/firestore';
 
 const app = firebase.initializeApp({
-	apiKey: process.env.REACT_APP_FIREBASE_KEY,
-	authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
-	databaseURL: process.env.REACT_APP_FIREBASE_DB,
-	projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-	storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-	messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
+	apiKey: 'AIzaSyAEvq52a3buH3mSzQGf9pTabuMw0B-ebS8',
+	authDomain: 'tasky-8dba9.firebaseapp.com',
+	databaseURL: 'https://tasky-8dba9.firebaseio.com',
+	projectId: 'tasky-8dba9',
+	storageBucket: 'tasky-8dba9.appspot.com',
+	messagingSenderId: '569670655372',
 });
 
 const authGoogleProvider = new firebase.auth.GoogleAuthProvider();
