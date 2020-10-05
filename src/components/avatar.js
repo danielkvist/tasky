@@ -8,7 +8,7 @@ const Avatar = ({ alt, height, width, avatarClass, level = '01' }) => {
 			alt={alt}
 			height={height}
 			effect="blur"
-			src={`/avatars/${avatarClass}/${level}.png`}
+			src={`/avatars/${avatarClass}/${level}-min.png`}
 			width={width}
 		/>
 	);
