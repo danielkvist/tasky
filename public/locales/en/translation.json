@@ -2,7 +2,8 @@
 	"tasks": {
 		"showDone": "Show done",
 		"hideDone": "Hide done",
-		"empty": "Nothing to be done."
+		"empty": "Nothing to be done.",
+		"today": "Today"
 	},
 	"menu": {
 		"notifications": "Notifications",

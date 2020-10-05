@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { format } from 'date-fns';
+import { format, isToday, isPast } from 'date-fns';
 import { enUS, es } from 'date-fns/locale';
+import { useTranslation } from 'react-i18next';
 import {
 	makeStyles,
 	ListItem,
@@ -11,6 +12,7 @@ import {
 	Checkbox,
 	IconButton,
 	Slide,
+	Typography,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import StarIcon from '@material-ui/icons/Star';
@@ -24,14 +26,22 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: theme.palette.background.paper,
 		width: '100%',
 	},
-	done: {},
-	due: {},
+	done: {
+		opacity: '0.7',
+	},
+	idle: {
+		opacity: '0.7',
+	},
+	due: {
+		color: 'red',
+	},
 }));
 
 const Task = ({ task, onUpdate, onDelete }) => {
 	const showDone = useRecoilValue(tasksDoneState);
 	const setTaskForm = useSetRecoilState(taskFormState);
 	const [lang] = useLocalStorage('i18nextLng', 'en');
+	const { t } = useTranslation();
 	const [done, setDone] = useState(task.done);
 
 	const classes = useStyles();
@@ -39,7 +49,7 @@ const Task = ({ task, onUpdate, onDelete }) => {
 
 	return (
 		<Slide direction="left" in={!done || showDone} mountOnEnter unmountOnExit>
-			<ListItem button className={classes.root}>
+			<ListItem button className={(classes.root, done ? classes.done : '')}>
 				<ListItemIcon>
 					<Checkbox
 						edge="start"
@@ -60,9 +70,21 @@ const Task = ({ task, onUpdate, onDelete }) => {
 					onClick={() => setTaskForm(task)}
 					primary={task.title}
 					secondary={
-						dueDate
-							? format(dueDate, 'PPPP', { locale: lang === 'es' ? es : enUS })
-							: ''
+						<Typography
+							className={
+								isPast(dueDate) && !isToday(dueDate)
+									? classes.due
+									: classes.idle
+							}
+						>
+							{dueDate
+								? isToday(dueDate)
+									? t('tasks.today')
+									: format(dueDate, 'PPPP', {
+											locale: lang === 'es' ? es : enUS,
+									  })
+								: ''}
+						</Typography>
 					}
 				/>
 				<ListItemSecondaryAction>

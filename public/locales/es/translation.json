@@ -2,7 +2,8 @@
 	"tasks": {
 		"showDone": "Mostrar tareas completadas",
 		"hideDone": "Ocultar tareas completadas",
-		"empty": "No quedan tareas."
+		"empty": "No quedan tareas.",
+		"today": "Hoy"
 	},
 	"menu": {
 		"notifications": "Notificaciones",
