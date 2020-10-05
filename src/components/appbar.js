@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useResetRecoilState, useRecoilState, useRecoilValue } from 'recoil';
 import clsx from 'clsx';
 import {
@@ -15,9 +15,7 @@ import {
 	currentUserState,
 	userAvatarClassState,
 	drawerOpenState,
-	materialThemePaletteState,
 } from '../recoil/atoms';
-import useLocalStorage from '../hooks/use-local-storage';
 import Avatar from './avatar';
 import DesktopMenu from './desktop-menu';
 import MobileMenu from './mobile-menu';
@@ -76,16 +74,10 @@ const useStyles = makeStyles((theme) => ({
 
 const AppBar = () => {
 	const resetCurrentUser = useResetRecoilState(currentUserState);
-	const [palette, setPalette] = useRecoilState(materialThemePaletteState);
-	const [lsPalette] = useLocalStorage('palette', palette);
 	const [open, setOpen] = useRecoilState(drawerOpenState);
 	const avatarClass = useRecoilValue(userAvatarClassState);
 	const [, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-
-	useEffect(() => {
-		setPalette(lsPalette);
-	}, [palette, lsPalette, setPalette]);
 
 	const classes = useStyles();
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);

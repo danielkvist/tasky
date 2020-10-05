@@ -8,6 +8,7 @@ import { PrivateRoute } from '../firebase';
 import { materialThemeTypeState } from '../recoil/atoms';
 import { materialThemeSelector } from '../recoil/selectors';
 import useLocalStorage from '../hooks/use-local-storage';
+import LocalStoage from './local-storage';
 import Index from '../pages/Index';
 import Login from '../pages/Login';
 
@@ -36,7 +37,9 @@ const App = () => {
 		<ThemeWrapper>
 			<Router>
 				<div>
-					<PrivateRoute exact path="/" component={Index} />
+					<LocalStoage>
+						<PrivateRoute exact path="/" component={Index} />
+					</LocalStoage>
 					<Route exact path="/login" component={Login} />
 				</div>
 			</Router>
