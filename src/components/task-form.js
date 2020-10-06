@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import { useRecoilValue, useRecoilState, useResetRecoilState } from 'recoil';
 import { formatISO, format } from 'date-fns';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { useForm, Controller } from 'react-hook-form';
 import {
 	Button,
@@ -291,7 +291,7 @@ const TaskForm = () => {
 			</DialogContent>
 			<DialogActions>
 				<Button onClick={resetTaskForm} color="inherit">
-					<Trans i18nKey="form.task.cancel">Cancel</Trans>
+					{t('form.task.cancel')}
 				</Button>
 				<Button
 					onClick={handleSubmit(onSubmit)}

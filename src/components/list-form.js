@@ -1,6 +1,6 @@
 import React, { useState, useEffect, forwardRef } from 'react';
 import { useRecoilValue, useRecoilState, useResetRecoilState } from 'recoil';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { Picker } from 'emoji-mart';
 import {
@@ -183,7 +183,7 @@ const ListForm = () => {
 			</DialogContent>
 			<DialogActions>
 				<Button onClick={resetListForm} color="inherit">
-					<Trans i18nKey="form.list.cancel">Cancel</Trans>
+					{t('form.list.cancel')}
 				</Button>
 				<Button
 					onClick={handleSubmit(onSubmit)}

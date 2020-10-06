@@ -60,5 +60,12 @@
 		"dateFormat": "Formato de fecha",
 		"avatar": "Avatar",
 		"exit": "Salir"
+	},
+	"setup": {
+		"title": "Configuración",
+		"welcome": "Bienvenido",
+		"next": "Siguiente",
+		"back": "Atrás",
+		"finish": "Finalizar"
 	}
 }

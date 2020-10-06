@@ -1,6 +1,7 @@
 import React from 'react';
 
 import AppBar from './appbar';
+import Setup from './setup';
 import TaskForm from './task-form';
 import ListForm from './list-form';
 import Config from './config';
@@ -11,6 +12,7 @@ const Layout = ({ children }) => {
 	return (
 		<>
 			<AppBar />
+			<Setup />
 			<TaskForm />
 			<ListForm />
 			<Config />

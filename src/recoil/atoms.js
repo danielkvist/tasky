@@ -1,5 +1,10 @@
 import { atom } from 'recoil';
 
+const setupState = atom({
+	key: 'setupState',
+	default: false,
+});
+
 const currentUserState = atom({
 	key: 'currentUserState',
 	default: null,
@@ -98,6 +103,7 @@ export {
 	materialThemePaletteState,
 	materialThemeTypeState,
 	pendingUserAuthState,
+	setupState,
 	taskFormState,
 	tasksDoneState,
 	tasksState,
