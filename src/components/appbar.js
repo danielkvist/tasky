@@ -41,8 +41,10 @@ const useStyles = makeStyles((theme) => ({
 		}),
 	},
 	avatar: {
-		width: theme.spacing(5),
+		borderRadius: '50%',
 		height: theme.spacing(5),
+		overflow: 'hidden',
+		width: theme.spacing(5),
 	},
 	menuButton: {
 		marginRight: theme.spacing(2),

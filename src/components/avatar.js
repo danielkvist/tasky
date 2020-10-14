@@ -6,17 +6,17 @@ import correctLevel from '../utils/avatar-level';
 
 const Avatar = ({ alt, height, width, avatarClass, level }) => {
 	const correctedLvl = correctLevel(avatarClass, level);
-	console.log(correctedLvl);
 
 	return (
 		<LazyLoadImage
 			alt={alt}
 			height={height}
 			effect="blur"
-			src={`/avatars/${avatarClass}/${`${correctedLvl}`.padStart(
+			placeholderSrc={`/avatars/${avatarClass}/${`${correctedLvl}`.padStart(
 				2,
 				0
-			)}-min.png`}
+			)}.jpg`}
+			src={`/avatars/${avatarClass}/${`${correctedLvl}`.padStart(2, 0)}.webp`}
 			width={width}
 		/>
 	);

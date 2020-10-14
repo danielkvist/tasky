@@ -30,9 +30,13 @@ const AvatarClassSelector = ({ setup }) => {
 		'avatarClass',
 		'fenix'
 	);
+	const [, setLsUserLevel] = useLocalStorage('userLevel', 1);
+	const [, setLsUserExp] = useLocalStorage('userExp', 10);
 
 	const handleUpdate = (avatarClass) => {
 		setLsAvatarClass(avatarClass);
+		setLsUserLevel(1);
+		setLsUserExp(10);
 	};
 
 	const classes = useStyles();
