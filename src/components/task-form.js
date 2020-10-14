@@ -87,18 +87,21 @@ const TaskForm = () => {
 	};
 
 	const onSubmit = (data) => {
+		let id;
 		const task = { ...data };
 		task.dueDate = formatISO(new Date(task.dueDate));
 
+		console.log(task);
+
 		if (edit) {
-			task.id = taskForm.id;
+			id = taskForm.id;
 
 			if (task.remindAt && !task.dueDate) {
 				data.dueDate = formatISO(new Date());
 			}
 
 			updateTask(currentUser, task).catch((e) => console.log(e));
-			setTasks([...tasks.filter((t) => t.id !== task.id), task]);
+			setTasks([...tasks.filter((t) => t.id !== id), { ...task, id }]);
 		} else {
 			task.done = false;
 			task.fav = false;
@@ -108,9 +111,9 @@ const TaskForm = () => {
 			}
 
 			addTask(currentUser, task)
-				.then((id) => (task.id = id))
+				.then((receivedId) => (id = receivedId))
 				.catch((e) => console.log(e));
-			setTasks([...tasks, task]);
+			setTasks([...tasks, { ...task, id }]);
 		}
 
 		close();

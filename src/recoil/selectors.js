@@ -1,10 +1,10 @@
 import { selector } from 'recoil';
 import {
-	tasksState,
-	currentListState,
 	currentFilterState,
+	currentListState,
 	materialThemePaletteState,
 	materialThemeTypeState,
+	tasksState,
 } from './atoms';
 import {
 	filterImportant,
@@ -13,6 +13,7 @@ import {
 	filterDueThisWeek,
 	filterByList,
 } from './filters';
+import sortTasks from './sort';
 import {
 	main,
 	mainDark,
@@ -31,20 +32,29 @@ const filteredTasksSelector = selector({
 		const currentFilter = get(currentFilterState);
 		const currentList = get(currentListState);
 
+		let filteredTasks = [];
+
 		switch (currentFilter) {
 			case 'important':
-				return filterImportant(tasks);
+				filteredTasks = filterImportant(tasks);
+				break;
 			case 'today':
-				return filterDueToday(tasks);
+				filteredTasks = filterDueToday(tasks);
+				break;
 			case 'tomorrow':
-				return filterDueTomorrow(tasks);
+				filteredTasks = filterDueTomorrow(tasks);
+				break;
 			case 'week':
-				return filterDueThisWeek(tasks);
+				filteredTasks = filterDueThisWeek(tasks);
+				break;
 			case 'list':
-				return filterByList(tasks, currentList);
+				filteredTasks = filterByList(tasks, currentList);
+				break;
 			default:
-				return tasks;
+				filteredTasks = [...tasks];
 		}
+
+		return sortTasks(filteredTasks);
 	},
 });
 

@@ -1,19 +1,15 @@
 import React from 'react';
-import { useSetRecoilState } from 'recoil';
 import { Trans } from 'react-i18next';
 import { Grid, Radio, Typography } from '@material-ui/core';
 import { blue, green, red, deepPurple } from '@material-ui/core/colors';
 
-import { materialThemePaletteState } from '../recoil/atoms';
 import useLocalStorage from '../hooks/use-local-storage';
 
 // TODO: add alert when palette changes to refresh
 const PaletteSelector = () => {
-	const setPalette = useSetRecoilState(materialThemePaletteState);
 	const [lsPalette, setLsPalette] = useLocalStorage('palette', 'main');
 
 	const handleChange = (e) => {
-		setPalette(e.target.value);
 		setLsPalette(e.target.value);
 	};
 

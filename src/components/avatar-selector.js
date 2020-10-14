@@ -1,32 +1,31 @@
 import React from 'react';
-import { useSetRecoilState } from 'recoil';
-import { Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { Grid, Typography, makeStyles } from '@material-ui/core';
 
-import { userAvatarClassState } from '../recoil/atoms';
 import useLocalStorage from '../hooks/use-local-storage';
 import Avatar from './avatar';
 
 const useStyles = makeStyles((theme) => ({
 	avatars: {
-		display: 'flex',
+		display: 'grid',
+		gridTemplateColumns: 'repeat(4, 1fr)',
 	},
 	selected: {
-		width: theme.spacing(5),
-		height: theme.spacing(5),
+		width: theme.spacing(9),
+		height: theme.spacing(9),
 		marginRight: theme.spacing(2),
 		filter: 'grayscale(0)',
 	},
 	nonSelected: {
-		width: theme.spacing(5),
-		height: theme.spacing(5),
+		width: theme.spacing(9),
+		height: theme.spacing(9),
 		marginRight: theme.spacing(2),
 		filter: 'grayscale(1)',
 	},
 }));
 
-const AvatarClassSelector = () => {
-	const setAvatarClass = useSetRecoilState(userAvatarClassState);
+const AvatarClassSelector = ({ setup }) => {
+	const { t } = useTranslation();
 	const [lsAvatarClass, setLsAvatarClass] = useLocalStorage(
 		'avatarClass',
 		'fenix'
@@ -34,7 +33,6 @@ const AvatarClassSelector = () => {
 
 	const handleUpdate = (avatarClass) => {
 		setLsAvatarClass(avatarClass);
-		setAvatarClass(avatarClass);
 	};
 
 	const classes = useStyles();
@@ -42,10 +40,16 @@ const AvatarClassSelector = () => {
 	return (
 		<Typography component="div">
 			<Grid component="label" container alignItems="center" spacing={1}>
-				<Grid item>
-					<Trans i18nKey="config.avatar">Avatar</Trans>
+				<Grid
+					item
+					xs={setup ? '12' : ''}
+					style={{ textAlign: setup ? 'center' : 'left' }}
+				>
+					<Typography variant={setup ? 'h5' : 'body1'} component="p">
+						{t('config.avatar')}
+					</Typography>
 				</Grid>
-				<Grid item>
+				<Grid item xs={setup ? '12' : ''}>
 					<div className={classes.avatars}>
 						<div
 							className={

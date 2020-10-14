@@ -7,6 +7,8 @@ import {
 	currentFilterState,
 	currentListState,
 	userAvatarClassState,
+	userLevelState,
+	userExpState,
 	dateFormatState,
 } from '../recoil/atoms';
 import useLocalStorage from '../hooks/use-local-storage';
@@ -18,21 +20,27 @@ const LocalStorage = ({ children }) => {
 	const setList = useSetRecoilState(currentListState);
 	const setDateFormat = useSetRecoilState(dateFormatState);
 	const setAvatarClass = useSetRecoilState(userAvatarClassState);
+	const setLevel = useSetRecoilState(userLevelState);
+	const setExp = useSetRecoilState(userExpState);
 
 	const [lsSetup] = useLocalStorage('setup', 'true');
 	const [lsPalette] = useLocalStorage('palette', 'main');
 	const [lsAvatarClass] = useLocalStorage('avatarClass', 'fenix');
+	const [lsUserLevel] = useLocalStorage('userLevel', 1);
+	const [lsUserExp] = useLocalStorage('userExp', 10);
 	const [lsDateFormat] = useLocalStorage('dateFormat', 'MM/dd/yyyy');
 	const [lsFilter] = useLocalStorage('filter', 'today');
 	const [lsList] = useLocalStorage('list', '');
 
 	useEffect(() => {
-		setSetup(lsSetup === true ? false : true);
-		setPalette(lsPalette);
 		setAvatarClass(lsAvatarClass);
 		setDateFormat(lsDateFormat);
+		setExp(lsUserExp);
 		setFilter(lsFilter);
+		setLevel(lsUserLevel);
 		setList(lsList);
+		setPalette(lsPalette);
+		setSetup(lsSetup === true ? false : true);
 	});
 
 	return <>{children}</>;

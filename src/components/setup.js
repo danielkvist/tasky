@@ -19,8 +19,6 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import { setupState } from '../recoil/atoms';
 import useLocalStorage from '../hooks/use-local-storage';
 import AvatarSelector from './avatar-selector';
-import PaletteSelector from './palette-selector';
-import DateFormatSelector from './date-format-selector';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -62,18 +60,18 @@ const FinishSetup = () => {
 
 const Welcome = () => {
 	const { t } = useTranslation();
-	return <Typography>{t('setup.welcome')}</Typography>;
+	return (
+		<Typography variant="h5" component="p">
+			{t('setup.welcome')}
+		</Typography>
+	);
 };
 
 const getStep = (step) => {
 	switch (step) {
 		case 1:
-			return <AvatarSelector />;
+			return <AvatarSelector setup={true} />;
 		case 2:
-			return <PaletteSelector />;
-		case 3:
-			return <DateFormatSelector />;
-		case 4:
 			return <FinishSetup />;
 		default:
 			return <Welcome />;
@@ -89,7 +87,7 @@ const Setup = () => {
 	const setup = useRecoilValue(setupState);
 	const { t } = useTranslation();
 
-	const maxSetps = 4;
+	const maxSetps = 3;
 
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down('md'));

@@ -20,6 +20,11 @@ const userAvatarClassState = atom({
 	default: 'fenix',
 });
 
+const userLevelState = atom({
+	key: 'userLevelState',
+	default: 1,
+});
+
 const userExpState = atom({
 	key: 'userExpState',
 	default: 10,
@@ -109,4 +114,5 @@ export {
 	tasksState,
 	userAvatarClassState,
 	userExpState,
+	userLevelState,
 };

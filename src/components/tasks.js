@@ -4,11 +4,14 @@ import { Trans } from 'react-i18next';
 import { makeStyles, List, Button } from '@material-ui/core';
 
 import { fetchTasks, updateTask, deleteTask } from '../firebase';
+import useLocalStorage from '../hooks/use-local-storage';
 import {
 	currentUserState,
 	tasksState,
 	tasksDoneState,
 	fetchTasksErrorState,
+	userLevelState,
+	userExpState,
 } from '../recoil/atoms';
 import { filteredTasksSelector } from '../recoil/selectors';
 import Task from './task';
@@ -40,8 +43,12 @@ const Tasks = () => {
 	const currentUser = useRecoilValue(currentUserState);
 	const [tasks, setTasks] = useRecoilState(tasksState);
 	const [showDone, setDone] = useRecoilState(tasksDoneState);
+	const [userLevel, setUserLevel] = useRecoilState(userLevelState);
+	const [userExp, setUserExp] = useRecoilState(userExpState);
 	const filteredTasks = useRecoilValue(filteredTasksSelector);
 	const setTasksError = useSetRecoilState(fetchTasksErrorState);
+	const [, setLsUserLevel] = useLocalStorage('userLevel', 1);
+	const [, setLsUserExp] = useLocalStorage('userExp', 10);
 
 	const classes = useStyles();
 
@@ -55,6 +62,18 @@ const Tasks = () => {
 		const filteredTasks = tasks.filter((t) => t.id !== task.id);
 		setTasks([...filteredTasks, task]);
 		updateTask(currentUser, task).catch((e) => console.error(e));
+
+		if (!task.done) return;
+
+		if (userExp >= 90) {
+			setUserExp(0);
+			setUserLevel(userLevel + 1);
+			setLsUserLevel(userLevel + 1);
+			setLsUserExp(0);
+		} else {
+			setUserExp(userExp + 10);
+			setLsUserExp(userExp + 10);
+		}
 	};
 
 	const deleteHandler = (task) => {

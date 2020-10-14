@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
-import { format } from 'date-fns';
 import { Trans } from 'react-i18next';
 import { Grid, Typography, Select, MenuItem } from '@material-ui/core';
 
@@ -32,12 +31,8 @@ const DateFormatSelector = () => {
 						value={lsDateFormat}
 						onChange={handleChange}
 					>
-						<MenuItem value="MM/dd/yyyy">
-							{format(new Date(), 'MM/dd/yyyy')}
-						</MenuItem>
-						<MenuItem value="dd/MM/yyyy">
-							{format(new Date(), 'dd/MM/yyyy')}
-						</MenuItem>
+						<MenuItem value="MM/dd/yyyy">mm/dd/yyyy</MenuItem>
+						<MenuItem value="dd/MM/yyyy">dd/mm/yyyy</MenuItem>
 					</Select>
 				</Grid>
 			</Grid>
