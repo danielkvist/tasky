@@ -11,12 +11,16 @@ const useStyles = makeStyles((theme) => ({
 		gridTemplateColumns: 'repeat(4, 1fr)',
 	},
 	selected: {
+		overflow: 'hidden',
+		borderRadius: '50%',
 		width: theme.spacing(9),
 		height: theme.spacing(9),
 		marginRight: theme.spacing(2),
 		filter: 'grayscale(0)',
 	},
 	nonSelected: {
+		overflow: 'hidden',
+		borderRadius: '50%',
 		width: theme.spacing(9),
 		height: theme.spacing(9),
 		marginRight: theme.spacing(2),
