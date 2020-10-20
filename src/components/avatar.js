@@ -10,7 +10,7 @@ const Avatar = ({ alt, height, width, avatarClass, level }) => {
 		<LazyLoadImage
 			alt={alt}
 			height={height}
-			placeholderSrc={`/avatars/${avatarClass}/${correctedLvl}.jpg`}
+			placeholderSrc={`/avatars/${avatarClass}/${correctedLvl}-min.webp`}
 			src={`/avatars/${avatarClass}/${correctedLvl}.webp`}
 			width={width}
 		/>
