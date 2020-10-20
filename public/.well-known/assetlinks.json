@@ -1,0 +1,5 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target" : { "namespace": "android_app", "package_name": "app.netlify.taskyapp.twa",
+                   "sha256_cert_fingerprints": ["52:B9:DD:F6:8C:64:AD:0A:25:B3:CD:22:B7:4E:A5:06:E5:BC:49:31:99:46:81:A9:40:5C:98:1D:61:05:31:8D"] }
+    }]
