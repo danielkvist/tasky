@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { motion } from 'framer-motion';
 import {
 	Divider,
 	Drawer as MaterialDrawer,
@@ -29,15 +30,17 @@ const useStyles = makeStyles((theme) => ({
 		width: theme.props.drawerWidth,
 	},
 	toolbar: {
-		display: 'flex',
 		alignItems: 'center',
+		display: 'flex',
 		justifyContent: 'flex-end',
 		padding: theme.spacing(0, 1),
 		...theme.mixins.toolbar,
 	},
 	avatar: {
+		cursor: 'pointer',
+		height: theme.spacing(32),
+		overflow: 'hidden',
 		width: '100%',
-		height: 'auto',
 	},
 }));
 
@@ -75,14 +78,21 @@ function Drawer() {
 
 			<Divider />
 			<div className={classes.avatar}>
-				<Avatar
-					alt="User avatar"
-					height="100%"
-					width="100%"
-					caption="User avatar"
-					avatarClass={avatarClass}
-					level={userLevel}
-				/>
+				<motion.div
+					whileHover={{
+						scale: 1.1,
+						transition: { delay: 0.1, duration: 0.2, ease: [0.0, 0, 0.2, 1] },
+					}}
+				>
+					<Avatar
+						alt="User avatar"
+						height="100%"
+						width="100%"
+						caption="User avatar"
+						avatarClass={avatarClass}
+						level={userLevel}
+					/>
+				</motion.div>
 			</div>
 
 			<Divider />

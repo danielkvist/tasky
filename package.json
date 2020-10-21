@@ -13,6 +13,7 @@
 		"date-fns": "^2.16.1",
 		"emoji-mart": "^3.0.0",
 		"firebase": "^7.21.1",
+		"framer-motion": "^2.9.1",
 		"i18next": "^19.7.0",
 		"i18next-browser-languagedetector": "^6.0.1",
 		"i18next-fetch-backend": "^3.0.0",

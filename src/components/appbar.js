@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useResetRecoilState, useRecoilState, useRecoilValue } from 'recoil';
+import { motion } from 'framer-motion';
 import clsx from 'clsx';
 import {
 	AppBar as MaterialAppBar,
@@ -115,7 +116,12 @@ const AppBar = () => {
 
 	return (
 		<>
-			<nav className={classes.root}>
+			<motion.nav
+				className={classes.root}
+				initial={{ y: -100 }}
+				animate={{ y: 0 }}
+				transition={{ duration: 0.2, ease: [0.0, 0, 0.2, 1] }}
+			>
 				<MaterialAppBar
 					position="fixed"
 					className={clsx(classes.appBar, {
@@ -167,7 +173,7 @@ const AppBar = () => {
 						</div>
 					</Toolbar>
 				</MaterialAppBar>
-			</nav>
+			</motion.nav>
 
 			{renderMobileMenu}
 			<div className={classes.offset}></div>
