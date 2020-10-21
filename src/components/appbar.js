@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useResetRecoilState, useRecoilState, useRecoilValue } from 'recoil';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 import {
 	AppBar as MaterialAppBar,
 	IconButton,
@@ -12,6 +13,7 @@ import {
 import MoreIcon from '@material-ui/icons/MoreVert';
 
 import app from '../firebase';
+import useNetworkStatus from '../hooks/use-network-status';
 import {
 	currentUserState,
 	userAvatarClassState,
@@ -76,11 +78,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AppBar = () => {
-	const resetCurrentUser = useResetRecoilState(currentUserState);
-	const [open, setOpen] = useRecoilState(drawerOpenState);
-	const avatarClass = useRecoilValue(userAvatarClassState);
 	const [, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+	const [open, setOpen] = useRecoilState(drawerOpenState);
+	const { t } = useTranslation();
+	const avatarClass = useRecoilValue(userAvatarClassState);
+	const network = useNetworkStatus();
+	const resetCurrentUser = useResetRecoilState(currentUserState);
 
 	const classes = useStyles();
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -153,7 +157,7 @@ const AppBar = () => {
 							variant="h6"
 							className={clsx(classes.title, open && classes.hide)}
 						>
-							Tasky
+							{network ? 'Tasky' : t('status.offline')}
 						</Typography>
 						{open ? <div className={classes.separator}></div> : null}
 

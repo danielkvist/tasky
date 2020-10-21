@@ -1,4 +1,7 @@
 {
+	"status": {
+		"offline": "Sin conexión"
+	},
 	"tasks": {
 		"showDone": "Mostrar tareas completadas",
 		"hideDone": "Ocultar tareas completadas",

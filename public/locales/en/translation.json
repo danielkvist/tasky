@@ -1,4 +1,7 @@
 {
+	"status": {
+		"offline": "Offline"
+	},
 	"tasks": {
 		"showDone": "Show done",
 		"hideDone": "Hide done",

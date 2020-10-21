@@ -20,6 +20,7 @@ const SwitchTheme = () => {
 					<Switch
 						checked={themeType === 'dark'}
 						onChange={() => {
+							console.log(themeType);
 							setThemeType(themeType === 'dark' ? 'light' : 'dark');
 							setLsTheme(themeType === 'dark' ? 'light' : 'dark');
 						}}
