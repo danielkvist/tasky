@@ -21,5 +21,6 @@
 	"start_url": "/",
 	"display": "fullscreen",
 	"theme_color": "#03a9f4",
-	"background_color": "#fafafa"
+	"background_color": "#fafafa",
+	"categories": ["productivity", "tasks", "todo", "tasks manager"]
 }
